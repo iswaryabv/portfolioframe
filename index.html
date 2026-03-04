@@ -8,7 +8,7 @@
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Font Awesome for icons (user, email, lock, Google) -->
+  <!-- Font Awesome for field icons (user, email, lock) -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -27,6 +27,12 @@
       letter-spacing: 0.55em;
       font-weight: 600;
     }
+
+    .error-text {
+      font-size: 11px;
+      color: #ffb4b4;
+      margin-top: 4px;
+    }
   </style>
 </head>
 
@@ -39,8 +45,11 @@
       document.getElementById("signupPage").classList.add("hidden");
       document.getElementById("loginPage").classList.add("hidden");
       document.getElementById("errorPage").classList.add("hidden");
-
       document.getElementById(page + "Page").classList.remove("hidden");
+    }
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
     async function checkBackendAndProceed(onSuccess) {
@@ -57,26 +66,80 @@
     }
 
     async function handleSignup() {
+      const name = document.getElementById("signupName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value;
+
+      const nameError = document.getElementById("signupNameError");
+      const emailError = document.getElementById("signupEmailError");
+      const passwordError = document.getElementById("signupPasswordError");
+
+      nameError.innerText = "";
+      emailError.innerText = "";
+      passwordError.innerText = "";
+
+      let valid = true;
+
+      if (name === "") {
+        nameError.innerText = "Name is required";
+        valid = false;
+      }
+
+      if (!validateEmail(email)) {
+        emailError.innerText = "Enter valid email";
+        valid = false;
+      }
+
+      if (password.length < 6) {
+        passwordError.innerText = "Password must be 6+ characters";
+        valid = false;
+      }
+
+      if (!valid) return;
+
       await checkBackendAndProceed(() => {
         alert("Signup successful!");
       });
     }
 
     async function handleLogin() {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      const emailError = document.getElementById("loginEmailError");
+      const passwordError = document.getElementById("loginPasswordError");
+
+      emailError.innerText = "";
+      passwordError.innerText = "";
+
+      let valid = true;
+
+      if (!validateEmail(email)) {
+        emailError.innerText = "Enter valid email";
+        valid = false;
+      }
+
+      if (password.length < 6) {
+        passwordError.innerText = "Password must be 6+ characters";
+        valid = false;
+      }
+
+      if (!valid) return;
+
       await checkBackendAndProceed(() => {
         alert("Login successful!");
       });
     }
   </script>
 
-  <!-- ================= SIGNUP PAGE (Home /) ================= -->
+  <!-- ================= SIGNUP PAGE ================= -->
   <div id="signupPage" class="h-screen bg-white flex items-stretch justify-center px-6">
     <div class="w-full max-w-6xl flex flex-col lg:flex-row items-stretch justify-between gap-10">
       <!-- LEFT SIDE IMAGE -->
       <div class="w-full lg:w-1/2 flex items-center justify-center py-10 lg:py-0">
-        <!-- Use same path as Next app (add file to /public) -->
+        <!-- Put illustration.png in SAME folder as index.html -->
         <img
-          src="/illustration.png"
+          src="./illustration.png"
           alt="Illustration"
           class="w-[85%] sm:w-[80%] lg:w-[88%] max-w-[520px] object-contain"
         />
@@ -84,7 +147,6 @@
 
       <!-- RIGHT SIDE CARD -->
       <div class="w-full lg:w-1/2 flex items-stretch justify-center">
-        <!-- Outer blue block -->
         <div
           class="
             relative
@@ -101,7 +163,6 @@
             px-10
           "
         >
-          <!-- Inner panel effect -->
           <div
             class="
               pointer-events-none
@@ -153,9 +214,9 @@
                   shadow-lg
                 "
               >
-                <!-- Use same path as Next app (add file to /public) -->
+                <!-- Put stackly-logo.png in SAME folder as index.html -->
                 <img
-                  src="/stackly-logo.png"
+                  src="./stackly-logo.png"
                   alt="Stackly Logo"
                   class="h-6 sm:h-8 object-contain"
                 />
@@ -164,34 +225,43 @@
 
             <!-- INPUTS -->
             <div class="space-y-6">
-              <div class="flex items-center border-b border-white/60 pb-2">
-                <i class="fa-solid fa-user mr-4 text-sm opacity-80"></i>
-                <input
-                  id="signupName"
-                  type="text"
-                  placeholder="Name"
-                  class="bg-transparent outline-none w-full placeholder-white text-sm"
-                />
+              <div>
+                <div class="flex items-center border-b border-white/60 pb-2">
+                  <i class="fa-solid fa-user mr-4 text-sm opacity-80"></i>
+                  <input
+                    id="signupName"
+                    type="text"
+                    placeholder="Name"
+                    class="bg-transparent outline-none w-full placeholder-white text-sm"
+                  />
+                </div>
+                <p id="signupNameError" class="error-text"></p>
               </div>
 
-              <div class="flex items-center border-b border-white/60 pb-2">
-                <i class="fa-solid fa-envelope mr-4 text-sm opacity-80"></i>
-                <input
-                  id="signupEmail"
-                  type="email"
-                  placeholder="Email"
-                  class="bg-transparent outline-none w-full placeholder-white text-sm"
-                />
+              <div>
+                <div class="flex items-center border-b border-white/60 pb-2">
+                  <i class="fa-solid fa-envelope mr-4 text-sm opacity-80"></i>
+                  <input
+                    id="signupEmail"
+                    type="email"
+                    placeholder="Email"
+                    class="bg-transparent outline-none w-full placeholder-white text-sm"
+                  />
+                </div>
+                <p id="signupEmailError" class="error-text"></p>
               </div>
 
-              <div class="flex items-center border-b border-white/60 pb-2">
-                <i class="fa-solid fa-lock mr-4 text-sm opacity-80"></i>
-                <input
-                  id="signupPassword"
-                  type="password"
-                  placeholder="Password"
-                  class="bg-transparent outline-none w-full placeholder-white text-sm"
-                />
+              <div>
+                <div class="flex items-center border-b border-white/60 pb-2">
+                  <i class="fa-solid fa-lock mr-4 text-sm opacity-80"></i>
+                  <input
+                    id="signupPassword"
+                    type="password"
+                    placeholder="Password"
+                    class="bg-transparent outline-none w-full placeholder-white text-sm"
+                  />
+                </div>
+                <p id="signupPasswordError" class="error-text"></p>
               </div>
             </div>
 
@@ -231,11 +301,10 @@
             <!-- DIVIDER -->
             <div class="my-8 border-t border-white/40"></div>
 
-            <!-- GOOGLE BUTTON -->
-            <a
-              href="https://accounts.google.com/ServiceLogin?service=mail"
-              target="_blank"
-              rel="noreferrer"
+            <!-- GOOGLE BUTTON with real Google "G" SVG -->
+            <button
+              type="button"
+              onclick="window.open('https://accounts.google.com/ServiceLogin?service=mail', '_blank')"
               class="
                 w-full
                 h-[45px]
@@ -243,28 +312,33 @@
                 rounded-md
                 flex items-center justify-center
                 text-sm
+                bg-transparent
                 hover:bg-white
                 hover:text-[#0c2b5a]
                 transition
               "
             >
-              <i class="fa-brands fa-google mr-3 text-lg"></i>
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google logo"
+                class="mr-3 w-5 h-5"
+              />
               Sign up with Google
-            </a>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ================= LOGIN PAGE (/login) ================= -->
+  <!-- ================= LOGIN PAGE ================= -->
   <div id="loginPage" class="hidden h-screen bg-white flex items-stretch justify-center px-6">
     <div class="w-full max-w-6xl flex flex-col lg:flex-row items-stretch justify-between gap-12">
       <!-- LEFT SIDE IMAGE -->
       <div class="w-full lg:w-1/2 flex items-center justify-center py-10 lg:py-0">
-        <!-- Use same path as Next app (add file to /public) -->
+        <!-- Put login.png in SAME folder as index.html -->
         <img
-          src="/login.png"
+          src="./login.png"
           alt="Secure login illustration"
           class="w-[85%] sm:w-[70%] lg:w-[90%] max-w-[550px] object-contain"
         />
@@ -272,7 +346,6 @@
 
       <!-- RIGHT SIDE CARD -->
       <div class="w-full lg:w-1/2 flex items-stretch justify-center">
-        <!-- Outer blue block -->
         <div
           class="
             relative
@@ -288,7 +361,6 @@
             px-10
           "
         >
-          <!-- Inner panel effect -->
           <div
             class="
               pointer-events-none
@@ -323,12 +395,10 @@
           ></div>
 
           <div class="relative z-10 h-full px-10 pt-20 pb-10 text-white">
-            <!-- WELCOME -->
             <h1 class="font-welcome-heading text-2xl sm:text-3xl text-center font-semibold mb-7">
               WELCOME
             </h1>
 
-            <!-- LOGO -->
             <div class="flex justify-center mb-8">
               <div
                 class="
@@ -342,7 +412,7 @@
                 "
               >
                 <img
-                  src="/stackly-logo.png"
+                  src="./stackly-logo.png"
                   alt="Stackly Logo"
                   class="h-6 sm:h-8 object-contain"
                 />
@@ -351,24 +421,30 @@
 
             <!-- INPUTS -->
             <div class="space-y-6">
-              <div class="flex items-center border-b border-white/60 pb-2">
-                <i class="fa-solid fa-envelope mr-4 text-sm opacity-80"></i>
-                <input
-                  id="loginEmail"
-                  type="email"
-                  placeholder="Email ID"
-                  class="bg-transparent outline-none w-full placeholder-white text-sm"
-                />
+              <div>
+                <div class="flex items-center border-b border-white/60 pb-2">
+                  <i class="fa-solid fa-envelope mr-4 text-sm opacity-80"></i>
+                  <input
+                    id="loginEmail"
+                    type="email"
+                    placeholder="Email ID"
+                    class="bg-transparent outline-none w-full placeholder-white text-sm"
+                  />
+                </div>
+                <p id="loginEmailError" class="error-text"></p>
               </div>
 
-              <div class="flex items-center border-b border-white/60 pb-2">
-                <i class="fa-solid fa-lock mr-4 text-sm opacity-80"></i>
-                <input
-                  id="loginPassword"
-                  type="password"
-                  placeholder="Password"
-                  class="bg-transparent outline-none w-full placeholder-white text-sm"
-                />
+              <div>
+                <div class="flex items-center border-b border-white/60 pb-2">
+                  <i class="fa-solid fa-lock mr-4 text-sm opacity-80"></i>
+                  <input
+                    id="loginPassword"
+                    type="password"
+                    placeholder="Password"
+                    class="bg-transparent outline-none w-full placeholder-white text-sm"
+                  />
+                </div>
+                <p id="loginPasswordError" class="error-text"></p>
               </div>
             </div>
 
@@ -427,7 +503,7 @@
     </div>
   </div>
 
-  <!-- ================= BACKEND ERROR PAGE (/backend-error) ================= -->
+  <!-- ================= BACKEND ERROR PAGE ================= -->
   <div id="errorPage" class="hidden h-screen flex flex-col items-center justify-center bg-white px-4">
     <h1 class="text-6xl font-bold text-red-600">404</h1>
     <p class="mt-4 text-lg text-gray-700">
