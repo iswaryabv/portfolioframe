@@ -11,9 +11,9 @@ export type RegisterBody = {
   password: string;
 };
 
-/** POST /auth/login */
+/** POST /api/auth/login */
 export async function login(body: LoginBody): Promise<unknown> {
-  const res = await fetch(`${BACKEND_BASE_URL}/auth/login`, {
+  const res = await fetch(`${BACKEND_BASE_URL}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -28,9 +28,9 @@ export async function login(body: LoginBody): Promise<unknown> {
   return data;
 }
 
-/** POST /auth/register */
+/** POST /api/auth/register */
 export async function register(body: RegisterBody): Promise<unknown> {
-  const res = await fetch(`${BACKEND_BASE_URL}/auth/register`, {
+  const res = await fetch(`${BACKEND_BASE_URL}/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
