@@ -39,7 +39,7 @@
 <body class="bg-white antialiased">
 
   <script>
-    const HEALTH_URL = "http://localhost:5000/health";
+    const BACKEND_BASE_URL = "http://localhost:5000";
 
     function showPage(page) {
       document.getElementById("signupPage").classList.add("hidden");
@@ -52,19 +52,6 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    async function checkBackendAndProceed(onSuccess) {
-      try {
-        const res = await fetch(HEALTH_URL);
-        if (!res.ok) {
-          showPage("error");
-          return;
-        }
-        if (typeof onSuccess === "function") onSuccess();
-      } catch (e) {
-        showPage("error");
-      }
-    }
-
     async function handleSignup() {
       const name = document.getElementById("signupName").value.trim();
       const email = document.getElementById("signupEmail").value.trim();
@@ -73,33 +60,47 @@
       const nameError = document.getElementById("signupNameError");
       const emailError = document.getElementById("signupEmailError");
       const passwordError = document.getElementById("signupPasswordError");
+      const formError = document.getElementById("signupFormError");
 
       nameError.innerText = "";
       emailError.innerText = "";
       passwordError.innerText = "";
+      if (formError) formError.innerText = "";
 
       let valid = true;
-
       if (name === "") {
         nameError.innerText = "Name is required";
         valid = false;
       }
-
       if (!validateEmail(email)) {
         emailError.innerText = "Enter valid email";
         valid = false;
       }
-
       if (password.length < 6) {
         passwordError.innerText = "Password must be 6+ characters";
         valid = false;
       }
-
       if (!valid) return;
 
-      await checkBackendAndProceed(() => {
+      try {
+        const res = await fetch(BACKEND_BASE_URL + "/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name,
+            email: email.toLowerCase(),
+            password: password,
+          }),
+        });
+        const data = await res.json().catch(function () { return {}; });
+        if (!res.ok) {
+          if (formError) formError.innerText = data.message || "Registration failed.";
+          return;
+        }
         alert("Signup successful!");
-      });
+      } catch (e) {
+        showPage("error");
+      }
     }
 
     async function handleLogin() {
@@ -108,32 +109,46 @@
 
       const emailError = document.getElementById("loginEmailError");
       const passwordError = document.getElementById("loginPasswordError");
+      const formError = document.getElementById("loginFormError");
 
       emailError.innerText = "";
       passwordError.innerText = "";
+      if (formError) formError.innerText = "";
 
       let valid = true;
-
       if (!validateEmail(email)) {
         emailError.innerText = "Enter valid email";
         valid = false;
       }
-
       if (password.length < 6) {
         passwordError.innerText = "Password must be 6+ characters";
         valid = false;
       }
-
       if (!valid) return;
 
-      await checkBackendAndProceed(() => {
+      try {
+        const res = await fetch(BACKEND_BASE_URL + "/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email.toLowerCase(),
+            password: password,
+          }),
+        });
+        const data = await res.json().catch(function () { return {}; });
+        if (!res.ok) {
+          if (formError) formError.innerText = data.message || "Login failed.";
+          return;
+        }
         alert("Login successful!");
-      });
+      } catch (e) {
+        showPage("error");
+      }
     }
   </script>
 
   <!-- ================= SIGNUP PAGE ================= -->
-  <div id="signupPage" class="h-screen bg-white flex items-stretch justify-center px-6">
+  <div id="signupPage" class="hidden h-screen bg-white flex items-stretch justify-center px-6">
     <div class="w-full max-w-6xl flex flex-col lg:flex-row items-stretch justify-between gap-10">
       <!-- LEFT SIDE IMAGE -->
       <div class="w-full lg:w-1/2 flex items-center justify-center py-10 lg:py-0">
@@ -285,6 +300,7 @@
             >
               SignUp
             </button>
+            <p id="signupFormError" class="error-text mt-2 text-center"></p>
 
             <!-- LOGIN LINK -->
             <p class="text-center text-xs mt-4 opacity-90">
@@ -332,7 +348,7 @@
   </div>
 
   <!-- ================= LOGIN PAGE ================= -->
-  <div id="loginPage" class="hidden h-screen bg-white flex items-stretch justify-center px-6">
+  <div id="loginPage" class="h-screen bg-white flex items-stretch justify-center px-6">
     <div class="w-full max-w-6xl flex flex-col lg:flex-row items-stretch justify-between gap-12">
       <!-- LEFT SIDE IMAGE -->
       <div class="w-full lg:w-1/2 flex items-center justify-center py-10 lg:py-0">
@@ -485,6 +501,7 @@
             >
               Login
             </button>
+            <p id="loginFormError" class="error-text mt-2 text-center"></p>
 
             <!-- SIGNUP LINK -->
             <p class="text-center text-xs mt-4 text-red-300 opacity-90">
@@ -513,7 +530,7 @@
       Please try again later.
     </p>
     <button
-      onclick="showPage('signup')"
+      onclick="showPage('login')"
       class="mt-6 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
     >
       Go Back

@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 export default function BackendError() {
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-white">
+    <div className="h-screen flex flex-col items-center justify-center bg-white px-4">
       <h1 className="text-6xl font-bold text-red-600">404</h1>
 
       <p className="mt-4 text-lg text-gray-700">
@@ -10,6 +12,13 @@ export default function BackendError() {
       <p className="mt-2 text-sm text-gray-500">
         Please try again later.
       </p>
+
+      <Link
+        href="/login"
+        className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+      >
+        Go Back
+      </Link>
     </div>
   );
 }
