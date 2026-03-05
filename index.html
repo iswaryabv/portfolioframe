@@ -1,551 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stackly Auth</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stackly Auth</title>
 
-  <!-- Tailwind via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Font Awesome for field icons (user, email, lock) -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<!-- GOOGLE SIGN IN SCRIPT -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
-    .font-welcome-heading {
-      font-family: "Times New Roman", Georgia, serif;
-      letter-spacing: 0.55em;
-      font-weight: 600;
-    }
+<style>
+body{
+font-family: Arial, Helvetica, sans-serif;
+}
 
-    .error-text {
-      font-size: 11px;
-      color: #ffb4b4;
-      margin-top: 4px;
-    }
-  </style>
+.font-welcome-heading{
+font-family:"Times New Roman", Georgia, serif;
+letter-spacing:0.55em;
+font-weight:600;
+}
+
+.error-text{
+font-size:11px;
+color:#ffb4b4;
+margin-top:4px;
+}
+</style>
+
 </head>
 
 <body class="bg-white antialiased">
 
-  <script>
-    const BACKEND_BASE_URL = "http://localhost:5000";
+<script>
 
-    function showPage(page) {
-      document.getElementById("signupPage").classList.add("hidden");
-      document.getElementById("loginPage").classList.add("hidden");
-      document.getElementById("errorPage").classList.add("hidden");
-      document.getElementById(page + "Page").classList.remove("hidden");
-    }
+const BACKEND_BASE_URL="http://localhost:5000"
 
-    function validateEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
+function showPage(page){
+document.getElementById("signupPage").classList.add("hidden")
+document.getElementById("loginPage").classList.add("hidden")
+document.getElementById("errorPage").classList.add("hidden")
 
-    async function handleSignup() {
-      const name = document.getElementById("signupName").value.trim();
-      const email = document.getElementById("signupEmail").value.trim();
-      const password = document.getElementById("signupPassword").value;
+document.getElementById(page+"Page").classList.remove("hidden")
+}
 
-      const nameError = document.getElementById("signupNameError");
-      const emailError = document.getElementById("signupEmailError");
-      const passwordError = document.getElementById("signupPasswordError");
-      const formError = document.getElementById("signupFormError");
+function validateEmail(email){
+return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
 
-      nameError.innerText = "";
-      emailError.innerText = "";
-      passwordError.innerText = "";
-      if (formError) formError.innerText = "";
+/* ---------------- SIGNUP ---------------- */
 
-      let valid = true;
-      if (name === "") {
-        nameError.innerText = "Name is required";
-        valid = false;
-      }
-      if (!validateEmail(email)) {
-        emailError.innerText = "Enter valid email";
-        valid = false;
-      }
-      if (password.length < 6) {
-        passwordError.innerText = "Password must be 6+ characters";
-        valid = false;
-      }
-      if (!valid) return;
+async function handleSignup(){
 
-      try {
-        const res = await fetch(BACKEND_BASE_URL + "/api/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: name,
-            email: email.toLowerCase(),
-            password: password,
-          }),
-        });
-        const data = await res.json().catch(function () { return {}; });
-        if (!res.ok) {
-          if (formError) formError.innerText = data.message || "Registration failed.";
-          return;
-        }
-        alert("Signup successful!");
-      } catch (e) {
-        showPage("error");
-      }
-    }
+const name=document.getElementById("signupName").value.trim()
+const email=document.getElementById("signupEmail").value.trim()
+const password=document.getElementById("signupPassword").value
 
-    async function handleLogin() {
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value;
+const nameError=document.getElementById("signupNameError")
+const emailError=document.getElementById("signupEmailError")
+const passwordError=document.getElementById("signupPasswordError")
 
-      const emailError = document.getElementById("loginEmailError");
-      const passwordError = document.getElementById("loginPasswordError");
-      const formError = document.getElementById("loginFormError");
+nameError.innerText=""
+emailError.innerText=""
+passwordError.innerText=""
 
-      emailError.innerText = "";
-      passwordError.innerText = "";
-      if (formError) formError.innerText = "";
+let valid=true
 
-      let valid = true;
-      if (!validateEmail(email)) {
-        emailError.innerText = "Enter valid email";
-        valid = false;
-      }
-      if (password.length < 6) {
-        passwordError.innerText = "Password must be 6+ characters";
-        valid = false;
-      }
-      if (!valid) return;
+if(name===""){
+nameError.innerText="Name required"
+valid=false
+}
 
-      try {
-        const res = await fetch(BACKEND_BASE_URL + "/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: email.toLowerCase(),
-            password: password,
-          }),
-        });
-        const data = await res.json().catch(function () { return {}; });
-        if (!res.ok) {
-          if (formError) formError.innerText = data.message || "Login failed.";
-          return;
-        }
-        alert("Login successful!");
-      } catch (e) {
-        showPage("error");
-      }
-    }
+if(!validateEmail(email)){
+emailError.innerText="Invalid email"
+valid=false
+}
 
-    // Show correct page on initial load based on URL hash (#signup or #login)
-    document.addEventListener("DOMContentLoaded", function () {
-      const hash = window.location.hash.replace("#", "");
-      if (hash === "signup") {
-        showPage("signup");
-      } else {
-        showPage("login");
-      }
-    });
-  </script>
+if(password.length<6){
+passwordError.innerText="Password must be 6+ characters"
+valid=false
+}
 
-  <!-- ================= SIGNUP PAGE ================= -->
-  <div id="signupPage" class="hidden h-screen bg-white flex items-stretch justify-center px-6">
-    <div class="w-full max-w-6xl flex flex-col lg:flex-row items-stretch justify-between gap-10">
-      <!-- LEFT SIDE IMAGE -->
-      <div class="w-full lg:w-1/2 flex items-center justify-center py-10 lg:py-0">
-        <!-- Put illustration.png in SAME folder as index.html -->
-        <img
-          src="public/illustration.png"
-          alt="Illustration"
-          class="w-[85%] sm:w-[80%] lg:w-[88%] max-w-[520px] object-contain"
-        />
-      </div>
+if(!valid) return
 
-      <!-- RIGHT SIDE CARD -->
-      <div class="w-full lg:w-1/2 flex items-stretch justify-center">
-        <div
-          class="
-            relative
-            overflow-hidden
-            w-full 
-            max-w-[520px]
-            lg:h-full
-            bg-gradient-to-b
-            from-[#5f82e8]
-            via-[#3f66c9]
-            to-[#021a46]
-            rounded-[10px]
-            shadow-[0_55px_120px_rgba(0,0,0,0.6)]
-            px-10
-          "
-        >
-          <div
-            class="
-              pointer-events-none
-              absolute
-              inset-y-0
-              left-1/2
-              w-[78%]
-              -translate-x-1/2
-              bg-gradient-to-b
-              from-white/10
-              via-black/10
-              to-black/35
-            "
-          ></div>
-          <div
-            class="
-              pointer-events-none
-              absolute
-              inset-0
-              rounded-[10px]
-              shadow-[inset_20px_0_45px_rgba(0,0,0,0.55),inset_-20px_0_45px_rgba(0,0,0,0.55)]
-            "
-          ></div>
-          <div
-            class="
-              pointer-events-none
-              absolute
-              inset-0
-              rounded-[10px]
-              shadow-[inset_0_0_0_1px_rgba(0,0,0,0.25)]
-            "
-          ></div>
+try{
 
-          <div class="relative z-10 h-full px-10 pt-14 pb-10 text-white">
-            <!-- WELCOME -->
-            <h1 class="font-welcome-heading text-2xl sm:text-3xl text-center font-semibold mb-7">
-              WELCOME
-            </h1>
+const res=await fetch(BACKEND_BASE_URL+"/api/auth/register",{
 
-            <!-- LOGO -->
-            <div class="flex justify-center mb-8">
-              <div
-                class="
-                  bg-white
-                  w-[180px] sm:w-[220px]
-                  h-[70px] sm:h-[85px]
-                  rounded-[50%]
-                  flex items-center justify-center
-                  shadow-lg
-                "
-              >
-                <!-- Put stackly-logo.png in SAME folder as index.html -->
-                <img
-                  src="public/stackly-logo.png"
-                  alt="Stackly Logo"
-                  class="h-6 sm:h-8 object-contain"
-                />
-              </div>
-            </div>
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
 
-            <!-- INPUTS -->
-            <div class="space-y-6">
-              <div>
-                <div class="flex items-center border-b border-white/60 pb-2">
-                  <i class="fa-solid fa-user mr-4 text-sm opacity-80"></i>
-                  <input
-                    id="signupName"
-                    type="text"
-                    placeholder="Name"
-                    class="bg-transparent outline-none w-full placeholder-white text-sm"
-                  />
-                </div>
-                <p id="signupNameError" class="error-text"></p>
-              </div>
+body:JSON.stringify({
+name:name,
+email:email.toLowerCase(),
+password:password
+})
 
-              <div>
-                <div class="flex items-center border-b border-white/60 pb-2">
-                  <i class="fa-solid fa-envelope mr-4 text-sm opacity-80"></i>
-                  <input
-                    id="signupEmail"
-                    type="email"
-                    placeholder="Email"
-                    class="bg-transparent outline-none w-full placeholder-white text-sm"
-                  />
-                </div>
-                <p id="signupEmailError" class="error-text"></p>
-              </div>
+})
 
-              <div>
-                <div class="flex items-center border-b border-white/60 pb-2">
-                  <i class="fa-solid fa-lock mr-4 text-sm opacity-80"></i>
-                  <input
-                    id="signupPassword"
-                    type="password"
-                    placeholder="Password"
-                    class="bg-transparent outline-none w-full placeholder-white text-sm"
-                  />
-                </div>
-                <p id="signupPasswordError" class="error-text"></p>
-              </div>
-            </div>
+if(res.ok){
+alert("Signup successful")
+showPage("login")
+}else{
+alert("Signup failed")
+}
 
-            <!-- SIGNUP BUTTON -->
-            <button
-              onclick="handleSignup()"
-              class="
-                mt-10
-                w-full
-                h-[45px]
-                bg-gradient-to-r
-                from-[#2d8cf0]
-                to-[#5a78c7]
-                rounded-md
-                text-sm
-                font-medium
-                shadow-md
-                hover:opacity-90
-                transition
-              "
-            >
-              SignUp
-            </button>
-            <p id="signupFormError" class="error-text mt-2 text-center"></p>
+}catch(e){
+showPage("error")
+}
 
-            <!-- LOGIN LINK -->
-            <p class="text-center text-xs mt-4 opacity-90">
-              Already have an account?
-              <button
-                type="button"
-                onclick="location.hash='login'; showPage('login')"
-                class="text-yellow-400 cursor-pointer hover:text-yellow-300 underline-offset-2"
-              >
-                Login
-              </button>
-            </p>
+}
 
-            <!-- DIVIDER -->
-            <div class="my-8 border-t border-white/40"></div>
+/* ---------------- LOGIN ---------------- */
 
-            <!-- GOOGLE BUTTON with real Google "G" SVG -->
-            <button
-              type="button"
-              onclick="window.open('https://accounts.google.com/ServiceLogin?service=mail', '_blank')"
-              class="
-                w-full
-                h-[45px]
-                border border-white/50
-                rounded-md
-                flex items-center justify-center
-                text-sm
-                bg-transparent
-                hover:bg-white
-                hover:text-[#0c2b5a]
-                transition
-              "
-            >
-              <img
-                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                alt="Google logo"
-                class="mr-3 w-5 h-5"
-              />
-              Sign up with Google
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+async function handleLogin(){
 
-  <!-- ================= LOGIN PAGE ================= -->
-  <div id="loginPage" class="h-screen bg-white flex items-stretch justify-center px-6">
-    <div class="w-full max-w-6xl flex flex-col lg:flex-row items-stretch justify-between gap-12">
-      <!-- LEFT SIDE IMAGE -->
-      <div class="w-full lg:w-1/2 flex items-center justify-center py-10 lg:py-0">
-        <!-- Put login.png in SAME folder as index.html -->
-        <img
-          src="public/login.png"
-          alt="Secure login illustration"
-          class="w-[85%] sm:w-[70%] lg:w-[90%] max-w-[550px] object-contain"
-        />
-      </div>
+const email=document.getElementById("loginEmail").value.trim()
+const password=document.getElementById("loginPassword").value
 
-      <!-- RIGHT SIDE CARD -->
-      <div class="w-full lg:w-1/2 flex items-stretch justify-center">
-        <div
-          class="
-            relative
-            overflow-hidden
-            w-full 
-            max-w-[520px]
-            lg:h-full
-            bg-gradient-to-b
-            from-[#5f82e8]
-            via-[#3f66c9]
-            to-[#021a46]
-            rounded-[10px]
-            px-10
-          "
-        >
-          <div
-            class="
-              pointer-events-none
-              absolute
-              inset-y-0
-              left-1/2
-              w-[78%]
-              -translate-x-1/2
-              bg-gradient-to-b
-              from-white/10
-              via-black/10
-              to-black/35
-            "
-          ></div>
-          <div
-            class="
-              pointer-events-none
-              absolute
-              inset-0
-              rounded-[10px]
-              shadow-[inset_20px_0_45px_rgba(0,0,0,0.55),inset_-20px_0_45px_rgba(0,0,0,0.55)]
-            "
-          ></div>
-          <div
-            class="
-              pointer-events-none
-              absolute
-              inset-0
-              rounded-[10px]
-              shadow-[inset_0_0_0_1px_rgba(0,0,0,0.25)]
-            "
-          ></div>
+const emailError=document.getElementById("loginEmailError")
+const passwordError=document.getElementById("loginPasswordError")
 
-          <div class="relative z-10 h-full px-10 pt-20 pb-10 text-white">
-            <h1 class="font-welcome-heading text-2xl sm:text-3xl text-center font-semibold mb-7">
-              WELCOME
-            </h1>
+emailError.innerText=""
+passwordError.innerText=""
 
-            <div class="flex justify-center mb-8">
-              <div
-                class="
-                  bg-white
-                  w-[180px] sm:w-[220px]
-                  h-[70px] sm:h-[85px]
-                  rounded-[50%]
-                  flex items-center justify-center
-                  shadow-lg
-                  overflow-hidden
-                "
-              >
-                <img
-                  src="public/stackly-logo.png"
-                  alt="Stackly Logo"
-                  class="h-6 sm:h-8 object-contain"
-                />
-              </div>
-            </div>
+let valid=true
 
-            <!-- INPUTS -->
-            <div class="space-y-6">
-              <div>
-                <div class="flex items-center border-b border-white/60 pb-2">
-                  <i class="fa-solid fa-envelope mr-4 text-sm opacity-80"></i>
-                  <input
-                    id="loginEmail"
-                    type="email"
-                    placeholder="Email ID"
-                    class="bg-transparent outline-none w-full placeholder-white text-sm"
-                  />
-                </div>
-                <p id="loginEmailError" class="error-text"></p>
-              </div>
+if(!validateEmail(email)){
+emailError.innerText="Invalid email"
+valid=false
+}
 
-              <div>
-                <div class="flex items-center border-b border-white/60 pb-2">
-                  <i class="fa-solid fa-lock mr-4 text-sm opacity-80"></i>
-                  <input
-                    id="loginPassword"
-                    type="password"
-                    placeholder="Password"
-                    class="bg-transparent outline-none w-full placeholder-white text-sm"
-                  />
-                </div>
-                <p id="loginPasswordError" class="error-text"></p>
-              </div>
-            </div>
+if(password.length<6){
+passwordError.innerText="Password must be 6+ characters"
+valid=false
+}
 
-            <!-- REMEMBER / FORGOT -->
-            <div class="flex items-center justify-between mt-4 text-xs opacity-90">
-              <label class="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  class="h-3.5 w-3.5 rounded border border-white/60 bg-transparent accent-[#2d8cf0]"
-                />
-                <span>Remember me</span>
-              </label>
-              <button
-                type="button"
-                class="text-[11px] text-sky-200 hover:text-sky-100"
-              >
-                Forgot Password?
-              </button>
-            </div>
+if(!valid) return
 
-            <!-- LOGIN BUTTON -->
-            <button
-              onclick="handleLogin()"
-              class="
-                mt-8
-                w-full
-                h-[45px]
-                bg-gradient-to-r
-                from-[#2d8cf0]
-                to-[#5a78c7]
-                rounded-md
-                text-sm
-                font-medium
-                shadow-md
-                hover:opacity-90
-                transition
-              "
-            >
-              Login
-            </button>
-            <p id="loginFormError" class="error-text mt-2 text-center"></p>
+try{
 
-            <!-- SIGNUP LINK -->
-            <p class="text-center text-xs mt-4 text-red-300 opacity-90">
-              Don't have an account?
-              <button
-                type="button"
-                onclick="location.hash='signup'; showPage('signup')"
-                class="text-white cursor-pointer hover:text-yellow-300 underline-offset-2"
-              >
-                SignUp
-              </button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+const res=await fetch(BACKEND_BASE_URL+"/api/auth/login",{
 
-  <!-- ================= BACKEND ERROR PAGE ================= -->
-  <div id="errorPage" class="hidden h-screen flex flex-col items-center justify-center bg-white px-4">
-    <h1 class="text-6xl font-bold text-red-600">404</h1>
-    <p class="mt-4 text-lg text-gray-700">
-      Backend Not Connected
-    </p>
-    <p class="mt-2 text-sm text-gray-500">
-      Please try again later.
-    </p>
-    <button
-      onclick="location.hash='login'; showPage('login')"
-      class="mt-6 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-    >
-      Go Back
-    </button>
-  </div>
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+email:email.toLowerCase(),
+password:password
+})
+
+})
+
+if(res.ok){
+alert("Login successful")
+}else{
+alert("Login failed")
+}
+
+}catch(e){
+showPage("error")
+}
+
+}
+
+/* ---------------- GOOGLE LOGIN ---------------- */
+
+async function handleGoogleCredential(response){
+
+try{
+
+const res=await fetch(BACKEND_BASE_URL+"/api/auth/google",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+credential:response.credential
+})
+
+})
+
+const data=await res.json()
+
+if(res.ok){
+alert("Google login successful")
+}else{
+alert("Google login failed")
+}
+
+}catch(e){
+showPage("error")
+}
+
+}
+
+</script>
+
+
+<!-- ================= SIGNUP PAGE ================= -->
+
+<div id="signupPage" class="h-screen flex items-center justify-center">
+
+<div class="w-[420px] bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46] p-10 rounded-lg text-white">
+
+<h1 class="font-welcome-heading text-center mb-6">WELCOME</h1>
+
+<input id="signupName" placeholder="Name"
+class="w-full mb-2 p-2 text-black rounded"/>
+
+<p id="signupNameError" class="error-text"></p>
+
+<input id="signupEmail" placeholder="Email"
+class="w-full mb-2 p-2 text-black rounded"/>
+
+<p id="signupEmailError" class="error-text"></p>
+
+<input id="signupPassword" type="password"
+placeholder="Password"
+class="w-full mb-2 p-2 text-black rounded"/>
+
+<p id="signupPasswordError" class="error-text"></p>
+
+<button onclick="handleSignup()"
+class="w-full mt-4 bg-blue-500 p-2 rounded">
+Signup
+</button>
+
+<p class="text-center mt-4 text-sm">
+
+Already have account?
+
+<button onclick="showPage('login')" class="text-yellow-300">
+Login
+</button>
+
+</p>
+
+<hr class="my-6">
+
+<!-- GOOGLE SIGNUP -->
+
+<div id="g_id_onload"
+data-client_id="703831654489-m34p97it8cppn924006cgt8u6jgk9tsa.apps.googleusercontent.com"
+data-callback="handleGoogleCredential">
+</div>
+
+<div class="g_id_signin"
+data-type="standard"
+data-theme="outline"
+data-size="large"
+data-text="signup_with"
+data-shape="rectangular">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= LOGIN PAGE ================= -->
+
+<div id="loginPage" class="hidden h-screen flex items-center justify-center">
+
+<div class="w-[420px] bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46] p-10 rounded-lg text-white">
+
+<h1 class="font-welcome-heading text-center mb-6">WELCOME</h1>
+
+<input id="loginEmail"
+placeholder="Email"
+class="w-full mb-2 p-2 text-black rounded"/>
+
+<p id="loginEmailError" class="error-text"></p>
+
+<input id="loginPassword"
+type="password"
+placeholder="Password"
+class="w-full mb-2 p-2 text-black rounded"/>
+
+<p id="loginPasswordError" class="error-text"></p>
+
+<button onclick="handleLogin()"
+class="w-full mt-4 bg-blue-500 p-2 rounded">
+Login
+</button>
+
+<p class="text-center mt-4 text-sm">
+
+Don't have account?
+
+<button onclick="showPage('signup')" class="text-yellow-300">
+Signup
+</button>
+
+</p>
+
+<hr class="my-6">
+
+<!-- GOOGLE LOGIN -->
+
+<div class="g_id_signin"
+data-type="standard"
+data-theme="outline"
+data-size="large"
+data-text="signin_with"
+data-shape="rectangular">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ERROR PAGE -->
+
+<div id="errorPage" class="hidden h-screen flex flex-col items-center justify-center">
+
+<h1 class="text-6xl text-red-600">404</h1>
+
+<p class="mt-4">Backend Not Connected</p>
+
+<button onclick="showPage('login')" class="mt-4 bg-blue-500 p-2 text-white rounded">
+Go Back
+</button>
+
+</div>
 
 </body>
 </html>
