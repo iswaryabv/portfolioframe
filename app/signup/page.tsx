@@ -105,6 +105,7 @@ export default function SignupPage() {
       setIsSubmitting(false);
     }
   };
+
   return (
     <div className="h-screen bg-white flex items-stretch justify-center px-6">
       {/* MAIN CONTAINER */}
@@ -294,7 +295,7 @@ export default function SignupPage() {
 
               {/* GOOGLE BUTTON */}
               <a
-                href="https://accounts.google.com/ServiceLogin?service=mail"
+                href="https://accounts.google.com/signin"
                 target="_blank"
                 rel="noreferrer"
                 className="
