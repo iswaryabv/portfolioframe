@@ -26,15 +26,18 @@
       font-family: "Times New Roman", Georgia, serif;
       letter-spacing: 0.35em;
       font-weight: 600;
-      text-align: center;
     }
 
-    .auth-error-text {
+    .error-text {
       font-size: 12px;
       color: #ff6b6b;
       margin-top: 4px;
       font-weight: 500;
       text-shadow: 0 0 1px rgba(0,0,0,0.3);
+    }
+
+    .font-welcome-heading {
+      text-align: center;
     }
 
     @media (max-width: 400px) {
@@ -65,11 +68,11 @@
       overflow-x: hidden;
     }
 
-    .signup-card .auth-card-content {
+    #signupPage .auth-card-content {
       overflow: hidden;
     }
 
-    .auth-image {
+    img.auth-image {
       image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
     }
@@ -118,7 +121,7 @@
       visibility: hidden;
       pointer-events: none;
     }
-    .forgot-input::placeholder {
+    #forgotPage input::placeholder {
       color: #cccccc;
     }
   </style>
@@ -160,34 +163,31 @@
       nameError.innerText = "";
       emailError.innerText = "";
       passwordError.innerText = "";
-      if (formError) { formError.innerText = ""; formError.className = "auth-error-text mt-3 text-xs font-medium"; }
+      if (formError) formError.innerText = "";
 
       let valid = true;
       if (name === "") {
-        nameError.innerText = "Name is required.";
-        valid = false;
-      } else if (name.length < 2) {
-        nameError.innerText = "Name must be at least 2 characters.";
+        nameError.innerText = "Name is required";
         valid = false;
       }
       if (!validateEmail(email)) {
-        emailError.innerText = "Please enter a valid email address.";
+        emailError.innerText = "Enter valid email";
         valid = false;
       }
       if (password.length < 6) {
-        passwordError.innerText = "Password must be at least 6 characters.";
+        passwordError.innerText = "Password must be at least 6 characters";
         valid = false;
       } else {
         if (!/[A-Z]/.test(password)) {
-          passwordError.innerText = "Password must include an uppercase letter.";
+          passwordError.innerText = "Password must include an uppercase letter";
           valid = false;
         }
         if (!/[0-9]/.test(password)) {
-          passwordError.innerText = "Password must include a number.";
+          passwordError.innerText = "Password must include a number";
           valid = false;
         }
         if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-          passwordError.innerText = "Password must include a special character (!@#$%^&* etc.).";
+          passwordError.innerText = "Password must include a special character (!@#$%^&* etc.)";
           valid = false;
         }
       }
@@ -205,13 +205,8 @@
         });
         const data = await res.json().catch(function () { return {}; });
         if (!res.ok) {
-          if (formError) formError.innerText = data.message || "Registration failed. Please try again.";
-          if (formError) formError.className = "auth-error-text mt-3 text-xs font-medium";
-          return;
-        }
-        if (formError) {
-          formError.innerText = "Signup successful!";
-          formError.className = "mt-3 text-xs font-medium text-green-300";
+        if (formError) formError.innerText = data.message || "Registration failed.";
+        return;
         }
         alert("Signup successful!");
       } catch (e) {
@@ -229,21 +224,15 @@
 
       emailError.innerText = "";
       passwordError.innerText = "";
-      if (formError) { formError.innerText = ""; formError.className = "auth-error-text mt-3 text-xs font-medium"; }
+      if (formError) formError.innerText = "";
 
       let valid = true;
-      if (!email.trim()) {
-        emailError.innerText = "Email is required.";
-        valid = false;
-      } else if (!validateEmail(email)) {
-        emailError.innerText = "Please enter a valid email address.";
+      if (!validateEmail(email)) {
+        emailError.innerText = "Enter valid email";
         valid = false;
       }
-      if (!password) {
-        passwordError.innerText = "Password is required.";
-        valid = false;
-      } else if (password.length < 6) {
-        passwordError.innerText = "Password must be at least 6 characters.";
+      if (password.length < 6) {
+        passwordError.innerText = "Password must be 6+ characters";
         valid = false;
       }
       if (!valid) return;
@@ -259,13 +248,8 @@
         });
         const data = await res.json().catch(function () { return {}; });
         if (!res.ok) {
-          if (formError) formError.innerText = data.message || "Login failed. Please try again.";
-          if (formError) formError.className = "auth-error-text mt-3 text-xs font-medium";
-          return;
-        }
-        if (formError) {
-          formError.innerText = "Login successful!";
-          formError.className = "mt-3 text-xs font-medium text-green-300";
+        if (formError) formError.innerText = data.message || "Login failed. Please try again.";
+        return;
         }
         alert("Login successful!");
       } catch (e) {
@@ -287,8 +271,6 @@
         return;
       }
       try {
-        var btn = document.getElementById("forgotContinueBtn");
-        if (btn) { btn.disabled = true; btn.textContent = "Sending..."; }
         var res = await fetch(BACKEND_BASE_URL + "/api/auth/forgot-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -309,13 +291,10 @@
           }
         } else if (msgEl) {
           msgEl.innerText = data.message || "Could not send reset link. Try again later.";
-          msgEl.className = "auth-error-text text-center text-xs mt-2";
+          msgEl.style.color = "#ff6b6b";
         }
       } catch (e) {
         showPage("error");
-      } finally {
-        var btn = document.getElementById("forgotContinueBtn");
-        if (btn) { btn.disabled = false; btn.textContent = "Continue"; }
       }
     }
 
@@ -535,7 +514,7 @@
       var hasSymbol = /[^A-Za-z0-9]/.test(newPwd);
       var count = [hasUpper, hasLower, hasNumber, hasSymbol].filter(Boolean).length;
       if (count < 2) {
-        errEl.innerText = "Password Must be 8-60 characters and include at least two of the Following: Uppercase, Lowercase, number, or symbol.";
+        errEl.innerText = "Password must include at least two of: uppercase, lowercase, number, or symbol.";
         return;
       }
       // TODO: call API to update password
@@ -548,9 +527,9 @@
   <div id="signupPage" class="hidden min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
     <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-10 auth-layout">
       <!-- LEFT SIDE IMAGE -->
-      <div class="w-full lg:w-1/2 flex items-center justify-center py-4 sm:py-6 lg:py-0 order-2 lg:order-1">
+      <div class="w-full lg:w-1/2 flex items-center justify-center py-2 sm:py-6 lg:py-0 order-2 lg:order-1 auth-image-wrap">
         <img
-          src="/illustration.png"
+          src="public/illustration.png"
           alt="Illustration"
           class="auth-image w-[85%] sm:w-[80%] lg:w-[88%] max-w-[520px] object-contain"
         />
@@ -574,7 +553,6 @@
             rounded-[10px]
             px-6 sm:px-10
             flex flex-col
-            signup-card
           "
         >
           <div
@@ -631,7 +609,7 @@
                 "
               >
                 <img
-                  src="/stackly-logo.png"
+                  src="public/stackly-logo.png"
                   alt="Stackly Logo"
                   class="h-4 sm:h-5 lg:h-8 object-contain"
                 />
@@ -640,7 +618,7 @@
 
             <!-- INPUTS -->
             <div class="space-y-3 sm:space-y-4 flex-shrink-0">
-              <div class="flex flex-col">
+              <div>
                 <div class="flex items-center border-b border-white/80 pb-2">
                   <i class="fa-solid fa-user mr-3 text-sm text-white/90"></i>
                   <input
@@ -650,10 +628,10 @@
                     class="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white"
                   />
                 </div>
-                <p id="signupNameError" class="auth-error-text mt-1"></p>
+                <p id="signupNameError" class="error-text"></p>
               </div>
 
-              <div class="flex flex-col">
+              <div>
                 <div class="flex items-center border-b border-white/80 pb-2">
                   <i class="fa-solid fa-envelope mr-3 text-sm text-white/90"></i>
                   <input
@@ -663,10 +641,10 @@
                     class="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white"
                   />
                 </div>
-                <p id="signupEmailError" class="auth-error-text mt-1"></p>
+                <p id="signupEmailError" class="error-text"></p>
               </div>
 
-              <div class="flex flex-col">
+              <div>
                 <div id="signupPasswordWrap" class="flex items-center border-b border-white/80 pb-2 password-toggle-hidden relative">
                   <i class="fa-solid fa-lock mr-3 text-sm text-white/90"></i>
                   <input
@@ -683,11 +661,9 @@
                 <p id="signupPasswordRequirements" class="text-[10px] sm:text-xs text-white/80 mt-0.5 leading-tight flex-shrink-0">
                   Password must: at least 6 characters • a number • an uppercase letter • a special character (!@#$%^&*).
                 </p>
-                <p id="signupPasswordError" class="auth-error-text mt-1"></p>
+                <p id="signupPasswordError" class="error-text"></p>
               </div>
             </div>
-
-            <p id="signupFormError" class="auth-error-text mt-3 text-xs font-medium"></p>
 
             <!-- SIGNUP BUTTON -->
             <button
@@ -711,6 +687,7 @@
             >
               Sign Up
             </button>
+            <p id="signupFormError" class="error-text mt-2 text-center"></p>
 
             <!-- LOGIN LINK -->
             <p class="text-center text-xs mt-4 text-white/80 flex-shrink-0">
@@ -767,7 +744,7 @@
       <!-- LEFT SIDE IMAGE -->
       <div class="w-full lg:w-1/2 flex items-center justify-center py-4 sm:py-6 lg:py-0 order-2 lg:order-1">
         <img
-          src="/login.png"
+          src="public/login.png"
           alt="Secure login illustration"
           class="auth-image w-[85%] sm:w-[70%] lg:w-[90%] max-w-[550px] object-contain"
         />
@@ -847,7 +824,7 @@
                 "
               >
                 <img
-                  src="/stackly-logo.png"
+                  src="public/stackly-logo.png"
                   alt="Stackly Logo"
                   class="h-5 sm:h-6 lg:h-8 object-contain"
                 />
@@ -856,7 +833,7 @@
 
             <!-- INPUTS -->
             <div class="space-y-4 sm:space-y-6 flex-shrink-0">
-              <div class="flex flex-col">
+              <div>
                 <div class="flex items-center border-b border-white/60 pb-2">
                   <i class="fa-solid fa-envelope mr-4 text-sm opacity-80"></i>
                   <input
@@ -866,10 +843,10 @@
                     class="bg-transparent outline-none w-full placeholder-white text-sm"
                   />
                 </div>
-                <p id="loginEmailError" class="auth-error-text mt-1"></p>
+                <p id="loginEmailError" class="error-text"></p>
               </div>
 
-              <div class="flex flex-col">
+              <div>
                 <div id="loginPasswordWrap" class="flex items-center border-b border-white/60 pb-2 password-toggle-hidden relative">
                   <i class="fa-solid fa-lock mr-4 text-sm opacity-80"></i>
                   <input
@@ -883,12 +860,12 @@
                     <i id="loginPasswordToggle" class="fa-solid fa-eye text-sm"></i>
                   </button>
                 </div>
-                <p id="loginPasswordError" class="auth-error-text mt-1"></p>
+                <p id="loginPasswordError" class="error-text"></p>
               </div>
             </div>
 
             <!-- REMEMBER / FORGOT -->
-            <div class="flex items-center justify-between mt-4 text-xs opacity-90 flex-shrink-0">
+            <div class="flex items-center justify-between mt-4 text-xs opacity-90">
               <label class="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -901,23 +878,35 @@
               </a>
             </div>
 
-            <p id="loginFormError" class="auth-error-text mt-3 text-xs font-medium"></p>
-
             <!-- LOGIN BUTTON -->
             <button
               onclick="handleLogin()"
-              class="mt-8 w-full h-[45px] bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium shadow-md hover:opacity-90 transition flex-shrink-0"
+              class="
+                mt-8
+                w-full
+                h-[45px]
+                bg-gradient-to-r
+                from-[#2d8cf0]
+                to-[#5a78c7]
+                rounded-md
+                text-sm
+                font-medium
+                shadow-md
+                hover:opacity-90
+                transition
+              "
             >
               Login
             </button>
+            <p id="loginFormError" class="error-text mt-2 text-center"></p>
 
             <!-- SIGNUP LINK -->
-            <p class="text-center text-xs mt-3 text-white opacity-90 flex-shrink-0">
+            <p class="text-center text-xs mt-4 text-red-300 opacity-90">
               Don't have an account?
               <button
                 type="button"
                 onclick="location.hash='signup'; showPage('signup')"
-                class="text-yellow-400 hover:text-yellow-300 cursor-pointer font-medium underline-offset-2"
+                class="text-white cursor-pointer hover:text-yellow-300 underline-offset-2"
               >
                 Sign Up
               </button>
@@ -933,7 +922,7 @@
     <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-12 auth-layout">
       <!-- LEFT: Illustration -->
       <div class="w-full lg:w-1/2 flex items-center justify-center order-2 lg:order-1">
-        <img src="/password.png" alt="Password reset illustration" class="auth-image w-[85%] sm:w-[80%] lg:w-[88%] max-w-[480px] object-contain" />
+        <img src="public/password.png" alt="Password reset illustration" class="auth-image w-[85%] sm:w-[80%] lg:w-[88%] max-w-[480px] object-contain" />
       </div>
       <!-- RIGHT: Forgot password form card (design specs: gradient #234E70 → #282738 + shadow) -->
       <div class="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
@@ -950,18 +939,17 @@
                 class="forgot-input w-full h-12 px-5 rounded-[1000px] border text-[14px] text-center outline-none focus:border-white/80 transition bg-transparent"
                 style="border: 1px solid rgba(255,255,255,0.5); color: #FFFFFF; text-align: center;"
               />
-              <p id="forgotEmailError" class="auth-error-text mt-1 text-center"></p>
+              <p id="forgotEmailError" class="error-text mt-1 text-center"></p>
             </div>
             <button
               type="button"
-              id="forgotContinueBtn"
               onclick="handleForgotPassword()"
               class="w-full max-w-[260px] rounded-[1000px] text-[16px] sm:text-[17px] font-bold shadow-md hover:opacity-95 transition disabled:opacity-60 flex items-center justify-center"
               style="height: 48px; background-color: #F2B541; color: #FFFFFF;"
             >
               Continue
             </button>
-            <p id="forgotFormMessage" class="text-center text-xs mt-2"></p>
+            <p id="forgotFormMessage" class="error-text mt-2 text-center text-xs" style="color: rgba(255,255,255,0.9);"></p>
           </div>
           <div class="w-full max-w-[316px] mx-auto mt-6 text-center">
             <a href="#login" onclick="location.hash='login'; showPage('login'); return false;" class="text-[13px] hover:underline" style="color: #FFFFFF;">Back to login</a>
@@ -979,7 +967,7 @@
     <div class="w-full max-w-[480px]">
       <div class="relative overflow-hidden w-full rounded-xl px-8 sm:px-10 py-8 sm:py-10 text-center" style="background: linear-gradient(180deg, #234E70 0%, #282738 100%); box-shadow: 4px 4px 4px 0 rgba(0,0,0,0.25);">
         <div class="flex justify-center mb-4 sm:mb-6">
-          <img src="/email.png" alt="Email verification" class="w-[96px] h-[96px] object-contain" />
+          <img src="public/email.png" alt="Email verification" class="w-[96px] h-[96px] object-contain" />
         </div>
         <h1 class="text-[20px] sm:text-[24px] font-bold mb-2" style="color: #FFFFFF;">Verify your email</h1>
         <p class="text-[12px] sm:text-[13px] leading-relaxed mb-6" style="color: #FFFFFF;">
@@ -1025,7 +1013,7 @@
     <div class="w-full max-w-[480px]">
       <div class="relative overflow-hidden w-full rounded-xl px-8 sm:px-10 py-8 sm:py-10 text-center" style="background: linear-gradient(180deg, #234E70 0%, #282738 100%); box-shadow: 4px 4px 4px 0 rgba(0,0,0,0.25);">
         <div class="flex justify-center mb-4 sm:mb-6">
-          <img src="/mobile.png" alt="Mobile verification" class="w-[96px] h-[96px] object-contain" />
+          <img src="public/mobile.png" alt="Mobile verification" class="w-[96px] h-[96px] object-contain" />
         </div>
         <h1 class="text-[20px] sm:text-[24px] font-bold mb-2" style="color: #FFFFFF;">Verify your Mobile</h1>
         <p class="text-[12px] sm:text-[13px] leading-relaxed mb-6" style="color: #FFFFFF;">
@@ -1071,7 +1059,7 @@
     <div class="w-full max-w-[480px]">
       <div class="relative overflow-hidden w-full rounded-xl px-8 sm:px-10 py-8 sm:py-10 text-center" style="background: linear-gradient(180deg, #234E70 0%, #282738 100%); box-shadow: 4px 4px 4px 0 rgba(0,0,0,0.25);">
         <div class="flex justify-center mb-4 sm:mb-6">
-          <img src="/tick.png" alt="Verified" class="w-[96px] h-[96px] object-contain" />
+          <img src="public/tick.png" alt="Verified" class="w-[96px] h-[96px] object-contain" />
         </div>
         <h1 class="text-[20px] sm:text-[24px] font-bold mb-2" style="color: #FFFFFF;">Verified !</h1>
         <p class="text-[12px] sm:text-[13px] leading-relaxed mb-6 italic" style="color: #FFFFFF;">You have successfully verified</p>
@@ -1089,7 +1077,7 @@
     </button>
     <div class="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-12">
       <div class="w-full lg:w-1/2 flex items-center justify-center order-2 lg:order-1">
-        <img src="/new.png" alt="Create new password" class="w-[85%] sm:w-[80%] lg:w-[88%] max-w-[480px] object-contain" />
+        <img src="public/new.png" alt="Create new password" class="w-[85%] sm:w-[80%] lg:w-[88%] max-w-[480px] object-contain" />
       </div>
       <div class="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
         <div class="relative overflow-hidden w-full max-w-[420px] rounded-xl px-8 sm:px-10 py-8 sm:py-10" style="background: linear-gradient(180deg, #234E70 0%, #282738 100%); box-shadow: 4px 4px 4px 0 rgba(0,0,0,0.25);">
@@ -1114,7 +1102,7 @@
               </div>
             </div>
             <p class="text-[11px] sm:text-[12px] leading-relaxed" style="color: #FFFFFF;">Password Must be 8-60 characters and include at least two of the Following: Uppercase, Lowercase, number, or symbol.</p>
-            <p id="createPasswordError" class="auth-error-text text-[12px]"></p>
+            <p id="createPasswordError" class="text-[12px]" style="color: #ff6b6b;"></p>
             <button type="submit" class="w-full max-w-[240px] mx-auto rounded-lg text-[12px] sm:text-[13px] font-bold uppercase shadow-md hover:opacity-95 transition flex items-center justify-center" style="height: 36px; background-color: #F2B541; color: #FFFFFF;">
               UPDATE PASSWORD
             </button>
