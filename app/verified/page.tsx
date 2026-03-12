@@ -30,7 +30,7 @@ export default function VerifiedPage() {
         >
           <div className="flex justify-center mb-4 sm:mb-6">
             <img
-              src="/tick.png"
+              src="/tick.webp"
               alt="Verified"
               className="w-[96px] h-[96px] object-contain"
             />

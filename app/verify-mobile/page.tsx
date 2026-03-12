@@ -81,7 +81,7 @@ export default function VerifyMobilePage() {
         >
           <div className="flex justify-center mb-4 sm:mb-6">
             <img
-              src="/mobile.png"
+              src="/mobile.webp"
               alt="Mobile verification"
               className="w-[96px] h-[96px] object-contain"
             />

@@ -130,7 +130,7 @@ export default function SignupPage() {
       <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-10 auth-layout">
         <div className="w-full lg:w-1/2 flex items-center justify-center py-4 sm:py-6 lg:py-0 order-2 lg:order-1">
           <img
-            src="/illustration.png"
+            src="/illustration.webp"
             alt="Illustration"
             className="auth-image w-[85%] sm:w-[80%] lg:w-[88%] max-w-[520px] object-contain"
           />
@@ -157,7 +157,7 @@ export default function SignupPage() {
 
               <div className="flex justify-center mb-1.5 sm:mb-2 flex-shrink-0">
                 <div className="bg-white w-[120px] sm:w-[140px] lg:w-[200px] h-[44px] sm:h-[52px] lg:h-[80px] rounded-[50%] flex items-center justify-center shadow-lg">
-                  <img src="/stackly-logo.png" alt="Stackly Logo" className="h-3.5 sm:h-4 lg:h-8 object-contain" />
+                  <img src="/stackly-logo.webp" alt="Stackly Logo" className="h-3.5 sm:h-4 lg:h-8 object-contain" />
                 </div>
               </div>
 

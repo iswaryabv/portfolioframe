@@ -81,7 +81,7 @@ export default function VerifyEmailPage() {
         >
           <div className="flex justify-center mb-4 sm:mb-6">
             <img
-              src="/email.png"
+              src="/email.webp"
               alt="Email verification"
               className="w-[96px] h-[96px] object-contain"
             />

@@ -103,7 +103,7 @@ export default function LoginPage() {
       <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-10 auth-layout">
         <div className="w-full lg:w-1/2 flex items-center justify-center py-4 sm:py-6 lg:py-0 order-2 lg:order-1">
           <img
-            src="/login.png"
+            src="/login.webp"
             alt="Secure login illustration"
             className="auth-image w-[85%] sm:w-[70%] lg:w-[90%] max-w-[550px] object-contain"
           />
@@ -132,7 +132,7 @@ export default function LoginPage() {
 
               <div className="flex justify-center mb-4 sm:mb-8 flex-shrink-0">
                 <div className="bg-white w-[160px] sm:w-[180px] lg:w-[200px] h-[60px] sm:h-[70px] lg:h-[80px] rounded-[50%] flex items-center justify-center shadow-lg overflow-hidden">
-                  <img src="/stackly-logo.png" alt="Stackly Logo" className="h-5 sm:h-6 lg:h-8 object-contain" />
+                  <img src="/stackly-logo.webp" alt="Stackly Logo" className="h-5 sm:h-6 lg:h-8 object-contain" />
                 </div>
               </div>
 

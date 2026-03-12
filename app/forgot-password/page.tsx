@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
         {/* LEFT: Illustration */}
         <div className="w-full lg:w-1/2 flex items-center justify-center order-2 lg:order-1">
           <img
-            src="/password.png"
+            src="/password.webp"
             alt="Password reset illustration"
             className="auth-image w-[85%] sm:w-[80%] lg:w-[88%] max-w-[480px] object-contain"
           />
