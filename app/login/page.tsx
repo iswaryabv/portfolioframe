@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,19 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const setOverflow = () => {
+      document.body.style.overflow = mql.matches ? "hidden" : "";
+    };
+    setOverflow();
+    mql.addEventListener("change", setOverflow);
+    return () => {
+      mql.removeEventListener("change", setOverflow);
+      document.body.style.overflow = "";
+    };
+  }, []);
 
   const validate = (values: LoginFormState): LoginFormErrors => {
     const newErrors: LoginFormErrors = {};
@@ -99,74 +112,61 @@ export default function LoginPage() {
     }
   };
   return (
-    <div className="login-page min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
-      <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-10 auth-layout">
-        <div className="w-full lg:w-1/2 flex items-center justify-center py-4 sm:py-6 lg:py-0 order-2 lg:order-1">
-          <img
-            src="/login.webp"
-            alt="Secure login illustration"
-            className="auth-image w-[85%] sm:w-[70%] lg:w-[90%] max-w-[550px] object-contain"
-          />
-        </div>
-
-        <div className="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
+    <div className="login-page auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-y-auto">
+      <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
+        {/* Card first on mobile (top), right on desktop */}
+        <div className="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
           <div
-            className="
-            relative overflow-hidden w-full max-w-[520px]
-            min-h-0 lg:min-h-[min(85vh,720px)]
-            max-h-[min(95vh,900px)]
-            bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46]
-            rounded-[10px] px-6 sm:px-10 flex flex-col
-          "
+            className="relative overflow-hidden w-full max-w-[520px] bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46] rounded-[10px] px-4 sm:px-6 lg:px-10 flex flex-col login-card auth-form-card"
           >
             <div className="pointer-events-none absolute inset-y-0 left-1/2 w-[78%] -translate-x-1/2 bg-gradient-to-b from-white/10 via-black/10 to-black/35" />
             <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[inset_20px_0_45px_rgba(0,0,0,0.55),inset_-20px_0_45px_rgba(0,0,0,0.55)]" />
             <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.25)]" />
 
-            <div className="relative z-10 flex flex-col flex-1 min-h-0 auth-card-content px-4 sm:px-6 pt-8 sm:pt-14 pb-6 sm:pb-10 text-white">
-              <div className="w-full flex justify-center flex-shrink-0">
-                <h1 className="font-welcome-heading text-xl sm:text-2xl md:text-3xl text-center font-semibold mb-4 sm:mb-7">
+            <div className="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 auth-card-content login-card-inner px-3 sm:px-6 pt-2 sm:pt-8 lg:pt-14 pb-2 sm:pb-6 lg:pb-10 text-white text-left">
+              <div className="w-full flex justify-center flex-shrink-0 min-w-0">
+                <h1 className="font-welcome-heading text-lg sm:text-xl md:text-2xl lg:text-3xl text-center font-semibold mb-2 sm:mb-4 lg:mb-7 break-words tracking-widest">
                   WELCOME
                 </h1>
               </div>
 
-              <div className="flex justify-center mb-4 sm:mb-8 flex-shrink-0">
-                <div className="bg-white w-[160px] sm:w-[180px] lg:w-[200px] h-[60px] sm:h-[70px] lg:h-[80px] rounded-[50%] flex items-center justify-center shadow-lg overflow-hidden">
-                  <img src="/stackly-logo.webp" alt="Stackly Logo" className="h-5 sm:h-6 lg:h-8 object-contain" />
+              <div className="flex justify-center mb-2 sm:mb-4 lg:mb-8 flex-shrink-0">
+                <div className="bg-white w-[120px] h-[44px] sm:w-[160px] sm:h-[60px] lg:w-[200px] lg:h-[80px] rounded-[50%] flex items-center justify-center shadow-lg overflow-hidden">
+                  <img src="/stackly-logo.webp" alt="Stackly Logo" className="h-4 sm:h-5 lg:h-8 object-contain" />
                 </div>
               </div>
 
               <form onSubmit={handleLogin} noValidate>
-                <div className="space-y-4 sm:space-y-6 flex-shrink-0">
+                <div className="space-y-2 sm:space-y-4 lg:space-y-6 flex-shrink-0">
                   <div className="flex flex-col">
-                    <div className="flex items-center border-b border-white/60 pb-2">
-                      <FaEnvelope className="mr-4 text-sm opacity-80" />
+                    <div className="flex items-center border-b border-white/60 pb-2 min-w-0">
+                      <FaEnvelope className="mr-2 sm:mr-4 text-sm opacity-80 flex-shrink-0" />
                       <input
                         type="email"
                         placeholder="Email"
                         value={form.email}
                         onChange={handleChange("email")}
-                        className="bg-transparent outline-none w-full placeholder-white text-sm"
+                        className="bg-transparent outline-none w-full min-w-0 placeholder-white text-sm"
                         aria-invalid={!!errors.email}
                         aria-describedby={errors.email ? "login-email-error" : undefined}
                       />
                     </div>
                     {errors.email && (
-                      <p id="login-email-error" className="auth-error-text mt-1">
+                      <p id="login-email-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs">
                         {errors.email}
                       </p>
                     )}
                   </div>
 
                   <div className="flex flex-col">
-                    <div className="flex items-center border-b border-white/60 pb-2 relative">
-                      <FaLock className="mr-4 text-sm opacity-80 flex-shrink-0" />
+                    <div className="flex items-center border-b border-white/60 pb-2 relative min-w-0">
+                      <FaLock className="mr-2 sm:mr-4 text-sm opacity-80 flex-shrink-0" />
                       <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         value={form.password}
                         onChange={handleChange("password")}
-                        className="bg-transparent outline-none w-full placeholder-white text-sm pr-9"
+                        className="bg-transparent outline-none w-full min-w-0 placeholder-white text-sm pr-9"
                         aria-invalid={!!errors.password}
                         aria-describedby={errors.password ? "login-password-error" : undefined}
                       />
@@ -184,15 +184,15 @@ export default function LoginPage() {
                       </button>
                     </div>
                     {errors.password && (
-                      <p id="login-password-error" className="auth-error-text mt-1">
+                      <p id="login-password-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs">
                         {errors.password}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between mt-4 text-xs opacity-90 flex-shrink-0">
-                  <label className="flex items-center gap-2 cursor-pointer">
+                <div className="login-remember-forgot flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mt-2 sm:mt-4 text-xs opacity-90 flex-shrink-0">
+                  <label className="flex items-center gap-2 cursor-pointer flex-shrink-0">
                     <input
                       type="checkbox"
                       checked={form.rememberMe}
@@ -203,7 +203,7 @@ export default function LoginPage() {
                   </label>
                   <Link
                     href="/forgot-password"
-                    className="forgot-password-link text-white no-underline hover:text-white hover:underline decoration-1 underline-offset-4 text-[13px]"
+                    className="forgot-password-link text-white no-underline hover:text-white hover:underline decoration-1 underline-offset-4 text-[13px] flex-shrink-0 min-w-0"
                   >
                     Forgot Password?
                   </Link>
@@ -211,7 +211,7 @@ export default function LoginPage() {
 
                 {errors.form && (
                   <p
-                    className={`mt-3 text-xs font-medium ${errors.form === "Login successful!" ? "text-green-300" : "auth-error-text"}`}
+                    className={`mt-2 text-[11px] sm:text-xs font-medium ${errors.form === "Login successful!" ? "text-green-300" : "auth-error-text"}`}
                   >
                     {errors.form}
                   </p>
@@ -220,13 +220,13 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-8 w-full h-[45px] bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed flex-shrink-0"
+                  className="mt-4 sm:mt-6 lg:mt-8 w-full h-[42px] sm:h-[45px] bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed flex-shrink-0"
                 >
                   {isSubmitting ? "Checking..." : "Login"}
                 </button>
               </form>
 
-              <p className="text-center text-xs mt-3 text-white opacity-90 flex-shrink-0">
+              <p className="text-center text-xs mt-2 text-white/80 flex-shrink-0">
                 Don&apos;t have an account?{" "}
                 <Link href="/signup" className="text-yellow-400 hover:text-yellow-300 font-medium">
                   Sign Up
@@ -234,6 +234,15 @@ export default function LoginPage() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Illustration below on mobile, left on desktop */}
+        <div className="w-full lg:w-1/2 flex justify-center order-2 lg:order-1 mt-6 sm:mt-8 lg:mt-0">
+          <img
+            src="/login.webp"
+            alt="Secure login illustration"
+            className="auth-image w-[80%] sm:w-[70%] lg:w-[90%] max-w-[550px] object-contain"
+          />
         </div>
       </div>
     </div>

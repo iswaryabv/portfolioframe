@@ -38,6 +38,20 @@ input[type="password"]::-ms-reveal {
   text-align: center;
 }
 
+/* Mobile: prevent overflow and keep layout intact at all zoom levels */
+.auth-page {
+  -webkit-overflow-scrolling: touch;
+}
+.auth-page .auth-layout,
+.auth-page .auth-layout > * {
+  min-width: 0;
+}
+.auth-form-card,
+.auth-form-card .auth-card-content,
+.auth-form-card .signup-card-content {
+  min-width: 0;
+}
+
 @media (max-width: 400px) {
   .font-welcome-heading {
     text-align: center;
@@ -45,10 +59,20 @@ input[type="password"]::-ms-reveal {
     margin-left: 0;
     margin-right: 0;
     display: block;
+    letter-spacing: 0.12em;
   }
   .auth-card-content {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+  }
+}
+
+/* Mobile + zoom: prevent Remember me / Forgot Password overlap - stack on narrow */
+@media (max-width: 480px) {
+  .login-remember-forgot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 }
 
@@ -96,19 +120,108 @@ input[type="password"]::-ms-reveal {
   overflow-x: hidden;
 }
 
-/* Signup page: no scroll, no scrollbar - compact content fits in viewport */
+/* Prevent inputs from overflowing on narrow/zoomed viewports */
+.auth-card-content input {
+  min-width: 0;
+}
+
+/* Signup page: no scroll inside card - like signup */
 .signup-card .auth-card-content,
 .signup-card-content {
   overflow: hidden;
 }
 
+/* Login page: no scroll inside card - outer (page) scroll only */
+.login-card .auth-card-content {
+  overflow: hidden;
+}
+
+/* Auth pages: desktop = no scroll; mobile = outer scroll so all content visible */
+.auth-page {
+  box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+  .auth-page .auth-layout {
+    max-height: 100%;
+  }
+}
+
+/* Mobile: allow outer (page) scroll so no content is missing, with consistent card size */
+@media (max-width: 1023px) {
+  .auth-page {
+    height: auto;
+    min-height: 100vh;
+    max-height: none;
+    overflow: visible;
+    overflow-x: hidden;
+  }
+  .auth-page .auth-layout {
+    flex: none;
+    min-height: auto;
+    max-height: none;
+    gap: 0.75rem;
+  }
+  .auth-form-card {
+    width: 100%;
+    max-width: 360px;       /* same width on login & signup */
+    min-height: 560px;      /* unify card height on mobile */
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .auth-form-card .auth-card-content,
+  .auth-form-card .signup-card-content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  /* Always keep a clear gap between card and illustration on mobile */
+  .auth-image-col {
+    margin-top: 1.5rem;
+  }
+}
+
+/* Desktop: consistent login/signup card size, no page scroll */
+@media (min-width: 1024px) {
+  .auth-form-card {
+    min-height: 580px;
+    max-height: min(680px, 82vh);
+    height: min(680px, 82vh);
+    display: flex;
+    flex-direction: column;
+  }
+  .auth-form-card .auth-card-content,
+  .auth-form-card .signup-card-content {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+.auth-layout {
+  min-width: 0;
+}
+
 @media (max-width: 768px) {
   .auth-layout {
-    gap: 1rem;
-    min-height: auto;
+    gap: 0.75rem;
   }
   .auth-card-content {
-    padding-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    padding-top: 0.75rem;
+  }
+  .auth-form-card .signup-card-content {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
 }
 
@@ -131,11 +244,61 @@ input[type="password"]::-ms-reveal {
   .auth-card-content {
     gap: 0.75rem;
   }
+  .font-welcome-heading {
+    letter-spacing: 0.15em;
+  }
 }
 
+/* High zoom (e.g. 150%) or narrow viewport: tighter spacing so content fits */
 @media (max-width: 768px) and (min-resolution: 1.5dppx) {
   .auth-card-content > * {
     margin-bottom: 0.5rem;
+  }
+  .login-remember-forgot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .font-welcome-heading {
+    letter-spacing: 0.2em;
+  }
+}
+
+/* Very small screens (320px–380px) and all zoom: compact layout, extra gap under card */
+@media (max-width: 380px) {
+  .auth-page {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  .auth-layout {
+    gap: 0.375rem;
+  }
+  .auth-image-col {
+    max-height: 22vh;
+    margin-top: 1.25rem; /* explicit gap between card and illustration */
+  }
+  .auth-card-content,
+  .auth-form-card .signup-card-content {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
+  .font-welcome-heading {
+    letter-spacing: 0.1em;
+    font-size: 1rem;
+  }
+}
+
+/* Ensure buttons and inputs work on mobile: touch targets, no iOS zoom on focus */
+@media (max-width: 1023px) {
+  .auth-form-card button[type="submit"] {
+    min-height: 44px;
+  }
+  .auth-card-content input {
+    font-size: 16px; /* prevents zoom on focus on iOS */
   }
 }
 

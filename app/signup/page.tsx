@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -37,6 +37,19 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const setOverflow = () => {
+      document.body.style.overflow = mql.matches ? "hidden" : "";
+    };
+    setOverflow();
+    mql.addEventListener("change", setOverflow);
+    return () => {
+      mql.removeEventListener("change", setOverflow);
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   const validate = (values: SignupFormState): SignupFormErrors => {
     const newErrors: SignupFormErrors = {};
 
@@ -56,10 +69,12 @@ export default function SignupPage() {
 
     if (!values.password) {
       newErrors.password = "Password is required.";
-    } else if (values.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters.";
+    } else if (values.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters.";
     } else {
-      if (!/[A-Z]/.test(values.password)) {
+      if (!/[a-z]/.test(values.password)) {
+        newErrors.password = "Password must include a lowercase letter.";
+      } else if (!/[A-Z]/.test(values.password)) {
         newErrors.password = "Password must include an uppercase letter.";
       } else if (!/[0-9]/.test(values.password)) {
         newErrors.password = "Password must include a number.";
@@ -126,43 +141,32 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 py-6">
-      <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-10 auth-layout">
-        <div className="w-full lg:w-1/2 flex items-center justify-center py-4 sm:py-6 lg:py-0 order-2 lg:order-1">
-          <img
-            src="/illustration.webp"
-            alt="Illustration"
-            className="auth-image w-[85%] sm:w-[80%] lg:w-[88%] max-w-[520px] object-contain"
-          />
-        </div>
-
-        <div className="w-full lg:w-1/2 flex items-center justify-center order-1 lg:order-2">
-        <div
-          className="
-            relative overflow-hidden w-full max-w-[520px]
-            bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46]
-            rounded-[10px] px-6 sm:px-10 flex flex-col signup-card
-          "
-        >
+    <div className="auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-y-auto">
+      <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
+        {/* Card first on mobile (top), right on desktop */}
+        <div className="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
+          <div
+            className="relative overflow-hidden w-full max-w-[520px] bg-gradient-to-b from-[#5f82e8] via-[#3f66c9] to-[#021a46] rounded-[10px] px-6 sm:px-10 flex flex-col signup-card auth-form-card"
+          >
             <div className="pointer-events-none absolute inset-y-0 left-1/2 w-[78%] -translate-x-1/2 bg-gradient-to-b from-white/10 via-black/10 to-black/35" />
             <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[inset_20px_0_45px_rgba(0,0,0,0.55),inset_-20px_0_45px_rgba(0,0,0,0.55)]" />
             <div className="pointer-events-none absolute inset-0 rounded-[10px] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.25)]" />
 
-            <div className="relative z-10 flex flex-col px-4 sm:px-6 pt-3 sm:pt-4 pb-3 sm:pb-4 text-white signup-card-content">
+            <div className="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 px-4 sm:px-6 pt-3 sm:pt-4 pb-3 sm:pb-4 lg:pt-8 lg:pb-6 text-white signup-card-content text-left">
               <div className="w-full flex justify-center flex-shrink-0">
-                <h1 className="font-welcome-heading text-xl sm:text-2xl text-center font-semibold mb-2 sm:mb-3 tracking-widest">
+                <h1 className="font-welcome-heading text-xl sm:text-2xl text-center font-semibold mb-2 sm:mb-3 lg:mb-4 tracking-widest">
                   WELCOME
                 </h1>
               </div>
 
-              <div className="flex justify-center mb-1.5 sm:mb-2 flex-shrink-0">
-                <div className="bg-white w-[120px] sm:w-[140px] lg:w-[200px] h-[44px] sm:h-[52px] lg:h-[80px] rounded-[50%] flex items-center justify-center shadow-lg">
-                  <img src="/stackly-logo.webp" alt="Stackly Logo" className="h-3.5 sm:h-4 lg:h-8 object-contain" />
+              <div className="flex justify-center mb-2 sm:mb-3 lg:mb-4 flex-shrink-0">
+                <div className="bg-white w-[120px] sm:w-[140px] lg:w-[180px] h-[44px] sm:h-[52px] lg:h-[64px] rounded-[50%] flex items-center justify-center shadow-lg overflow-hidden">
+                  <img src="/stackly-logo.webp" alt="Stackly Logo" className="h-3.5 sm:h-4 lg:h-7 object-contain" />
                 </div>
               </div>
 
               <form onSubmit={handleSignup} noValidate>
-                <div className="space-y-2 sm:space-y-2.5 flex-shrink-0">
+                <div className="space-y-2 sm:space-y-3 lg:space-y-3 flex-shrink-0">
                   <div className="flex flex-col">
                     <div className="flex items-center border-b border-white/80 pb-2">
                       <FaUser className="mr-3 text-sm text-white/90" />
@@ -229,7 +233,7 @@ export default function SignupPage() {
                       </button>
                     </div>
                     <p className="text-[10px] sm:text-xs text-white/80 mt-0.5 leading-tight">
-                      Password must: at least 6 characters • a number • an uppercase letter • a special character (!@#$%^&*).
+                      Password must: at least 8 characters • a lowercase letter • an uppercase letter • a number • a special character (!@#$%^&*).
                     </p>
                     {errors.password && (
                       <p id="password-error" className="auth-error-text mt-0.5 text-[11px] sm:text-xs">
@@ -273,7 +277,7 @@ export default function SignupPage() {
 
                 {errors.form && (
                   <p
-                    className={`mt-2 text-[11px] sm:text-xs font-medium ${errors.form === "Signup successful!" ? "text-green-300" : "auth-error-text"}`}
+                    className={`mt-1.5 text-[11px] sm:text-xs font-medium ${errors.form === "Signup successful!" ? "text-green-300" : "auth-error-text"}`}
                   >
                     {errors.form}
                   </p>
@@ -297,7 +301,7 @@ export default function SignupPage() {
 
               <div className="my-2 border-t border-white/50 flex-shrink-0" />
 
-              <div className="flex-shrink-0 pt-1 pb-4 sm:pb-6">
+              <div className="flex-shrink-0 pt-1 pb-4">
                 <a
                   href={
                     "https://accounts.google.com/o/oauth2/v2/auth" +
@@ -316,6 +320,15 @@ export default function SignupPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Illustration below on mobile, left on desktop */}
+        <div className="auth-image-col w-full lg:w-1/2 flex justify-center order-2 lg:order-1 mt-6 sm:mt-8 lg:mt-0">
+          <img
+            src="/illustration.webp"
+            alt="Illustration"
+            className="auth-image w-[80%] sm:w-[80%] lg:w-[88%] max-w-[520px] object-contain"
+          />
         </div>
       </div>
     </div>
