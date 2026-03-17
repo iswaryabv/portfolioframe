@@ -336,7 +336,7 @@ export default function SignupPage() {
 
                 <div className="my-1 border-t border-white/50" />
 
-                <div className="pt-0 pb-2 sm:pt-0.5 sm:pb-3">
+                <div className="pt-0.5 pb-2 sm:pt-1 sm:pb-4">
                   <a
                     href={
                       "https://accounts.google.com/o/oauth2/v2/auth" +
