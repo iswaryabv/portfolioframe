@@ -434,7 +434,7 @@
     }
 
     function isMobile(value) {
-      return /^\+?[0-9]{6,15}$/.test(value.trim());
+      return /^[0-9]{10}$/.test(value.trim());
     }
 
     async function handleSignup() {
@@ -477,7 +477,7 @@
         if (mobileError) mobileError.innerText = "Mobile number is required.";
         valid = false;
       } else if (!isMobile(mobile)) {
-        if (mobileError) mobileError.innerText = "Enter a valid mobile number (6–15 digits).";
+        if (mobileError) mobileError.innerText = "Mobile number must be exactly 10 digits.";
         valid = false;
       }
       if (password.length < 8) {

@@ -74,8 +74,8 @@ export default function SignupPage() {
 
     if (!values.mobileNumber.trim()) {
       newErrors.mobileNumber = "Mobile number is required.";
-    } else if (!/^\+?[0-9]{6,15}$/.test(values.mobileNumber.trim())) {
-      newErrors.mobileNumber = "Enter a valid mobile number (6–15 digits).";
+    } else if (!/^[0-9]{10}$/.test(values.mobileNumber.trim())) {
+      newErrors.mobileNumber = "Mobile number must be exactly 10 digits.";
     }
 
     if (!values.password) {
