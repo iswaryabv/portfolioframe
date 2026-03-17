@@ -320,14 +320,14 @@ export default function SignupPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-2 mb-2 w-full h-[42px] flex-shrink-0 bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium text-white shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="mt-2 w-full h-[42px] flex-shrink-0 bg-gradient-to-r from-[#2d8cf0] to-[#5a78c7] rounded-md text-sm font-medium text-white shadow-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Checking..." : "Sign Up"}
                 </button>
               </form>
 
               <div className="flex-shrink-0 mt-2">
-                <p className="text-center text-xs mt-0 text-white/80">
+                <p className="text-center text-xs mt-1 text-white/80">
                   Already have an account?{" "}
                   <Link href="/login" className="text-amber-300 hover:text-amber-200 font-medium">
                     Login
