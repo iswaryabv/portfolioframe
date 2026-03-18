@@ -334,7 +334,7 @@ export default function SignupPage() {
                   </Link>
                 </p>
 
-                <div className="my-1 border-t border-white/50" />
+                <div className="mt-2 mb-2 border-t border-white/50" />
 
                 <div className="pt-0.5 pb-2 sm:pt-1 sm:pb-4">
                   <a
