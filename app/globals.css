@@ -250,9 +250,10 @@ input[type="password"]::-ms-reveal {
   .auth-page {
     /* Fill the mobile viewport (no extra bottom white), with small top/bottom whitespace */
     --auth-mobile-vpad: 40px;
-    height: 100dvh;
-    min-height: 100dvh;
-    max-height: 100dvh;
+    /* Use svh for stable initial load (address bar visible). Avoid dvh jump/gap on first open. */
+    height: auto;
+    min-height: 100svh;
+    max-height: none;
     padding-top: var(--auth-mobile-vpad);
     padding-bottom: var(--auth-mobile-vpad);
     overflow-y: auto;
@@ -269,9 +270,9 @@ input[type="password"]::-ms-reveal {
   .auth-form-card {
     width: 100%;
     max-width: 360px;       /* same width on login & signup */
-    /* Keep login/signup same baseline, but never exceed viewport height */
-    height: min(560px, calc(100dvh - (2 * var(--auth-mobile-vpad))));
-    min-height: min(560px, calc(100dvh - (2 * var(--auth-mobile-vpad))));
+    /* Keep login/signup same baseline, but fit within the stable viewport */
+    height: min(560px, calc(100svh - (2 * var(--auth-mobile-vpad))));
+    min-height: min(560px, calc(100svh - (2 * var(--auth-mobile-vpad))));
     max-height: none;
     display: flex;
     flex-direction: column;
