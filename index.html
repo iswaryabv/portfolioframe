@@ -211,6 +211,12 @@
       #signupPage .signup-card-content input::placeholder {
         font-size: 14px;
       }
+
+      /* Extra safety: Confirm Password should never clip at 170–200% zoom */
+      #signupConfirmPassword,
+      #signupConfirmPassword::placeholder {
+        font-size: 12px;
+      }
     }
     @media (min-width: 640px) and (max-width: 1023px) {
       #loginPage .login-card-inner,
@@ -529,12 +535,11 @@
     const BACKEND_BASE_URL = "http://localhost:5000";
 
     function updateMobilePlaceholders() {
-      var narrow = window.innerWidth <= 420;
       var loginEmail = document.getElementById("loginEmail");
-      if (loginEmail) loginEmail.placeholder = narrow ? "Email / Mobile" : "Email or Mobile number";
+      if (loginEmail) loginEmail.placeholder = "Email or Mobile number";
 
       var signupConfirm = document.getElementById("signupConfirmPassword");
-      if (signupConfirm) signupConfirm.placeholder = narrow ? "Confirm password" : "Confirm Password";
+      if (signupConfirm) signupConfirm.placeholder = "Confirm Password";
     }
 
     function showPage(page) {

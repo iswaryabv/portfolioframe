@@ -39,7 +39,6 @@ export default function SignupPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isNarrowMobile, setIsNarrowMobile] = useState(false);
 
   useEffect(() => {
     const mql = window.matchMedia("(min-width: 1024px)");
@@ -54,13 +53,6 @@ export default function SignupPage() {
     };
   }, []);
 
-  useEffect(() => {
-    const mql = window.matchMedia("(max-width: 420px)");
-    const update = () => setIsNarrowMobile(mql.matches);
-    update();
-    mql.addEventListener("change", update);
-    return () => mql.removeEventListener("change", update);
-  }, []);
 
   const validate = (values: SignupFormState): SignupFormErrors => {
     const newErrors: SignupFormErrors = {};
@@ -290,7 +282,7 @@ export default function SignupPage() {
                       <FaLock className="mr-3 text-sm text-white/90 flex-shrink-0" />
                       <input
                         type={showConfirmPassword ? "text" : "password"}
-                        placeholder={isNarrowMobile ? "Confirm password" : "Confirm Password"}
+                        placeholder="Confirm Password"
                         value={form.confirmPassword}
                         onChange={handleChange("confirmPassword")}
                         className="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white pr-9"

@@ -33,7 +33,6 @@ export default function LoginPage() {
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isNarrowMobile, setIsNarrowMobile] = useState(false);
 
   useEffect(() => {
     const mql = window.matchMedia("(min-width: 1024px)");
@@ -46,14 +45,6 @@ export default function LoginPage() {
       mql.removeEventListener("change", setOverflow);
       document.body.style.overflow = "";
     };
-  }, []);
-
-  useEffect(() => {
-    const mql = window.matchMedia("(max-width: 420px)");
-    const update = () => setIsNarrowMobile(mql.matches);
-    update();
-    mql.addEventListener("change", update);
-    return () => mql.removeEventListener("change", update);
   }, []);
 
   const validate = (values: LoginFormState): LoginFormErrors => {
@@ -165,7 +156,7 @@ export default function LoginPage() {
                       <FaEnvelope className="mr-2 sm:mr-4 text-sm opacity-80 flex-shrink-0" />
                       <input
                         type="text"
-                        placeholder={isNarrowMobile ? "Email / Mobile" : "Email or Mobile number"}
+                        placeholder="Email or Mobile number"
                         value={form.email}
                         onChange={handleChange("email")}
                         className="bg-transparent outline-none w-full min-w-0 placeholder-white text-sm"
