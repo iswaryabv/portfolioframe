@@ -104,11 +104,11 @@
       overflow: hidden;
     }
 
-    /* Mobile: no scrollbar inside card – content stays in inner box */
+    /* Mobile: keep layout natural (no clipping); outer page scroll handles overflow */
     @media (max-width: 1023px) {
       .auth-form-card .auth-card-content,
       .auth-form-card .signup-card-content {
-        overflow: hidden !important;
+        overflow: visible !important;
       }
     }
 
@@ -274,8 +274,8 @@
       .auth-form-card {
         width: 100%;
         max-width: 360px;
-        height: min(560px, calc(100svh - (2 * var(--auth-mobile-vpad))));
-        min-height: min(560px, calc(100svh - (2 * var(--auth-mobile-vpad))));
+        height: auto;
+        min-height: 0;
         max-height: none;
         display: flex;
         flex-direction: column;
@@ -291,7 +291,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        overflow: hidden;
+        overflow: visible;
       }
 
       /* Mobile: remove bottom illustration entirely */
@@ -303,13 +303,13 @@
     @supports (-webkit-touch-callout: none) {
       @media (max-width: 1023px) {
         .auth-page {
-          height: 100svh;
+          height: auto;
           min-height: 100svh;
-          max-height: 100svh;
+          max-height: none;
         }
         .auth-form-card {
-          height: min(560px, calc(100svh - (2 * var(--auth-mobile-vpad))));
-          min-height: min(560px, calc(100svh - (2 * var(--auth-mobile-vpad))));
+          height: auto;
+          min-height: 0;
         }
       }
     }
