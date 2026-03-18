@@ -221,6 +221,27 @@ input[type="password"]::-ms-reveal {
   }
 }
 
+/* Narrow/zoomed mobile: give inputs more width so placeholder/value never clips */
+@media (max-width: 420px) {
+  .auth-inner-panel {
+    width: 86% !important;
+  }
+  /* 86% of card; px-6 → 48px padding: 0.86×48 = 41.28 */
+  .login-card-inner,
+  .signup-card-content {
+    width: calc(86% + 41.28px) !important;
+    max-width: calc(86% + 41.28px) !important;
+  }
+  .login-card-inner input,
+  .signup-card-content input {
+    font-size: 14px;
+  }
+  .login-card-inner input::placeholder,
+  .signup-card-content input::placeholder {
+    font-size: 14px;
+  }
+}
+
 /* Card uses sm:px-10 (80px) from 640px – match inner box width */
 @media (min-width: 640px) and (max-width: 1023px) {
   .login-card-inner,

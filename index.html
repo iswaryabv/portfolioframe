@@ -194,6 +194,24 @@
         padding-bottom: clamp(1.25rem, 5vh, 2.75rem) !important;
       }
     }
+    @media (max-width: 420px) {
+      .auth-inner-panel {
+        width: 86% !important;
+      }
+      #loginPage .login-card-inner,
+      #signupPage .signup-card-content {
+        width: calc(86% + 41.28px) !important;
+        max-width: calc(86% + 41.28px) !important;
+      }
+      #loginPage .login-card-inner input,
+      #signupPage .signup-card-content input {
+        font-size: 14px;
+      }
+      #loginPage .login-card-inner input::placeholder,
+      #signupPage .signup-card-content input::placeholder {
+        font-size: 14px;
+      }
+    }
     @media (min-width: 640px) and (max-width: 1023px) {
       #loginPage .login-card-inner,
       #signupPage .signup-card-content {
