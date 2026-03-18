@@ -252,6 +252,11 @@
 
     /* Mobile: allow outer (page) scroll so no content is missing, with consistent card size */
     @media (max-width: 1023px) {
+      html,
+      body {
+        height: 100%;
+        overflow: hidden; /* hard stop any mobile scroll */
+      }
       .auth-page {
         height: 100dvh;
         min-height: 100dvh;
@@ -282,7 +287,7 @@
         flex-direction: column;
         margin-top: 0;
         margin-bottom: 0;
-        overflow: visible;
+        overflow: hidden;
       }
       .auth-form-card .auth-card-content,
       .auth-form-card .signup-card-content {
@@ -292,7 +297,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        overflow: visible;
+        overflow: hidden;
       }
 
       /* Mobile: remove bottom illustration entirely */

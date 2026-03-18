@@ -247,6 +247,11 @@ input[type="password"]::-ms-reveal {
 
 /* Mobile: allow outer (page) scroll so no content is missing, with consistent card size */
 @media (max-width: 1023px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden; /* hard stop any mobile scroll */
+  }
   .auth-page {
     height: 100dvh;
     min-height: 100dvh;
@@ -276,7 +281,7 @@ input[type="password"]::-ms-reveal {
     flex-direction: column;
     margin-top: 0;
     margin-bottom: 0;
-    overflow: visible;      /* never clip; outer page scroll */
+    overflow: hidden;       /* keep box clean (no inner scrollbars) */
   }
   .auth-form-card .auth-card-content,
   .auth-form-card .signup-card-content {
@@ -286,7 +291,7 @@ input[type="password"]::-ms-reveal {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow: visible;
+    overflow: hidden;
   }
 
   /* Mobile: remove bottom illustration entirely */
