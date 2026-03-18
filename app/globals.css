@@ -232,18 +232,8 @@ input[type="password"]::-ms-reveal {
     width: calc(86% + 41.28px) !important;
     max-width: calc(86% + 41.28px) !important;
   }
-  .login-card-inner input,
-  .signup-card-content input {
-    font-size: 14px;
-  }
   .login-card-inner input::placeholder,
   .signup-card-content input::placeholder {
-    font-size: 14px;
-  }
-
-  /* Extra safety: Confirm Password text should never clip at 170–200% zoom */
-  .signup-card-content input[placeholder="Confirm Password"],
-  .signup-card-content input[placeholder="Confirm Password"]::placeholder {
     font-size: 12px;
   }
 }

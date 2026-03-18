@@ -203,18 +203,8 @@
         width: calc(86% + 41.28px) !important;
         max-width: calc(86% + 41.28px) !important;
       }
-      #loginPage .login-card-inner input,
-      #signupPage .signup-card-content input {
-        font-size: 14px;
-      }
       #loginPage .login-card-inner input::placeholder,
       #signupPage .signup-card-content input::placeholder {
-        font-size: 14px;
-      }
-
-      /* Extra safety: Confirm Password should never clip at 170–200% zoom */
-      #signupConfirmPassword,
-      #signupConfirmPassword::placeholder {
         font-size: 12px;
       }
     }
@@ -1129,12 +1119,12 @@
 
               <div>
                 <div id="signupConfirmPasswordWrap" class="flex items-center border-b border-white/80 pb-2 password-toggle-hidden relative">
-                  <i class="fa-solid fa-lock mr-3 text-sm text-white/90 flex-shrink-0"></i>
+                  <i class="fa-solid fa-lock mr-2 text-sm text-white/90 flex-shrink-0"></i>
                   <input
                     id="signupConfirmPassword"
                     type="password"
                     placeholder="Confirm Password"
-                    class="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white pr-9"
+                    class="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white pr-8 tracking-tight"
                     oninput="updateSignupConfirmPasswordToggleVisibility()"
                   />
                   <button type="button" aria-label="Toggle confirm password visibility" class="password-toggle-btn absolute right-2 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-1 flex-shrink-0" onclick="toggleSignupConfirmPasswordVisibility()">
@@ -1277,12 +1267,12 @@
             <div class="space-y-6 sm:space-y-4 lg:space-y-6 flex-shrink-0">
               <div>
                 <div class="flex items-center border-b border-white/60 pb-2 min-w-0">
-                  <i class="fa-solid fa-envelope mr-2 sm:mr-4 text-sm opacity-80 flex-shrink-0"></i>
+                  <i class="fa-solid fa-envelope mr-1 sm:mr-4 text-sm opacity-80 flex-shrink-0"></i>
                   <input
                     id="loginEmail"
                     type="text"
                     placeholder="Email or Mobile number"
-                    class="bg-transparent outline-none w-full min-w-0 placeholder-white text-sm"
+                    class="bg-transparent outline-none w-full min-w-0 placeholder-white text-sm tracking-tight"
                   />
                 </div>
                 <p id="loginEmailError" class="error-text mt-0.5 text-[11px] sm:text-xs"></p>
