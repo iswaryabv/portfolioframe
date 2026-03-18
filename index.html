@@ -98,6 +98,9 @@
 
     .auth-card-content input {
       min-width: 0;
+      max-width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     #signupPage .auth-card-content {
@@ -1091,13 +1094,13 @@
               </div>
 
               <div>
-                <div id="signupConfirmPasswordWrap" class="flex items-center border-b border-white/80 pb-2 password-toggle-hidden relative">
+                <div id="signupConfirmPasswordWrap" class="flex items-center border-b border-white/80 pb-2 password-toggle-hidden relative min-w-0">
                   <i class="fa-solid fa-lock mr-3 text-sm text-white/90 flex-shrink-0"></i>
                   <input
                     id="signupConfirmPassword"
                     type="password"
                     placeholder="Confirm Password"
-                    class="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white pr-9"
+                    class="bg-transparent outline-none flex-1 min-w-0 placeholder-white/90 text-sm text-white pr-9"
                     oninput="updateSignupConfirmPasswordToggleVisibility()"
                   />
                   <button type="button" aria-label="Toggle confirm password visibility" class="password-toggle-btn absolute right-2 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-1 flex-shrink-0" onclick="toggleSignupConfirmPasswordVisibility()">
@@ -1245,7 +1248,7 @@
                     id="loginEmail"
                     type="text"
                     placeholder="Email or Mobile number"
-                    class="bg-transparent outline-none w-full min-w-0 placeholder-white text-sm"
+                    class="bg-transparent outline-none flex-1 min-w-0 placeholder-white text-sm"
                   />
                 </div>
                 <p id="loginEmailError" class="error-text mt-0.5 text-[11px] sm:text-xs"></p>

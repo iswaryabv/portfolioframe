@@ -132,6 +132,9 @@ input[type="password"]::-ms-reveal {
 /* Prevent inputs from overflowing on narrow/zoomed viewports */
 .auth-card-content input {
   min-width: 0;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 /* Mobile: avoid clipping inside the card (professional behavior) */

@@ -277,14 +277,14 @@ export default function SignupPage() {
                   </div>
 
                   <div className="flex flex-col">
-                    <div className="flex items-center border-b border-white/80 pb-2 relative">
+                    <div className="flex items-center border-b border-white/80 pb-2 relative min-w-0">
                       <FaLock className="mr-3 text-sm text-white/90 flex-shrink-0" />
                       <input
                         type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm Password"
                         value={form.confirmPassword}
                         onChange={handleChange("confirmPassword")}
-                        className="bg-transparent outline-none w-full placeholder-white/90 text-sm text-white pr-9"
+                        className="bg-transparent outline-none flex-1 min-w-0 placeholder-white/90 text-sm text-white pr-9"
                         aria-invalid={!!errors.confirmPassword}
                         aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
                       />
