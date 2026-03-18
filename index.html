@@ -218,6 +218,7 @@
         min-height: auto;
         max-height: none;
         gap: 0.75rem;
+        max-width: 100%;
       }
       .auth-form-card {
         width: 100%;
@@ -228,14 +229,17 @@
         flex-direction: column;
         margin-top: 0;
         margin-bottom: 0;
+        overflow: hidden;
       }
       .auth-form-card .auth-card-content,
       .auth-form-card .signup-card-content {
         flex: 1;
         min-height: 0;
+        min-width: 0;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+        overflow: hidden;
       }
 
       .auth-image-col {
@@ -334,6 +338,28 @@
         #loginPage .login-card-inner > p {
           margin-top: 0.75rem;
         }
+      }
+    }
+
+    /* Mobile zoom out (62–85%): narrow viewport – keep content inside like 100% zoom */
+    @media (max-width: 340px) {
+      .auth-page {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+      .auth-form-card {
+        max-width: 100%;
+      }
+      .auth-card-content,
+      .auth-form-card .signup-card-content,
+      .login-card .auth-card-content {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+      }
+      .auth-layout {
+        gap: 0.375rem;
       }
     }
 
