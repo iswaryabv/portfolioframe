@@ -18,43 +18,8 @@
   />
 
   <style>
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
     body {
       font-family: Arial, Helvetica, sans-serif;
-    }
-
-    /* Mobile: true viewport-fit (no bottom white space, centered layout) */
-    @media (max-width: 1023px) {
-      .auth-page {
-        height: 100dvh;
-        min-height: 100dvh;
-        max-height: 100dvh;
-        overflow: hidden;
-        overflow-x: hidden;
-        justify-content: center;
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-      }
-      .auth-page .auth-layout {
-        flex: 1;
-        height: 100%;
-        min-height: 0;
-        justify-content: center;
-        align-content: center;
-      }
-      .auth-form-card {
-        height: auto;
-        max-height: calc(100dvh - 1.5rem);
-        min-height: 0;
-      }
-      .auth-image-col {
-        display: none !important;
-      }
     }
 
     /* Hide browser's native password reveal (e.g. Edge) so only our single eye shows */
@@ -285,7 +250,52 @@
       }
     }
 
-    /* Mobile: sizing handled by viewport-fit rules */
+    /* Mobile: allow outer (page) scroll so no content is missing, with consistent card size */
+    @media (max-width: 1023px) {
+      .auth-page {
+        min-height: 100dvh;
+        height: 100dvh;
+        max-height: none;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+      .auth-page .auth-layout {
+        flex: 1;
+        min-height: 0;
+        max-height: 100%;
+        gap: 0.75rem;
+        max-width: 100%;
+        justify-content: center;
+        align-content: center;
+      }
+      .auth-form-card {
+        width: 100%;
+        max-width: 360px;
+        min-height: 560px;
+        max-height: calc(100dvh - 1.5rem);
+        display: flex;
+        flex-direction: column;
+        margin-top: 0;
+        margin-bottom: 0;
+        overflow: visible;
+      }
+      .auth-form-card .auth-card-content,
+      .auth-form-card .signup-card-content {
+        flex: 1;
+        min-height: 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow: visible;
+      }
+
+      /* Mobile: remove bottom illustration entirely */
+      .auth-image-col {
+        display: none !important;
+      }
+    }
 
     @media (min-width: 1024px) {
       .auth-form-card {
@@ -950,7 +960,7 @@
   </script>
 
   <!-- ================= SIGNUP PAGE ================= -->
-  <div id="signupPage" class="hidden auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-hidden">
+  <div id="signupPage" class="hidden auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-y-auto">
     <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
       <!-- CARD FIRST ON MOBILE (TOP), RIGHT ON DESKTOP -->
       <div class="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
@@ -1151,7 +1161,7 @@
   </div>
 
   <!-- ================= LOGIN PAGE ================= -->
-  <div id="loginPage" class="auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-hidden">
+  <div id="loginPage" class="auth-page min-h-screen bg-white flex flex-col px-3 sm:px-6 py-3 sm:py-4 overflow-y-auto">
     <div class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 sm:gap-6 lg:gap-8 auth-layout">
       <!-- CARD FIRST ON MOBILE (TOP), RIGHT ON DESKTOP -->
       <div class="w-full lg:w-1/2 flex justify-center order-1 lg:order-2">
