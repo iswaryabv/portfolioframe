@@ -104,7 +104,7 @@
       overflow: hidden;
     }
 
-    /* Mobile: keep layout natural without relying on outer page scroll */
+    /* Mobile: keep layout natural (no clipping); outer page scroll handles overflow */
     @media (max-width: 1023px) {
       .auth-form-card .auth-card-content,
       .auth-form-card .signup-card-content {
@@ -169,7 +169,8 @@
         margin-left: auto;
         margin-right: auto;
         min-width: 0;
-        /* Prevent horizontal overflow without overriding vertical scroll */
+        /* zoom up to 200%: keep scrolling inside the card (no outer gaps) */
+        overflow-y: auto !important;
         overflow-x: hidden !important;
         box-sizing: border-box;
       }
@@ -334,17 +335,20 @@
       }
     }
 
-    /* Mobile: lock auth page height to viewport; remove outer scroll */
+    /* Mobile: allow outer (page) scroll so no content is missing, with consistent card size */
     @media (max-width: 1023px) {
       .auth-page {
         --auth-mobile-vpad: 0px;
-        height: 100svh !important;
-        min-height: 100svh !important;
-        max-height: 100svh !important;
+        height: auto;
+        min-height: 100svh;
+        max-height: none;
         padding-top: env(safe-area-inset-top);
         padding-bottom: env(safe-area-inset-bottom);
-        overflow-y: hidden !important; /* remove outer scroll */
+        /* Prevent outer page scroll revealing empty space.
+           Inner scrolling happens inside `.auth-card-content` / `.signup-card-content`. */
+        overflow-y: hidden;
         overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
       }
       .auth-page .auth-layout {
         flex: 1;
@@ -390,10 +394,10 @@
     @supports (-webkit-touch-callout: none) {
       @media (max-width: 1023px) {
         .auth-page {
-          height: 100svh !important;
-          min-height: 100svh !important;
-          max-height: 100svh !important;
-          overflow-y: hidden !important;
+          height: auto;
+          min-height: 100svh;
+          max-height: none;
+          overflow-y: hidden;
         }
         .auth-form-card {
           height: calc(
