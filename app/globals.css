@@ -607,7 +607,10 @@ input[type="password"]::-ms-reveal {
     min-height: 44px;
   }
   .auth-card-content input {
-    font-size: 16px; /* prevents zoom on focus on iOS */
+    /* Use relative font size so iOS Chrome "Text size" +/- can scale it. */
+    font-size: 1rem;
+    -webkit-text-size-adjust: auto;
+    text-size-adjust: auto;
   }
 }
 
