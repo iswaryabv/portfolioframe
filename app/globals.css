@@ -442,7 +442,7 @@ input[type="password"]::-ms-reveal {
   .auth-form-card .signup-card-content {
     flex: 1;
     min-height: 0;
-    overflow: hidden;
+  overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
