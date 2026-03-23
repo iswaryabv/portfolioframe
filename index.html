@@ -51,9 +51,27 @@
       text-align: center;
     }
 
-    /* Signup WELCOME: match project letter-spacing (0.35em) so it isn't overridden by tracking-widest */
+    /* Signup WELCOME: match project letter-spacing (0.35em) */
     #signupPage .font-welcome-heading {
       letter-spacing: 0.35em;
+    }
+
+    @media (max-width: 1023px) {
+      #signupPage .signup-card-content .signup-welcome-title {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        box-sizing: border-box;
+        padding-left: 0.175em;
+      }
+    }
+    @media (max-width: 400px) {
+      #signupPage .signup-card-content .signup-welcome-title {
+        padding-left: 0.06em;
+      }
     }
 
     .error-text {
@@ -323,6 +341,7 @@
         letter-spacing: 0.18em !important;
         margin-left: 0;
         margin-right: 0;
+        padding-left: 0.09em;
       }
     }
     @media (min-width: 640px) and (max-width: 1023px) {
@@ -1155,7 +1174,7 @@
             <div class="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 px-4 sm:px-6 pt-2 sm:pt-4 pb-1.5 sm:pb-3 lg:pt-8 lg:pb-6 text-white signup-card-content text-left justify-between">
             <!-- WELCOME (WB_005: centered on narrow screens) -->
             <div class="w-full flex justify-center flex-shrink-0 min-w-0">
-            <h1 class="inline-block font-welcome-heading text-xl sm:text-2xl text-center font-semibold mb-3 sm:mb-2.5 lg:mb-4 tracking-widest">
+            <h1 class="signup-welcome-title block w-full max-w-full font-welcome-heading text-xl sm:text-2xl text-center font-semibold mb-3 sm:mb-2.5 lg:mb-4">
               WELCOME
             </h1>
             </div>

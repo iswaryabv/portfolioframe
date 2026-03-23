@@ -75,6 +75,21 @@ input[type="password"]::-ms-reveal {
   min-width: 0;
 }
 
+/* Signup mobile: WELCOME aligned with centered logo (full width + optical letter-spacing fix) */
+@media (max-width: 1023px) {
+  .signup-card-content .signup-welcome-title {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    box-sizing: border-box;
+    /* Letter-spacing adds space after the last glyph; nudge right to match logo center */
+    padding-left: 0.175em;
+  }
+}
+
 @media (max-width: 400px) {
   .font-welcome-heading {
     text-align: center;
@@ -83,6 +98,9 @@ input[type="password"]::-ms-reveal {
     margin-right: 0;
     display: block;
     letter-spacing: 0.12em;
+  }
+  .signup-card-content .signup-welcome-title {
+    padding-left: 0.06em;
   }
   .auth-card-content {
     padding-left: 0.75rem;
@@ -361,6 +379,7 @@ input[type="password"]::-ms-reveal {
     letter-spacing: 0.18em !important;
     margin-left: 0;
     margin-right: 0;
+    padding-left: 0.09em;
   }
 }
 
