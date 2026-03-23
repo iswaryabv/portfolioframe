@@ -91,37 +91,71 @@ input[type="password"]::-ms-reveal {
 }
 
 /*
- * Login: Remember me (left) + Forgot password (right) — full-width row under password field.
- * Grid keeps alignment at 100%–200% zoom; flex+column was stacking and looked misaligned.
+ * Login: Remember me + Forgot password — row when wide; link wraps to full-width row when
+ * narrow (150–200% zoom) so “Forgot Password?” is never clipped.
  */
 .login-page .login-remember-forgot {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  container-type: inline-size;
+  container-name: login-remember;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  column-gap: clamp(0.5rem, 2.5vw, 0.875rem);
-  row-gap: 0.5rem;
+  gap: 0.5rem clamp(0.5rem, 2.5vw, 0.875rem);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  overflow: visible;
+  min-width: 0;
 }
 
 .login-page .login-remember-forgot > label {
-  justify-self: start;
+  flex: 0 1 auto;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   min-width: 0;
+  max-width: 100%;
 }
 
 .login-page .login-remember-forgot .forgot-password-link {
-  justify-self: end;
-  text-align: right;
-  min-width: 0;
+  flex: 1 1 auto;
+  /* Prefer ~12rem min width on same row; if not enough space, wraps to next line at full width */
+  min-width: min(100%, 12rem);
   max-width: 100%;
+  margin-left: auto;
+  text-align: right;
+  align-self: center;
+  overflow: visible;
+  white-space: normal;
+  text-overflow: clip;
   overflow-wrap: anywhere;
   word-break: break-word;
-  line-height: 1.35;
-  font-size: clamp(10px, 3.4vw, 13px);
+  line-height: 1.4;
+  font-size: clamp(8px, 3.6vw, 13px);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* Narrow card (e.g. 150–200% zoom): full-width link row — text not clipped */
+@container login-remember (max-width: 320px) {
+  .login-page .login-remember-forgot .forgot-password-link {
+    flex-basis: 100%;
+    margin-left: 0 !important;
+    text-align: left;
+    align-self: stretch;
+    min-width: 0;
+  }
+}
+
+/* Fallback (no container queries): very narrow layout viewport */
+@media (max-width: 320px) {
+  .login-page .login-remember-forgot .forgot-password-link {
+    flex-basis: 100%;
+    margin-left: 0 !important;
+    text-align: left;
+    align-self: stretch;
+    min-width: 0;
+  }
 }
 
 /* Error text - sufficient contrast on dark blue background */
@@ -445,6 +479,11 @@ input[type="password"]::-ms-reveal {
     margin-top: 0;
     margin-bottom: 0;
     overflow: hidden;       /* keep rounded corners/inner panel clean */
+  }
+  /* Login only: allow “Forgot Password?” to paint outside overflow (150–200% zoom) */
+  .login-page .login-card.auth-form-card {
+    overflow-x: visible;
+    overflow-y: visible;
   }
   .auth-form-card .auth-card-content,
   .auth-form-card .signup-card-content {
