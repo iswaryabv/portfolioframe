@@ -910,10 +910,10 @@
         valid = false;
       }
       if (!mobile) {
-        if (mobileError) mobileError.innerText = "Mobile number is required.";
+        if (mobileError) mobileError.innerText = "Mobile number is required";
         valid = false;
       } else if (!isMobile(mobile)) {
-        if (mobileError) mobileError.innerText = "Mobile number must be exactly 10 digits.";
+        if (mobileError) mobileError.innerText = "Mobile number must be exactly 10 digits";
         valid = false;
       }
       if (password.length < 8) {
@@ -939,10 +939,10 @@
         }
       }
       if (!confirmPassword) {
-        if (confirmPasswordError) confirmPasswordError.innerText = "Please confirm your password.";
+        if (confirmPasswordError) confirmPasswordError.innerText = "Please confirm your password";
         valid = false;
       } else if (password !== confirmPassword) {
-        if (confirmPasswordError) confirmPasswordError.innerText = "Passwords do not match.";
+        if (confirmPasswordError) confirmPasswordError.innerText = "Passwords do not match";
         valid = false;
       }
       if (!valid) return;
@@ -957,7 +957,7 @@
         });
         const data = await res.json().catch(function () { return {}; });
         if (!res.ok) {
-        if (formError) formError.innerText = data.message || "Registration failed.";
+        if (formError) formError.innerText = data.message || "Registration failed";
         return;
         }
         alert("Signup successful!");
@@ -1003,7 +1003,7 @@
         });
         const data = await res.json().catch(function () { return {}; });
         if (!res.ok) {
-        if (formError) formError.innerText = data.message || "Login failed. Please try again.";
+        if (formError) formError.innerText = data.message || "Login failed. Please try again";
         return;
         }
         alert("Login successful!");
