@@ -592,6 +592,22 @@
       }
     }
 
+    /* Desktop zoom safety: prevent overlap/clipping at 150-200% while preserving default desktop layout. */
+    @media (min-width: 1024px) and (min-resolution: 1.25dppx) {
+      .auth-page {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .auth-form-card {
+        height: auto;
+        max-height: none;
+      }
+      .auth-form-card .auth-card-content,
+      .auth-form-card .signup-card-content {
+        overflow: visible;
+      }
+    }
+
     @media (max-width: 500px) {
       .auth-layout {
         gap: 0.5rem;
@@ -755,7 +771,8 @@
       var active = document.getElementById(page + "Page");
       if (active) active.classList.remove("hidden");
       var isAuth = (page === "login" || page === "signup");
-      document.body.style.overflow = isAuth && window.innerWidth >= 1024 ? "hidden" : "";
+      // Keep page scroll available on desktop zoom (150-200%) to avoid clipped auth content.
+      document.body.style.overflow = "";
       updateMobilePlaceholders();
     }
 
@@ -1047,7 +1064,7 @@
     window.addEventListener("resize", function () {
       var hash = window.location.hash.replace("#", "");
       if (hash === "login" || hash === "signup") {
-        document.body.style.overflow = window.innerWidth >= 1024 ? "hidden" : "";
+        document.body.style.overflow = "";
       }
     });
 

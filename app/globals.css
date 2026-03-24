@@ -608,6 +608,22 @@ input[type="password"]::-ms-reveal {
   }
 }
 
+/* Desktop zoom safety: prevent overlap/clipping at 150-200% while preserving default desktop layout. */
+@media (min-width: 1024px) and (min-resolution: 1.25dppx) {
+  .auth-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .auth-form-card {
+    height: auto;
+    max-height: none;
+  }
+  .auth-form-card .auth-card-content,
+  .auth-form-card .signup-card-content {
+    overflow: visible;
+  }
+}
+
 .auth-layout {
   min-width: 0;
 }

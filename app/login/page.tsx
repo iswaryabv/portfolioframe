@@ -37,7 +37,8 @@ export default function LoginPage() {
   useEffect(() => {
     const mql = window.matchMedia("(min-width: 1024px)");
     const setOverflow = () => {
-      document.body.style.overflow = mql.matches ? "hidden" : "";
+      // Keep page scroll available on desktop zoom (150-200%) to avoid clipped auth content.
+      document.body.style.overflow = "";
     };
     setOverflow();
     mql.addEventListener("change", setOverflow);
