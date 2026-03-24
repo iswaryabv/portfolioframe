@@ -179,7 +179,7 @@ export default function LoginPage() {
             <div className="relative z-10 flex flex-col flex-1 min-h-0 min-w-0 auth-card-content login-card-inner px-4 sm:px-6 pt-4 sm:pt-8 pb-2 sm:pb-6 lg:pt-14 lg:pb-10 text-white text-left justify-start lg:justify-center">
               <div className="min-h-0">
                 <div className="w-full flex justify-center flex-shrink-0 min-w-0">
-                  <h1 className="font-welcome-heading text-lg sm:text-xl md:text-2xl lg:text-3xl text-center font-semibold mb-1.5 sm:mb-4 lg:mb-7 break-words tracking-widest">
+                  <h1 className="font-welcome-heading text-lg sm:text-xl md:text-2xl lg:text-3xl text-center font-semibold mb-1 sm:mb-4 lg:mb-7 break-words tracking-widest">
                     WELCOME
                   </h1>
                 </div>
