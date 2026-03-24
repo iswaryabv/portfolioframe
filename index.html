@@ -407,18 +407,26 @@
       }
     }
 
-    /* Mobile: no extra top/bottom bands; safe-area lives inside card */
+    /* Mobile auth: max() viewport height + gradient page bg (no white on any device / overscroll) */
     @media (max-width: 1023px) {
+      html:has(.auth-page),
+      body:has(.auth-page) {
+        background-color: #021a46;
+        background-image: linear-gradient(to bottom, #5f82e8 0%, #3f66c9 50%, #021a46 100%);
+      }
+
       .auth-page {
         justify-content: flex-start;
         align-items: stretch;
+        background-color: #021a46 !important;
+        background-image: linear-gradient(to bottom, #5f82e8 0%, #3f66c9 50%, #021a46 100%) !important;
         --auth-safe-top: env(safe-area-inset-top, 0px);
         --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
         --auth-safe-left: env(safe-area-inset-left, 0px);
         --auth-safe-right: env(safe-area-inset-right, 0px);
         height: auto;
-        min-height: 100dvh;
-        min-height: 100svh;
+        min-height: 100vh;
+        min-height: max(100dvh, 100svh, 100lvh);
         max-height: none;
         padding-top: 0;
         padding-bottom: 0;
@@ -433,8 +441,8 @@
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        min-height: 100dvh;
-        min-height: 100svh;
+        min-height: 100vh;
+        min-height: max(100dvh, 100svh, 100lvh);
         max-height: none;
         gap: 0;
         max-width: 100%;
@@ -445,8 +453,8 @@
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        min-height: 100dvh;
-        min-height: 100svh;
+        min-height: 100vh;
+        min-height: max(100dvh, 100svh, 100lvh);
         align-items: stretch;
       }
       .auth-form-card {
@@ -456,8 +464,8 @@
         height: auto;
         padding-top: env(safe-area-inset-top, 0px);
         padding-bottom: env(safe-area-inset-bottom, 0px);
-        min-height: 100dvh;
-        min-height: 100svh;
+        min-height: 100vh;
+        min-height: max(100dvh, 100svh, 100lvh);
         max-height: none;
         display: flex;
         flex-direction: column;
@@ -484,16 +492,16 @@
 
     @supports (-webkit-touch-callout: none) {
       @media (max-width: 1023px) {
-        .auth-page {
+        .auth-page,
+        .auth-page .auth-layout,
+        .auth-page .auth-layout > div:first-child {
           height: auto;
-          min-height: -webkit-fill-available;
+          min-height: max(-webkit-fill-available, 100dvh, 100svh);
           max-height: none;
         }
         .auth-form-card {
           height: auto;
-          min-height: 100dvh;
-          min-height: 100svh;
-          min-height: -webkit-fill-available;
+          min-height: max(-webkit-fill-available, 100dvh, 100svh);
         }
       }
     }

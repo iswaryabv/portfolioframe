@@ -411,20 +411,33 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/* Mobile: edge-to-edge feel (no extra top/bottom bars); scroll only when content overflows */
+/*
+ * Mobile auth: viewport units differ per browser (dvh/svh/lvh/vh). Never stack two min-heights
+ * where the *smaller* wins (e.g. 100svh after 100dvh) — that caused short layouts and white bands.
+ * Match page + document background to the card gradient so gaps / overscroll never flash white.
+ */
 @media (max-width: 1023px) {
+  html:has(.auth-page),
+  body:has(.auth-page) {
+    background-color: #021a46;
+    background-image: linear-gradient(to bottom, #5f82e8 0%, #3f66c9 50%, #021a46 100%);
+  }
+
   .auth-page {
     justify-content: flex-start;
     align-items: stretch;
-    /* No top/bottom padding here — avoids strips (bg-white) on Android & iOS */
+    /* Same as card — overrides Tailwind bg-white (no white strips on any mobile browser) */
+    background-color: #021a46 !important;
+    background-image: linear-gradient(to bottom, #5f82e8 0%, #3f66c9 50%, #021a46 100%) !important;
+    /* No top/bottom padding here — avoids strips on Android & iOS */
     --auth-safe-top: env(safe-area-inset-top, 0px);
     --auth-safe-bottom: env(safe-area-inset-bottom, 0px);
     --auth-safe-left: env(safe-area-inset-left, 0px);
     --auth-safe-right: env(safe-area-inset-right, 0px);
     height: auto;
-    /* dvh tracks visible viewport on mobile (reduces white strips vs 100vh / min-h-screen) */
-    min-height: 100dvh;
-    min-height: 100svh;
+    /* max(...) picks the largest — covers dvh/svh/lvh mismatches across devices */
+    min-height: 100vh;
+    min-height: max(100dvh, 100svh, 100lvh);
     max-height: none;
     padding-top: 0;
     padding-bottom: 0;
@@ -439,8 +452,8 @@ input[type="password"]::-ms-reveal {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 100dvh;
-    min-height: 100svh;
+    min-height: 100vh;
+    min-height: max(100dvh, 100svh, 100lvh);
     max-height: none;
     gap: 0;
     max-width: 100%;
@@ -453,8 +466,8 @@ input[type="password"]::-ms-reveal {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    min-height: 100dvh;
-    min-height: 100svh;
+    min-height: 100vh;
+    min-height: max(100dvh, 100svh, 100lvh);
     align-items: stretch;
   }
   .auth-form-card {
@@ -466,8 +479,8 @@ input[type="password"]::-ms-reveal {
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     /* Full viewport; padding is inside (border-box) */
-    min-height: 100dvh;
-    min-height: 100svh;
+    min-height: 100vh;
+    min-height: max(100dvh, 100svh, 100lvh);
     max-height: none;
     display: flex;
     flex-direction: column;
@@ -493,22 +506,21 @@ input[type="password"]::-ms-reveal {
 }
 
 /*
- * iOS Safari (mobile auth): use -webkit-fill-available ONLY as a plain min-height (no calc()).
- * calc(-webkit-fill-available ± env()) is unreliable in WebKit and can break the whole layout.
+ * iOS Safari: -webkit-fill-available tracks the visible viewport; combine with max() so we never
+ * end up shorter than dvh on devices where fill-available is wrong.
  */
 @supports (-webkit-touch-callout: none) {
   @media (max-width: 1023px) {
-    .auth-page {
+    .auth-page,
+    .auth-page .auth-layout,
+    .auth-page .auth-layout > div:first-child {
       height: auto;
-      min-height: -webkit-fill-available;
+      min-height: max(-webkit-fill-available, 100dvh, 100svh);
       max-height: none;
     }
     .auth-form-card {
       height: auto;
-      /* Match Android: full viewport; safe-area is padding on the card, not subtracted twice */
-      min-height: 100dvh;
-      min-height: 100svh;
-      min-height: -webkit-fill-available;
+      min-height: max(-webkit-fill-available, 100dvh, 100svh);
     }
   }
 }
