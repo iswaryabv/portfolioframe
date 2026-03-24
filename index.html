@@ -569,6 +569,46 @@
       }
     }
 
+    /*
+     * Desktop zoom fallback:
+     * at 150-200% browser zoom, some desktops drop below 1024px and accidentally receive
+     * touch/mobile fixed-height rules. Reset those rules for mouse/trackpad devices.
+     */
+    @media (max-width: 1023px) and (hover: hover) and (pointer: fine) {
+      html,
+      body {
+        overflow: auto !important;
+        background: #ffffff !important;
+      }
+      .auth-page {
+        position: relative;
+        inset: auto;
+        height: auto;
+        min-height: 100dvh;
+        max-height: none;
+        background: transparent !important;
+      }
+      .auth-page .auth-layout {
+        height: auto;
+        min-height: 0;
+        gap: 0.75rem;
+      }
+      .auth-page .auth-layout > div:first-child {
+        height: auto;
+        min-height: 0;
+      }
+      .auth-form-card {
+        height: auto;
+        min-height: 580px;
+        max-height: none;
+        overflow: visible;
+        border-radius: 10px;
+      }
+      .auth-page .auth-image-col {
+        display: flex !important;
+      }
+    }
+
     @media (min-width: 1024px) {
       .auth-form-card {
         min-height: 580px;
