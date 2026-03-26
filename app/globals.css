@@ -530,7 +530,7 @@ input[type="password"]::-ms-reveal {
  * width breakpoints and reintroduce white bands. Force edge-to-edge auth layout on
  * touch-first devices regardless of reported width.
  */
-@media (hover: none) and (pointer: coarse) {
+@media (hover: none) and (pointer: coarse) and (max-width: 1023px) {
   html:has(.auth-page),
   body:has(.auth-page) {
     margin: 0 !important;
