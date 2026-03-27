@@ -104,7 +104,7 @@ export default function PlanningPage() {
   return (
     <main className="min-h-screen bg-[#efefef]">
       <nav className="w-full bg-[#06224C]">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-3 py-3 sm:gap-3 sm:flex-nowrap sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-3 py-3 sm:gap-3 sm:px-6 xl:flex-nowrap">
           <div className="flex min-w-0 flex-shrink-0 items-center gap-2">
             <button
               type="button"
@@ -150,7 +150,7 @@ export default function PlanningPage() {
             </nav>
           </div>
 
-          <div className="ml-auto flex flex-wrap shrink-0 items-center gap-2 sm:gap-3">
+          <div className="ml-auto flex flex-wrap items-center gap-2 sm:gap-3">
             <div className="flex items-center gap-1 md:hidden">
               <button
                 type="button"
@@ -175,7 +175,7 @@ export default function PlanningPage() {
               </button>
             </div>
 
-            <div className="hidden items-center gap-2 lg:flex">
+            <div className="hidden items-center gap-2 md:flex">
               <button
                 type="button"
                 className="flex h-6 w-6 items-center justify-center rounded-full bg-white border-0 p-0 m-0 cursor-pointer"
