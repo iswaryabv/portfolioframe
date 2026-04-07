@@ -21,6 +21,14 @@ const NAV_ITEMS = [
 
 type NavId = (typeof NAV_ITEMS)[number]["id"];
 
+/** Shared hover / focus / active styles for Help, Settings, Notifications in the planning header */
+const planningHeaderQuickIconBtn =
+  "flex items-center justify-center rounded-full border border-transparent bg-white p-0 m-0 cursor-pointer shadow-sm transition-all duration-150 ease-out hover:border-white/50 hover:bg-slate-100 hover:shadow-md hover:shadow-black/20 hover:ring-2 hover:ring-white/60 active:scale-[0.96] active:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#06224C]";
+
+/** Notification bell — asset is hi-res lossless WebP (112×144); constrain height + w-auto keeps 14:18 aspect for crisp downscaling */
+const planningHeaderNotifyImgClass =
+  "pointer-events-none shrink-0 select-none object-contain object-center";
+
 const plans = [
   {
     name: "Basic",
@@ -55,7 +63,7 @@ const plans = [
   {
     name: "Advanced",
     oldPrice: "$400",
-    newPrice: "$180",
+    newPrice: "$280",
     saveText: "Save 30%",
     features: [
       "Free domain for 1 year",
@@ -102,7 +110,7 @@ export default function PlanningPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#efefef]">
+    <main className="planning-page min-h-[100dvh] w-full bg-[#efefef] overflow-x-hidden">
       <nav className="w-full bg-[#06224C]">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-3 py-3 sm:gap-3 sm:px-6 xl:flex-nowrap">
           <div className="flex min-w-0 flex-shrink-0 items-center gap-2">
@@ -129,7 +137,7 @@ export default function PlanningPage() {
 
           <div className="hidden min-w-0 flex-1 md:flex md:items-center">
             <nav
-              className="flex w-full min-w-0 flex-wrap items-center justify-evenly gap-x-2 gap-y-2 text-[13px] text-white/90 sm:text-sm sm:gap-x-3"
+              className="flex w-full min-w-0 flex-wrap items-center justify-evenly gap-x-2 gap-y-2 text-[13px] text-white sm:text-sm sm:gap-x-3"
               aria-label="Main"
             >
               {NAV_ITEMS.map((item) => (
@@ -150,72 +158,87 @@ export default function PlanningPage() {
             </nav>
           </div>
 
-          <div className="ml-auto flex flex-wrap items-center gap-2 sm:gap-3">
-            <div className="flex items-center gap-1 md:hidden">
+          <div className="ml-auto flex min-w-0 flex-nowrap items-center gap-4 sm:gap-5 lg:gap-6">
+            <div className="flex shrink-0 items-center gap-3 md:hidden">
               <button
                 type="button"
-                className="flex h-5 w-5 items-center justify-center rounded-full bg-white border-0 p-0 m-0 cursor-pointer sm:h-6 sm:w-6"
-                aria-label="Open quick action 1"
+                className={`${planningHeaderQuickIconBtn} h-8 w-8 touch-manipulation`}
+                aria-label="Help"
               >
-                <img src="/logoplan.webp" alt="" className="h-3.5 w-3.5 object-contain sm:h-4 sm:w-4" />
+                <img src="/logoplan.webp" alt="" className="h-[17px] w-[17px] object-contain" />
               </button>
               <button
                 type="button"
-                className="flex h-5 w-5 items-center justify-center rounded-full bg-white border-0 p-0 m-0 cursor-pointer sm:h-6 sm:w-6"
-                aria-label="Open quick action 2"
+                className={`${planningHeaderQuickIconBtn} h-8 w-8 touch-manipulation`}
+                aria-label="Settings"
               >
-                <img src="/logoplan2.webp" alt="" className="h-3.5 w-3.5 object-contain sm:h-4 sm:w-4" />
+                <img src="/logoplan2.webp" alt="" className="h-[17px] w-[17px] object-contain" />
               </button>
               <button
                 type="button"
-                className="flex h-5 w-5 items-center justify-center rounded-full bg-white border-0 p-0 m-0 cursor-pointer sm:h-6 sm:w-6"
-                aria-label="Open quick action 3"
+                className={`${planningHeaderQuickIconBtn} h-8 w-8 touch-manipulation`}
+                aria-label="Notifications"
               >
-                <img src="/logoplan3.webp" alt="" className="h-3.5 w-3.5 object-contain sm:h-4 sm:w-4" />
+                <img
+                  src="/logoplan3.webp"
+                  alt=""
+                  width={112}
+                  height={144}
+                  draggable={false}
+                  className={`${planningHeaderNotifyImgClass} h-[18px] w-auto max-h-[18px]`}
+                />
               </button>
             </div>
 
-            <div className="hidden items-center gap-2 md:flex">
+            <div className="hidden items-center gap-5 md:flex lg:gap-6">
               <button
                 type="button"
-                className="flex h-6 w-6 items-center justify-center rounded-full bg-white border-0 p-0 m-0 cursor-pointer"
-                aria-label="Quick action 1"
+                className={`${planningHeaderQuickIconBtn} h-6 w-6`}
+                aria-label="Help"
               >
                 <img src="/logoplan.webp" alt="" className="h-4 w-4 object-contain" />
               </button>
               <button
                 type="button"
-                className="flex h-6 w-6 items-center justify-center rounded-full bg-white border-0 p-0 m-0 cursor-pointer"
-                aria-label="Quick action 2"
+                className={`${planningHeaderQuickIconBtn} h-6 w-6`}
+                aria-label="Settings"
               >
                 <img src="/logoplan2.webp" alt="" className="h-4 w-4 object-contain" />
               </button>
               <button
                 type="button"
-                className="flex h-6 w-6 items-center justify-center rounded-full bg-white border-0 p-0 m-0 cursor-pointer"
-                aria-label="Quick action 3"
+                className={`${planningHeaderQuickIconBtn} h-6 w-6`}
+                aria-label="Notifications"
               >
-                <img src="/logoplan3.webp" alt="" className="h-4 w-4 object-contain" />
+                <img
+                  src="/logoplan3.webp"
+                  alt=""
+                  width={112}
+                  height={144}
+                  draggable={false}
+                  className={`${planningHeaderNotifyImgClass} h-4 w-auto max-h-4`}
+                />
               </button>
             </div>
 
-            <div className="relative" ref={profileWrapRef}>
+            <div className="relative shrink-0" ref={profileWrapRef}>
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setProfileOpen((o) => !o);
                 }}
-                className="items-center gap-2 lg:flex"
+                className="flex items-center gap-2 rounded-full py-0.5 pl-0.5 pr-1 transition-colors duration-150 ease-out hover:bg-white/15 active:bg-white/25 md:rounded-lg md:px-2 md:py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#06224C]"
                 aria-expanded={profileOpen}
                 aria-haspopup="true"
+                aria-label={`Profile menu, ${PLANNING_DISPLAY_USER_NAME}`}
               >
                 <img
                   src="/photo.webp"
                   alt=""
-                  className="h-7 w-7 rounded-full object-cover"
+                  className="h-8 w-8 shrink-0 rounded-full object-cover md:h-7 md:w-7"
                 />
-                <span className="max-w-[140px] truncate text-left text-[11px] text-white sm:max-w-[180px]">
+                <span className="hidden max-w-[140px] truncate text-left text-[11px] text-white md:inline md:max-w-[180px]">
                   {PLANNING_DISPLAY_USER_NAME}
                 </span>
                 <svg
@@ -225,7 +248,7 @@ export default function PlanningPage() {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden
-                  className={`hidden shrink-0 text-white/90 transition-transform sm:block ${profileOpen ? "rotate-180" : ""}`}
+                  className={`hidden shrink-0 text-white/90 transition-transform md:block ${profileOpen ? "rotate-180" : ""}`}
                 >
                   <path
                     d="M3.5 5L6 7.5L8.5 5"
@@ -266,7 +289,7 @@ export default function PlanningPage() {
                   className={`rounded-md border px-2 py-2 text-left text-xs ${
                     activeNav === item.id
                       ? "border-[#f0e6d4] bg-white/10 text-white"
-                      : "border-white/20 text-white/90"
+                      : "border-white/25 text-white"
                   }`}
                 >
                   {item.label}
@@ -277,29 +300,30 @@ export default function PlanningPage() {
         )}
       </nav>
 
-      <div className="mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-6">
-        <div className="rounded-sm border border-[#dbe3ef] bg-white shadow-sm">
+      <div className="w-full">
+        <div className="w-full border border-[#dbe3ef] bg-white shadow-sm">
           <section
             ref={plansSectionRef}
             id="planning-billing-content"
             className="scroll-mt-4 px-3 py-5 sm:px-8 sm:py-8"
           >
-            <div className="mx-auto mb-4 max-w-5xl rounded bg-gradient-to-r from-[#06224C] to-[#1A5BBC] px-4 py-2 text-center text-[11px] font-semibold text-white sm:text-xs">
+            <div className="mb-4 w-full rounded-sm bg-gradient-to-r from-[#06224C] to-[#1A5BBC] px-4 py-2 text-center text-[11px] font-semibold text-white sm:text-xs">
               Upgrade Now: Get - 50% Off on Selected Plans
             </div>
 
-            <div className="rounded bg-[#edf3fb] px-3 py-6 sm:px-8">
+            <div className="rounded bg-[#edf3fb] px-5 py-8 sm:px-8 sm:py-10 md:px-10">
+              <div className="mx-auto w-full max-w-5xl">
               <h1 className="text-center text-3xl font-bold text-[#0b3268] sm:text-[44px] sm:leading-tight">
                 Choose the Best Plan for You
               </h1>
-              <p className="mt-2 text-center text-[11px] text-[#6d7f9d] sm:text-xs">
+              <p className="mx-auto mt-4 max-w-2xl text-center text-[13px] font-medium leading-relaxed text-[#0f172a] sm:text-sm md:text-base">
                 Create your website for free and upgrade when you’re ready.
               </p>
 
-              <div className="mt-3 flex justify-center">
+              <div className="mt-5 flex justify-center sm:mt-6">
                 <Link
                   href="/page-not-found"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#06224C] to-[#1A5BBC] px-5 py-2.5 text-[11px] font-semibold text-white hover:opacity-90 sm:text-xs"
+                  className="inline-flex items-center gap-2 rounded-full border-0 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] px-5 py-2.5 text-[11px] font-semibold text-white no-underline shadow-md transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#06224C]/45 hover:ring-2 hover:ring-white/55 active:translate-y-0 active:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/90 sm:text-xs"
                 >
                   <span>Start Your Free Plan</span>
                   <span className="flex h-5 w-5 shrink-0 items-center justify-center" aria-hidden>
@@ -331,103 +355,110 @@ export default function PlanningPage() {
                 </Link>
               </div>
 
-              <div className="mt-5 flex w-full flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center sm:mt-6 sm:justify-between sm:text-left">
-                <p className="w-full text-[11px] font-bold leading-snug text-[#1f3861] sm:w-auto sm:shrink-0">
-                  What you get with every plan:
-                </p>
-                <span className="text-[10px] font-normal text-[#63789b] sm:text-[11px]">
-                  Custom Domain
-                </span>
-                <span className="text-[10px] font-normal text-[#63789b] sm:text-[11px]">
-                  Reliable web hosting
-                </span>
-                <span className="text-[10px] font-normal text-[#63789b] sm:text-[11px]">
-                  24/7 customer care
-                </span>
+              <div className="mt-8 w-full pl-3 sm:pl-5 md:pl-8 lg:pl-10">
+                <div className="grid w-full min-w-0 grid-cols-1 gap-y-3 md:grid-cols-4 md:items-center md:gap-x-4 lg:gap-x-6">
+                  <p className="min-w-0 text-center text-sm font-bold leading-snug text-[#0c1e36] md:text-left">
+                    What you get with every plan:
+                  </p>
+                  <span className="min-w-0 text-center text-sm font-medium text-[#0f172a] sm:text-center">
+                    Custom Domain
+                  </span>
+                  <span className="min-w-0 text-center text-sm font-medium text-[#0f172a] sm:text-center">
+                    Reliable web hosting
+                  </span>
+                  <span className="min-w-0 text-center text-sm font-medium text-[#0f172a] sm:text-center">
+                    24/7 customer care
+                  </span>
+                </div>
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:mt-6">
-                <button
-                  type="button"
-                  onClick={() => setBillingYearly(false)}
-                  className={`text-[11px] ${
-                    !billingYearly
-                      ? "font-bold text-[#1f3861]"
-                      : "font-normal text-[#63789b]"
-                  }`}
-                >
-                  Bill Monthly
-                </button>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={billingYearly}
-                  aria-label="Toggle monthly or yearly billing"
-                  onClick={() => setBillingYearly((v) => !v)}
-                  className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-[#94a3b8] bg-white px-0.5"
-                >
-                  <span
-                    className={`pointer-events-none absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-[#06224C] shadow-sm transition-transform duration-200 ${
-                      billingYearly ? "translate-x-6" : "translate-x-0"
+              <div className="mt-8 flex w-full justify-center px-3 sm:px-4">
+                <div className="flex w-full max-w-xl items-center gap-3 sm:gap-5">
+                  <button
+                    type="button"
+                    onClick={() => setBillingYearly(false)}
+                    className={`inline-flex min-h-9 min-w-0 flex-1 cursor-pointer items-center justify-end border-0 bg-transparent py-1.5 pl-2 pr-1 text-right text-sm leading-tight transition-colors sm:pr-2 ${
+                      !billingYearly
+                        ? "font-bold text-[#0c1e36]"
+                        : "font-medium text-[#3d4f63]"
                     }`}
-                  />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setBillingYearly(true)}
-                  className={`text-[11px] ${
-                    billingYearly
-                      ? "font-bold text-[#1f3861]"
-                      : "font-normal text-[#63789b]"
-                  }`}
-                >
-                  Bill Yearly
-                </button>
+                  >
+                    Bill Monthly
+                  </button>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={billingYearly}
+                    aria-label="Toggle monthly or yearly billing"
+                    onClick={() => setBillingYearly((v) => !v)}
+                    className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center self-center rounded-full border border-[#94a3b8] bg-white px-0.5 align-middle"
+                  >
+                    <span
+                      className={`pointer-events-none absolute left-0.5 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-[#06224C] shadow-sm transition-transform duration-200 ${
+                        billingYearly ? "translate-x-6" : "translate-x-0"
+                      }`}
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setBillingYearly(true)}
+                    className={`inline-flex min-h-9 min-w-0 flex-1 cursor-pointer items-center justify-start border-0 bg-transparent py-1.5 pl-1 pr-2 text-left text-sm leading-tight transition-colors sm:pl-2 ${
+                      billingYearly
+                        ? "font-bold text-[#0c1e36]"
+                        : "font-medium text-[#3d4f63]"
+                    }`}
+                  >
+                    Bill Yearly
+                  </button>
+                </div>
+              </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-1 gap-5 md:grid-cols-3 md:gap-6 md:items-stretch">
                 {plans.map((plan) => (
                   <article
                     key={plan.name}
-                    className="group relative rounded border border-[#d8e1ec] bg-white p-4 text-[#17335c] shadow-sm transition-all duration-200 hover:border-transparent hover:bg-gradient-to-b hover:from-[#06224C] hover:to-[#1A5BBC] hover:text-white hover:shadow-md"
+                    className="group relative flex h-full min-h-0 flex-col rounded border border-[#d8e1ec] bg-white p-4 text-[#0f172a] shadow-sm transition-all duration-200 hover:border-transparent hover:bg-gradient-to-b hover:from-[#06224C] hover:to-[#1A5BBC] hover:text-white hover:shadow-md sm:p-4"
                   >
                     {plan.isRecommended && (
                       <div className="absolute right-0 top-0 z-10 rounded-bl-md border border-white/10 bg-[#1A5BBC] px-3 py-1.5 text-[9px] font-extrabold leading-none tracking-wide text-white shadow-[0_2px_6px_rgba(0,0,0,0.12)] transition-colors group-hover:border-[#06224C]/40 group-hover:bg-white group-hover:text-[#06224C] hover:border-[#06224C]/40 hover:bg-white hover:text-[#06224C]">
                         RECOMMENDED
                       </div>
                     )}
-                    <div className="mb-3 flex items-center justify-between gap-2">
+                    <div className="mb-1.5 flex items-center justify-between gap-2">
                       <div>
-                        <h2 className="text-base font-bold">{plan.name}</h2>
-                        <p className="text-xs opacity-80">Per month</p>
+                        <h2 className="text-base font-bold leading-tight transition-colors group-hover:text-white">{plan.name}</h2>
+                        <p className="mt-0.5 text-xs leading-tight text-[#1e3a5c] transition-colors group-hover:text-white">Per month</p>
                       </div>
                     </div>
 
-                    <div className="mb-2 flex items-end justify-between">
-                      <div className="flex items-end gap-2">
-                        <div className="text-sm font-bold text-[#1f3861] line-through transition-colors group-hover:text-white">{plan.oldPrice}</div>
-                        <div className="text-[10px] font-semibold text-[#5e80b5] transition-colors group-hover:text-white">
+                    <div className="mb-1.5 flex items-end justify-between gap-2">
+                      <div className="flex min-w-0 items-end gap-1.5">
+                        <div className="text-sm font-bold text-[#0f172a] line-through transition-colors group-hover:text-white">{plan.oldPrice}</div>
+                        <div className="text-[10px] font-semibold leading-tight text-[#2d4a6e] transition-colors group-hover:text-white">
                           {plan.saveText}
                         </div>
                       </div>
-                      <div className="rounded border border-[#bed2f3] bg-[#f4f8ff] px-2 py-1 text-lg font-bold text-[#0f3e87] group-hover:border-white/30 group-hover:bg-white group-hover:text-[#0f3e87]">
+                      <div className="shrink-0 rounded border border-[#94b4e0] bg-[#e8f0fc] px-2 py-0.5 text-base font-bold text-[#082a5c] transition-colors group-hover:border-white/30 group-hover:bg-white group-hover:text-[#0f3e87]">
                         {plan.newPrice}
                       </div>
                     </div>
-                    <div className="mb-3 h-px w-full bg-[#dbe3ef] group-hover:bg-white/30" />
+                    <div className="mb-2 h-px w-full bg-[#dbe3ef] transition-colors group-hover:bg-white/30" />
 
-                    <ul className="space-y-2 text-xs leading-relaxed sm:text-sm">
+                    <ul className="space-y-1 text-xs leading-snug text-[#0f172a] transition-colors group-hover:text-white sm:text-sm sm:leading-snug">
                       {plan.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2">
-                          <FaCheckCircle className="mt-0.5 text-[11px] opacity-90" />
+                        <li key={feature} className="flex items-start gap-1.5">
+                          <FaCheckCircle className="mt-px shrink-0 text-[10px] text-[#0b3268] transition-colors group-hover:text-white" aria-hidden={true} />
                           <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
 
+                    <div className="mt-2 min-h-0 w-full flex-1 shrink-0" aria-hidden />
+
                     <Link
                       href="/page-not-found"
-                      className="mt-4 block rounded-full bg-gradient-to-r from-[#06224C] to-[#1A5BBC] py-2 text-center text-sm font-semibold text-white shadow-sm transition-colors transition-opacity duration-200 group-hover:bg-none group-hover:bg-white group-hover:text-[#154fa2] group-hover:opacity-100 hover:bg-none hover:bg-white hover:text-[#154fa2]"
+                      className="block w-full shrink-0 rounded-full bg-gradient-to-r from-[#06224C] to-[#1A5BBC] py-2 text-center text-sm font-semibold text-white shadow-sm transition-colors transition-opacity duration-200 group-hover:bg-none group-hover:bg-white group-hover:text-[#154fa2] group-hover:opacity-100 hover:bg-none hover:bg-white hover:text-[#154fa2]"
                     >
                       Purchase Plan
                     </Link>

@@ -35,6 +35,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Plans (/planning): match static index — page bg fills viewport so default white body does not frame the layout */
+html:has(body > main.planning-page),
+body:has(> main.planning-page) {
+  background-color: #efefef;
+}
+
 /*
  * iOS Safari: make 100% / min-height chain resolve to the *visible* viewport.
  * Without this, auth pages can render too short, leave gaps, or flex children collapse.
