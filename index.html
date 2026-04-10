@@ -844,7 +844,7 @@
     }
 
     function setPlanningNavActive(navId) {
-      ["workspace", "myWebsites", "templates", "domains", "billing"].forEach(function (id) {
+      ["workspace", "myWebsites", "templates", "portfolioedit", "domains", "billing"].forEach(function (id) {
         var btn = document.getElementById("planningNav-" + id);
         var mobileBtn = document.getElementById("planningMobile-" + id);
         if (!btn) return;
@@ -954,7 +954,7 @@
     }
 
     function showPage(page) {
-      var pages = ["planning", "signup", "login", "error", "notFound", "forgot", "verifyEmail", "verifyMobile", "verified", "createNewPassword"];
+      var pages = ["planning", "signup", "login", "error", "notFound", "forgot", "verifyEmail", "verifyMobile", "verified", "createNewPassword", "portfolioedit", "portfolio"];
       pages.forEach(function (key) {
         var el = document.getElementById(key + "Page");
         if (el) el.classList.add("hidden");
@@ -1212,8 +1212,8 @@
     // Direct links (same format as index.html#verifyMobile):
     //   index.html#planning | index.html#signup | index.html#login | index.html#forgot
     //   index.html#verifyEmail | index.html#verifyMobile
-    //   index.html#verified | index.html#createNewPassword
-    // Supported: #planning, #signup, #login, #forgot, #verifyEmail, #verifyMobile, #verified, #createNewPassword, #error
+    //   index.html#verified | index.html#createNewPassword | index.html#portfolioedit
+    // Supported: #planning, #signup, #login, #forgot, #verifyEmail, #verifyMobile, #verified, #createNewPassword, #portfolioedit, #portfolio, #error
     document.addEventListener("DOMContentLoaded", function () {
       const hash = window.location.hash.replace("#", "");
       if (hash === "planning") showPage("planning");
@@ -1223,6 +1223,7 @@
       else if (hash === "verifyMobile") showPage("verifyMobile");
       else if (hash === "verified") showPage("verified");
       else if (hash === "createNewPassword") showPage("createNewPassword");
+      else if (hash === "portfolioedit") showPage("portfolioedit");
       else if (hash === "error") showPage("error");
       else if (hash === "notFound") showPage("notFound");
       else showPage("login");
@@ -1239,6 +1240,8 @@
       else if (hash === "verifyMobile") showPage("verifyMobile");
       else if (hash === "verified") showPage("verified");
       else if (hash === "createNewPassword") showPage("createNewPassword");
+      else if (hash === "portfolioedit") showPage("portfolioedit");
+      else if (hash === "portfolio") showPage("portfolio");
       else if (hash === "error") showPage("error");
       else if (hash === "notFound") showPage("notFound");
       else showPage("login");
@@ -1253,6 +1256,8 @@
       else if (hash === "verifyMobile") showPage("verifyMobile");
       else if (hash === "verified") showPage("verified");
       else if (hash === "createNewPassword") showPage("createNewPassword");
+      else if (hash === "portfolioedit") showPage("portfolioedit");
+      else if (hash === "portfolio") showPage("portfolio");
       else if (hash === "error") showPage("error");
       else if (hash === "notFound") showPage("notFound");
       else showPage("login");
@@ -1503,6 +1508,185 @@
       location.hash = "login";
       showPage("login");
     }
+
+    // Portfolio Editor Functions
+    let portfolioCartCount = 0;
+    let portfolioMobileMenuOpen = false;
+    let portfolioSearchOpen = false;
+    let portfolioLeftTab = 'blocks';
+    let portfolioRightTab = 'properties';
+    let portfolioBlocksOpen = true;
+    let portfolioLayoutOpen = true;
+    let portfolioAdvancedOpen = true;
+    let portfolioImageSettingsOpen = true;
+    let portfolioPositionOpen = true;
+
+    function togglePortfolioMobileMenu() {
+      portfolioMobileMenuOpen = !portfolioMobileMenuOpen;
+      const menu = document.getElementById('portfolioMobileMenu');
+      if (menu) {
+        menu.classList.toggle('hidden', !portfolioMobileMenuOpen);
+      }
+    }
+
+    function togglePortfolioSearch() {
+      portfolioSearchOpen = !portfolioSearchOpen;
+      const searchBar = document.getElementById('portfolioSearchBar');
+      if (searchBar) {
+        searchBar.classList.toggle('hidden', !portfolioSearchOpen);
+      }
+    }
+
+    function togglePortfolioCart() {
+      portfolioCartCount++;
+      const countEl = document.getElementById('portfolioCartCount');
+      if (countEl) {
+        countEl.textContent = portfolioCartCount;
+        countEl.classList.toggle('hidden', portfolioCartCount === 0);
+      }
+    }
+
+    function setPortfolioLeftTab(tab) {
+      portfolioLeftTab = tab;
+      const blocksTab = document.getElementById('portfolioBlocksTab');
+      const pagesTab = document.getElementById('portfolioPagesTab');
+      const blocksContent = document.getElementById('portfolioBlocksContent');
+      const pagesContent = document.getElementById('portfolioPagesContent');
+
+      if (tab === 'blocks') {
+        blocksTab.classList.remove('border-transparent');
+        blocksTab.classList.add('border-white');
+        pagesTab.classList.remove('border-white');
+        pagesTab.classList.add('border-transparent');
+        blocksContent.classList.remove('hidden');
+        pagesContent.classList.add('hidden');
+      } else {
+        pagesTab.classList.remove('border-transparent');
+        pagesTab.classList.add('border-white');
+        blocksTab.classList.remove('border-white');
+        blocksTab.classList.add('border-transparent');
+        pagesContent.classList.remove('hidden');
+        blocksContent.classList.add('hidden');
+      }
+    }
+
+    function setPortfolioRightTab(tab) {
+      portfolioRightTab = tab;
+      const propertiesTab = document.getElementById('portfolioPropertiesTab');
+      const stylesTab = document.getElementById('portfolioStylesTab');
+      const propertiesContent = document.getElementById('portfolioPropertiesContent');
+      const stylesContent = document.getElementById('portfolioStylesContent');
+
+      if (tab === 'properties') {
+        propertiesTab.classList.remove('border-transparent');
+        propertiesTab.classList.add('border-white');
+        stylesTab.classList.remove('border-white');
+        stylesTab.classList.add('border-transparent');
+        propertiesContent.classList.remove('hidden');
+        stylesContent.classList.add('hidden');
+      } else {
+        stylesTab.classList.remove('border-transparent');
+        stylesTab.classList.add('border-white');
+        propertiesTab.classList.remove('border-white');
+        propertiesTab.classList.add('border-transparent');
+        stylesContent.classList.remove('hidden');
+        propertiesContent.classList.add('hidden');
+      }
+    }
+
+    function togglePortfolioBlocks() {
+      portfolioBlocksOpen = !portfolioBlocksOpen;
+      const icon = document.getElementById('portfolioBlocksIcon');
+      const grid = document.getElementById('portfolioBlocksGrid');
+      if (icon && grid) {
+        icon.className = portfolioBlocksOpen ? 'fas fa-chevron-up text-xs' : 'fas fa-chevron-down text-xs';
+        grid.classList.toggle('hidden', !portfolioBlocksOpen);
+      }
+    }
+
+    function togglePortfolioLayout() {
+      portfolioLayoutOpen = !portfolioLayoutOpen;
+      const icon = document.getElementById('portfolioLayoutIcon');
+      const grid = document.getElementById('portfolioLayoutGrid');
+      if (icon && grid) {
+        icon.className = portfolioLayoutOpen ? 'fas fa-chevron-up text-xs' : 'fas fa-chevron-down text-xs';
+        grid.classList.toggle('hidden', !portfolioLayoutOpen);
+      }
+    }
+
+    function togglePortfolioAdvanced() {
+      portfolioAdvancedOpen = !portfolioAdvancedOpen;
+      const icon = document.getElementById('portfolioAdvancedIcon');
+      const grid = document.getElementById('portfolioAdvancedGrid');
+      if (icon && grid) {
+        icon.className = portfolioAdvancedOpen ? 'fas fa-chevron-up text-xs' : 'fas fa-chevron-down text-xs';
+        grid.classList.toggle('hidden', !portfolioAdvancedOpen);
+      }
+    }
+
+    function togglePortfolioImageSettings() {
+      portfolioImageSettingsOpen = !portfolioImageSettingsOpen;
+      const icon = document.getElementById('portfolioImageSettingsIcon');
+      const settings = document.getElementById('portfolioImageSettings');
+      if (icon && settings) {
+        icon.className = portfolioImageSettingsOpen ? 'fas fa-chevron-down text-xs' : 'fas fa-chevron-up text-xs';
+        settings.classList.toggle('hidden', !portfolioImageSettingsOpen);
+      }
+    }
+
+    function togglePortfolioPosition() {
+      portfolioPositionOpen = !portfolioPositionOpen;
+      const icon = document.getElementById('portfolioPositionIcon');
+      const position = document.getElementById('portfolioPosition');
+      if (icon && position) {
+        icon.className = portfolioPositionOpen ? 'fas fa-chevron-down text-xs' : 'fas fa-chevron-up text-xs';
+        position.classList.toggle('hidden', !portfolioPositionOpen);
+      }
+    }
+    // Portfolio Page Functions
+    let portfolioPageMobileMenuOpen = false;
+    let portfolioPageInnerMobileMenuOpen = false;
+    let portfolioPageSearchOpen = false;
+    let portfolioPageCartCount = 0;
+    let portfolioPageActiveNav = 'Home';
+
+    function togglePortfolioPageMobileMenu() {
+      portfolioPageMobileMenuOpen = !portfolioPageMobileMenuOpen;
+      const menu = document.getElementById('portfolioPageMobileMenu');
+      if (menu) {
+        menu.classList.toggle('hidden', !portfolioPageMobileMenuOpen);
+      }
+    }
+
+    function togglePortfolioPageInnerMobileMenu() {
+      portfolioPageInnerMobileMenuOpen = !portfolioPageInnerMobileMenuOpen;
+      const menu = document.getElementById('portfolioPageInnerMobileMenu');
+      if (menu) {
+        menu.classList.toggle('hidden', !portfolioPageInnerMobileMenuOpen);
+      }
+    }
+
+    function togglePortfolioPageSearch() {
+      portfolioPageSearchOpen = !portfolioPageSearchOpen;
+      const searchBar = document.getElementById('portfolioPageSearchBar');
+      if (searchBar) {
+        searchBar.classList.toggle('hidden', !portfolioPageSearchOpen);
+      }
+    }
+
+    function togglePortfolioPageCart() {
+      portfolioPageCartCount++;
+      const countEl = document.getElementById('portfolioPageCartCount');
+      if (countEl) {
+        countEl.textContent = portfolioPageCartCount;
+        countEl.classList.toggle('hidden', portfolioPageCartCount === 0);
+      }
+    }
+
+    function setPortfolioPageActiveNav(nav) {
+      portfolioPageActiveNav = nav;
+    }
+
   </script>
 
   <!-- ================= PLANNING PAGE ================= -->
@@ -1533,6 +1717,7 @@
             <button type="button" id="planningNav-workspace" class="planning-nav-btn shrink-0" onclick="planningNavClick('workspace')">Workspace</button>
             <button type="button" id="planningNav-myWebsites" class="planning-nav-btn shrink-0" onclick="planningNavClick('myWebsites')">My Websites</button>
             <button type="button" id="planningNav-templates" class="planning-nav-btn shrink-0" onclick="planningNavClick('templates')">Templates</button>
+            <!-- <button type="button" id="planningNav-portfolioedit" class="planning-nav-btn shrink-0" onclick="window.location.hash='portfolioedit'; showPage('portfolioedit');">Portfolio Edit</button> -->
             <button type="button" id="planningNav-domains" class="planning-nav-btn shrink-0" onclick="planningNavClick('domains')">Domains</button>
             <button type="button" id="planningNav-billing" class="planning-nav-btn planning-nav-active shrink-0" aria-current="page" onclick="planningNavClick('billing')">Billing</button>
           </nav>
@@ -1584,6 +1769,7 @@
           <button type="button" onclick="planningNavClick('workspace')" class="rounded-md border border-white/25 px-2 py-2 text-left text-xs text-white" id="planningMobile-workspace">Workspace</button>
           <button type="button" onclick="planningNavClick('myWebsites')" class="rounded-md border border-white/25 px-2 py-2 text-left text-xs text-white" id="planningMobile-myWebsites">My Websites</button>
           <button type="button" onclick="planningNavClick('templates')" class="rounded-md border border-white/25 px-2 py-2 text-left text-xs text-white" id="planningMobile-templates">Templates</button>
+          <button type="button" onclick="window.location.hash='portfolioedit'; showPage('portfolioedit');" class="rounded-md border border-white/25 px-2 py-2 text-left text-xs text-white" id="planningMobile-portfolioedit">Portfolio Edit</button>
           <button type="button" onclick="planningNavClick('domains')" class="rounded-md border border-white/25 px-2 py-2 text-left text-xs text-white" id="planningMobile-domains">Domains</button>
           <button type="button" onclick="planningNavClick('billing')" class="rounded-md border border-[#f0e6d4] bg-white/10 px-2 py-2 text-left text-xs text-white" id="planningMobile-billing">Billing</button>
         </div>
@@ -1758,6 +1944,139 @@
           </div>
         </div>
       </section>
+    </div>
+  </div>
+
+  <!-- ================= PORTFOLIO PAGE ================= -->
+  <div id="portfolioPage" class="hidden min-h-screen bg-[#FFF1F2]">
+    <!-- navbar -->
+    <nav class="sticky top-0 z-50 bg-[#06224C] px-4 md:px-8 py-3 flex items-center justify-between shadow-sm">
+      <!-- left -->
+      <div class="flex items-center gap-4">
+        <button onclick="togglePortfolioPageMobileMenu()" class="lg:hidden text-white">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="bg-white px-5 py-3 rounded-[60%] shadow-md">
+          <img src="public/stackly-logo.webp" alt="logo" class="h-5" />
+        </a>
+        <div class="hidden lg:flex gap-8 text-white text-sm font-bold">
+          <a href="/">Home</a>
+          <a href="/about">About Us</a>
+          <a href="/products">Our Products</a>
+          <a href="/products">Categories</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </div>
+      <!-- right -->
+      <div class="flex items-center gap-4">
+        <button onclick="togglePortfolioPageCart()" class="relative flex items-center gap-2 border border-white/30 px-3 py-1 rounded-full text-white text-xs">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="hidden sm:inline">Cart</span>
+          <span id="portfolioPageCartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
+        </button>
+        <button onclick="togglePortfolioPageSearch()" class="w-8 h-8 flex items-center justify-center bg-white rounded-full">
+          <i class="fas fa-search text-[#06224C]"></i>
+        </button>
+        <div class="w-8 h-8 rounded-full overflow-hidden border">
+          <img src="https://ui-avatars.com/api/?name=User" alt="user" />
+        </div>
+      </div>
+    </nav>
+    <!-- mobile menu -->
+    <div id="portfolioPageMobileMenu" class="lg:hidden border-t border-white/20 px-4 pb-3 pt-2 bg-[#06224C] hidden">
+      <div class="grid grid-cols-2 gap-2">
+        <a href="/" onclick="setPortfolioPageActiveNav('Home'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Home</a>
+        <a href="/about" onclick="setPortfolioPageActiveNav('About'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">About</a>
+        <a href="/products" onclick="setPortfolioPageActiveNav('Products'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Products</a>
+        <a href="/categories" onclick="setPortfolioPageActiveNav('Categories'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Categories</a>
+        <a href="/contact" onclick="setPortfolioPageActiveNav('Contact'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Contact</a>
+      </div>
+    </div>
+    <!-- search bar -->
+    <div id="portfolioPageSearchBar" class="bg-white p-6 border-b hidden">
+      <input type="text" placeholder="Search..." class="w-full border p-3 rounded-lg" />
+    </div>
+    <!-- main content -->
+    <div class="flex-1 bg-white p-4 md:p-7 flex justify-center">
+      <div class="w-full max-w-[1200px] relative">
+        <!-- canvas box -->
+        <div class="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
+          <!-- inner navbar -->
+          <div class="flex items-center justify-between px-4 md:px-10 py-5 border-b border-gray-300 bg-[#06224C] rounded-t-xl">
+            <div class="flex items-center gap-3">
+              <button onclick="togglePortfolioPageInnerMobileMenu()" class="lg:hidden text-white">
+                <i class="fas fa-bars"></i>
+              </button>
+              <div class="text-lg font-semibold text-white">Portfolio</div>
+            </div>
+            <div class="hidden lg:flex items-center gap-6 text-white">
+              <span>Home</span>
+              <span>About Us</span>
+              <span>Projects</span>
+              <span>Contacts</span>
+            </div>
+          </div>
+          <!-- inner mobile menu -->
+          <div id="portfolioPageInnerMobileMenu" class="lg:hidden border-t border-white/20 px-4 pb-3 pt-2 bg-[#06224C] hidden">
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="togglePortfolioPageInnerMobileMenu()" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10">Home</button>
+              <button onclick="togglePortfolioPageInnerMobileMenu()" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10">About Us</button>
+              <button onclick="togglePortfolioPageInnerMobileMenu()" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10">Projects</button>
+              <button onclick="togglePortfolioPageInnerMobileMenu()" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10">Contacts</button>
+            </div>
+          </div>
+          <!-- hero -->
+          <div class="flex-1 flex flex-col px-4 md:px-8 lg:px-12 pt-6 md:pt-10 relative z-10">
+            <h1 class="text-4xl font-bold text-gray-800 leading-tight">
+              <div class="mb-2">Hello, I'm</div>
+              <div class="text-blue-600 mb-2">Srinivas Pentakota</div>
+              <div>UI/UX Designer</div>
+            </h1>
+            <p class="text-gray-600 mt-4 text-lg max-w-xl">
+              I create modern, responsive websites with great user experience.
+            </p>
+            <!-- mobile blobs and image -->
+            <div class="md:hidden mt-6 flex justify-center">
+              <div class="relative">
+                <div class="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute"></div>
+                <div class="w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full absolute left-4 top-4"></div>
+                <div class="w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full absolute right-4 bottom-4"></div>
+                <div class="w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 relative">
+                  <img src="public/portfolio.png" class="w-full h-full object-cover" />
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-6 mt-5">
+              <button class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-gray-700">Edit</button>
+              <button class="px-6 py-2 border border-gray-800 text-blue-800 rounded-lg hover:bg-gray-700">View My Works</button>
+            </div>
+            <!-- stats -->
+            <div class="flex flex-col items-center gap-4 mt-8 mb-6 w-full md:flex-row md:justify-between md:gap-0 lg:flex-row lg:justify-between lg:gap-0">
+              <div class="w-64 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700">
+                <h5 class="text-2xl font-bold">5+</h5>
+                <span class="text-sm mt-1">Years of Experience</span>
+              </div>
+              <div class="w-64 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700">
+                <h5 class="text-2xl font-bold">120+</h5>
+                <span class="text-sm mt-1">Projects Done</span>
+              </div>
+              <div class="w-64 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700">
+                <h5 class="text-2xl font-bold">98%</h5>
+                <span class="text-sm mt-1">Client Satisfaction</span>
+              </div>
+            </div>
+          </div>
+          <!-- blobs desktop -->
+          <div class="absolute left-[60%] top-[30%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block"></div>
+          <div class="absolute left-[65%] top-[28%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block"></div>
+          <div class="absolute left-[65%] top-[43%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full hidden md:block"></div>
+          <div class="absolute left-[69%] top-[26%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md hidden md:block"></div>
+          <div class="absolute left-[68%] top-[26%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 hidden md:block">
+            <img src="public/portfolio.png" class="w-full h-full object-cover" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2294,6 +2613,496 @@
           </form>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ================= PORTFOLIO EDIT PAGE ================= -->
+  <div id="portfolioeditPage" class="hidden min-h-[100dvh] w-full bg-[#FFF1F2] overflow-x-hidden">
+    <!-- ✅ NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-[#06224C] px-4 md:px-8 py-3 flex items-center justify-between shadow-sm">
+      <!-- LEFT -->
+      <div class="flex items-center gap-4">
+        <button
+          onclick="togglePortfolioMobileMenu()"
+          class="lg:hidden text-white"
+          aria-label="Toggle mobile menu"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="bg-white px-5 py-3 rounded-[60%] shadow-md">
+          <img src="./public/stackly-logo.webp" alt="logo" class="h-5" />
+        </a>
+        <div class="hidden lg:flex gap-8 text-white text-sm font-bold">
+          <a href="/">Home</a>
+          <a href="/about">About Us</a>
+          <a href="/products">Our Products</a>
+           <a href="/contact">Categories</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </div>
+      <!-- RIGHT -->
+      <div class="flex items-center gap-4">
+        <!-- CART -->
+        <button
+          onclick="togglePortfolioCart()"
+          class="relative flex items-center gap-2 border border-white/30 px-3 py-1 rounded-full text-white text-xs"
+        >
+          <i class="fas fa-shopping-cart"></i>
+          <span class="hidden sm:inline">Cart</span>
+          <span id="portfolioCartCount" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
+        </button>
+        <!-- SEARCH -->
+        <button
+          onclick="togglePortfolioSearch()"
+          class="w-8 h-8 flex items-center justify-center bg-white rounded-full"
+          aria-label="Toggle search"
+        >
+          <i class="fas fa-search text-[#06224C]"></i>
+        </button>
+        <!-- PROFILE -->
+        <div class="w-8 h-8 rounded-full overflow-hidden border">
+          <img src="https://ui-avatars.com/api/?name=User" alt="user" />
+        </div>
+      </div>
+    </nav>
+
+    <!-- ✅ MOBILE MENU -->
+    <div id="portfolioMobileMenu" class="hidden lg:hidden bg-[#06224C] text-white p-4 space-y-3">
+      <a href="/">Home</a>
+      <a href="/about">About Us</a>
+      <a href="/products">Products</a>
+      <a href="/contact">Contact</a>
+    </div>
+
+    <!-- ✅ SEARCH BAR -->
+    <div id="portfolioSearchBar" class="hidden bg-white p-6 border-b">
+      <input
+        type="text"
+        placeholder="Search..."
+        class="w-full border p-3 rounded-lg"
+      />
+    </div>
+
+    <!-- ====== MAIN BUILDER LAYOUT ====== -->
+    <div class="flex flex-1">
+      <aside class="hidden lg:flex w-52 bg-[#06224C] text-white flex-col p-4 space-y-4 rounded-tr-3xl">
+        <!-- Tabs -->
+        <div class="flex justify-center gap-6 text-sm font-semibold mt-6">
+          <button
+            onclick="setPortfolioLeftTab('blocks')"
+            id="portfolioBlocksTab"
+            class="pb-1 border-b-2 border-white"
+          >
+            Blocks
+          </button>
+          <span>|</span>
+          <button
+            onclick="setPortfolioLeftTab('pages')"
+            id="portfolioPagesTab"
+            class="pb-1 border-b-2 border-transparent"
+          >
+            Pages
+          </button>
+        </div>
+
+        <!-- Search -->
+        <div class="relative mt-4">
+          <input
+            type="text"
+            placeholder="Search..."
+            class="w-full px-3 py-2 pl-9 pr-9 rounded-full bg-white text-black text-sm outline-none"
+          />
+          <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-black text-sm"></i>
+          <i class="fas fa-microphone absolute right-3 top-1/2 -translate-y-1/2 text-black text-sm cursor-pointer"></i>
+        </div>
+
+        <!-- BLOCKS -->
+        <div id="portfolioBlocksContent" class="mt-4 space-y-4">
+          <!-- BASIC -->
+          <div>
+            <div
+              onclick="togglePortfolioBlocks()"
+              class="flex justify-between cursor-pointer mt-3 mb-2 items-center"
+            >
+              <h3 class="text-sm pl-2">Basic Blocks</h3>
+              <i id="portfolioBlocksIcon" class="fas fa-chevron-up text-xs"></i>
+            </div>
+            <div id="portfolioBlocksGrid" class="grid grid-cols-3 grid-rows-2 h-28 justify-items-center content-between">
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs hover:bg-blue-100 transition">
+                <span class="font-bold text-gray-800 text-sm">T</span>
+                <span class="text-[8px] text-gray-800">Text</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-image text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Image</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-square text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Button</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-video text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Video</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md"></div>
+              <div class="bg-white w-10 h-10 rounded-md"></div>
+            </div>
+          </div>
+
+          <!-- LAYOUT -->
+          <div>
+            <div
+              onclick="togglePortfolioLayout()"
+              class="flex justify-between cursor-pointer mb-2 items-center"
+            >
+              <h3 class="text-sm pl-2">Layout Blocks</h3>
+              <i id="portfolioLayoutIcon" class="fas fa-chevron-up text-xs"></i>
+            </div>
+            <div id="portfolioLayoutGrid" class="grid grid-cols-3 grid-rows-2 h-28 justify-items-center content-between">
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs border-2 border-[#06224C]">
+                <span class="text-[8px] text-gray-800">Section</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-columns text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Columns</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <span class="text-gray-800 text-[10px] font-bold">H</span>
+                <span class="text-[8px] text-gray-800">Header</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-window-minimize text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Footer</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ADVANCED -->
+          <div>
+            <div
+              onclick="togglePortfolioAdvanced()"
+              class="flex justify-between cursor-pointer mb-2 items-center"
+            >
+              <h3 class="text-sm pl-2">Advanced</h3>
+              <i id="portfolioAdvancedIcon" class="fas fa-chevron-up text-xs"></i>
+            </div>
+            <div id="portfolioAdvancedGrid" class="grid grid-cols-3 grid-rows-2 h-28 justify-items-center content-between">
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-file-alt text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Form</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-map text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Map</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-blog text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Blog</span>
+              </div>
+              <div class="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs">
+                <i class="fas fa-video text-gray-800 text-sm"></i>
+                <span class="text-[8px] text-gray-800">Video</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGES -->
+        <div id="portfolioPagesContent" class="hidden mt-6 space-y-4">
+          <div class="bg-white px-3 py-2 rounded-md flex justify-between text-sm">
+            <span class="text-gray-800">Home Page</span>
+            <i class="fas fa-arrow-right text-gray-800"></i>
+          </div>
+          <div class="bg-white px-3 py-2 rounded-md flex justify-between text-sm">
+            <span class="text-gray-800">About Us</span>
+            <i class="fas fa-arrow-right text-gray-800"></i>
+          </div>
+          <div class="bg-white px-3 py-2 rounded-md flex justify-between text-sm">
+            <span class="text-gray-800">Contact</span>
+            <i class="fas fa-arrow-right text-gray-800"></i>
+          </div>
+          <div class="bg-white px-3 py-2 rounded-md flex justify-between text-sm">
+            <span class="text-gray-800">Projects</span>
+            <i class="fas fa-arrow-right text-gray-800"></i>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div class="flex-1 bg-white p-4 md:p-7 flex justify-center">
+        <div class="w-full max-w-[1200px] relative">
+          <!-- Canvas Box -->
+          <div class="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
+            <!-- NAVBAR -->
+            <div class="flex items-center justify-between px-4 md:px-10 py-5 border-b border-gray-300 bg-[#06224C] rounded-t-xl">
+              <!-- Logo -->
+              <!-- <div class="flex items-center">
+                <div class="bg-white px-5 py-3 rounded-[60%] shadow-md">
+                  <img src="/stackly-logo.webp" class="h-6" />
+                </div>
+              </div> -->
+              <!-- Title -->
+              <div class="text-lg font-semibold text-white">
+                Portfolio
+              </div>
+              <!-- Links + Action Buttons -->
+              <div class="flex items-center gap-4">
+                <!-- Navbar Links -->
+                <div class="flex items-center gap-10 text-white">
+                  <span class="hover:text-gray-300 cursor-pointer">Home</span>
+                  <span class="hover:text-gray-300 cursor-pointer">About Us</span>
+                  <span class="hover:text-gray-300 cursor-pointer">Projects</span>
+                </div>
+                <!-- Action Buttons -->
+               <div class="flex items-center gap-2 ml-4">
+
+  <!-- Save Draft / Preview Combo -->
+  <div class="flex border border-gray-300 rounded-lg overflow-hidden text-sm whitespace-nowrap text-white">
+
+    <button class="px-3 py-1 hover:bg-gray-100 hover:text-black text-center whitespace-nowrap">
+      Save Draft
+    </button>
+
+    <div class="w-px bg-gray-300"></div>
+
+    <button class="px-3 py-1 hover:bg-gray-100 hover:text-black text-center whitespace-nowrap flex items-center gap-1">
+      Preview
+      <i class="fas fa-eye"></i>
+    </button>
+
+  </div>
+
+  <!-- Edit Button -->
+  <button class="px-3 py-1 border border-gray-300 rounded-lg text-white hover:bg-blue-100 hover:text-black flex items-center gap-1">
+    Edit
+    <i class="fas fa-pen"></i>
+  </button>
+
+</div>
+              </div>
+            </div>
+
+            <!-- HERO CONTENT -->
+            <div class="flex-1 flex flex-col px-4 md:px-8 lg:px-12 pt-6 md:pt-10 relative z-10">
+              <h1 class="text-2xl md:text-4xl font-bold text-gray-800 leading-tight">
+                <div class="mb-2">Hello, I'm</div>
+                <div class="text-blue-600 mb-2">Srinivas Pentakota</div>
+                <div>UI/UX Designer</div>
+              </h1>
+              <p class="text-gray-600 mt-4 text-lg max-w-full md:max-w-xl">
+                I create Modern, Responsive websites with great user experience.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4 mt-5">
+                <button class="px-6 py-2 border border-gray-800 text-white-600 bg-blue-800 rounded-lg hover:bg-gray-700">
+                  View My Works
+                </button>
+                <button class="px-6 py-2 border border-gray-800 text-blue-800 rounded-lg hover:bg-gray-700">
+                  Watch Video
+                </button>
+              </div>
+
+              <!-- STATS -->
+              <div class="flex flex-col md:flex-row justify-center md:justify-between gap-4 mt-8 mb-6 w-full">
+                <div class="w-32 md:w-1/3 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700">
+                  <h5 class="text-2xl font-bold">5+</h5>
+                  <span class="text-sm mt-1">Years of Experience</span>
+                </div>
+                <div class="w-32 md:w-1/3 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700">
+                  <h5 class="text-2xl font-bold">120+</h5>
+                  <span class="text-sm mt-1">Projects Done</span>
+                </div>
+                <div class="w-32 md:w-1/3 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700">
+                  <h5 class="text-2xl font-bold">98%</h5>
+                  <span class="text-sm mt-1">Clients Satisfaction</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOBS -->
+            <div class="absolute hidden md:block left-[60%] top-[30%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full"></div>
+            <div class="absolute hidden md:block left-[65%] top-[28%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full"></div>
+            <div class="absolute hidden md:block left-[65%] top-[43%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full"></div>
+            <!-- White shape -->
+            <div class="absolute hidden md:block left-[69%] top-[26%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md"></div>
+            <!-- PROFILE IMAGE -->
+            <div class="absolute hidden md:block left-[68%] top-[26%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20">
+              <img src="public/portfolio.png" class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <div class="w-full flex flex-col sm:flex-row items-center justify-between mt-8 px-4 gap-4">
+            <!-- Left: Help Button -->
+            <button class="h-10 px-4 rounded-lg flex items-center gap-2 text-blue-800 border border-blue-600 bg-transparent hover:bg-blue-50">
+              Help
+            </button>
+            <!-- Center: Device Icons -->
+            <div class="h-10 flex items-center justify-center rounded-lg px-3 gap-3 bg-transparent border border-blue-600">
+              <button class="h-full px-3 rounded flex items-center text-blue-800 hover:bg-blue-50">
+                <i class="fas fa-laptop"></i>
+              </button>
+              <button class="h-full px-3 rounded flex items-center text-blue-800 hover:bg-blue-50">
+                <i class="fas fa-mobile-alt"></i>
+              </button>
+              <button class="h-full px-3 rounded flex items-center text-blue-800 hover:bg-blue-50">
+                <i class="fas fa-tablet-alt"></i>
+              </button>
+              <button class="h-full px-3 rounded flex items-center text-blue-800 hover:bg-blue-50">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <!-- Right: Zoom Button -->
+            <button class="h-10 px-4 rounded-lg flex items-center gap-2 text-blue-800 border border-blue-600 bg-transparent hover:bg-blue-50">
+              Zoom
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="hidden lg:flex w-52 bg-[#06224C] text-white flex flex-col p-4 space-y-4">
+        <!-- Tabs -->
+        <div class="flex justify-center gap-6 text-sm font-semibold mt-6">
+          <button
+            onclick="setPortfolioRightTab('properties')"
+            id="portfolioPropertiesTab"
+            class="pb-1 border-b-2 border-white"
+          >
+            Properties
+          </button>
+          <span class="select-none">|</span>
+          <button
+            onclick="setPortfolioRightTab('styles')"
+            id="portfolioStylesTab"
+            class="pb-1 border-b-2 border-transparent"
+          >
+            Styles
+          </button>
+        </div>
+
+        <!-- ================= PROPERTIES ================= -->
+        <div id="portfolioPropertiesContent">
+          <!-- Image Settings -->
+          <div class="mb-6">
+            <div
+              onclick="togglePortfolioImageSettings()"
+              class="flex justify-between cursor-pointer mb-4"
+            >
+              <p class="text-sm font-semibold">Image Settings</p>
+              <i id="portfolioImageSettingsIcon" class="fas fa-chevron-down text-xs"></i>
+            </div>
+            <div id="portfolioImageSettings" class="space-y-5">
+              <!-- Width -->
+              <div class="flex items-center gap-4">
+                <p class="text-sm text-gray-300 flex-1">Width</p>
+                <input
+                  value="420 px"
+                  class="w-[80px] bg-transparent border border-blue-400 rounded-full px-3 py-1 text-xs text-white text-center focus:outline-none"
+                />
+              </div>
+              <!-- Height -->
+              <div class="flex items-center gap-4">
+                <p class="text-sm text-gray-300 flex-1">Height</p>
+                <input
+                  value="520 px"
+                  class="w-[80px] bg-transparent border border-blue-400 rounded-full px-3 py-1 text-xs text-white text-center focus:outline-none"
+                />
+              </div>
+              <!-- Border Radius -->
+              <div>
+                <p class="text-sm text-gray-300 mb-2">Border Radius</p>
+                <div class="flex items-center gap-2">
+                  <input
+                    type="range"
+                    class="flex-1 h-1 bg-blue-200 rounded-lg cursor-pointer accent-blue-500"
+                  />
+                  <input
+                    value="12 px"
+                    class="w-20 bg-transparent border border-blue-400 rounded-full px-3 py-1 text-xs text-white text-center"
+                  />
+                </div>
+              </div>
+              <!-- Shadow Toggle -->
+              <div class="flex justify-between items-center">
+                <p class="text-sm text-gray-300">Shadow</p>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer" />
+                  <div class="w-8 h-4 bg-gray-400 rounded-full peer peer-checked:bg-blue-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4"></div>
+                </label>
+              </div>
+              <!-- Border Radius again -->
+              <div>
+                <p class="text-sm text-gray-300 mb-2">Border Radius</p>
+                <div class="flex items-center gap-2">
+                  <input
+                    type="range"
+                    class="flex-1 h-1 bg-blue-200 rounded-lg cursor-pointer accent-blue-500"
+                  />
+                  <input
+                    value="12 px"
+                    class="w-20 bg-transparent border border-blue-400 rounded-full px-3 py-1 text-xs text-white text-center"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Position Section -->
+          <div class="mb-6">
+            <div
+              onclick="togglePortfolioPosition()"
+              class="flex justify-between cursor-pointer mb-4"
+            >
+              <p class="text-sm font-semibold">Position</p>
+              <i id="portfolioPositionIcon" class="fas fa-chevron-down text-xs"></i>
+            </div>
+            <div id="portfolioPosition" class="space-y-5">
+              <!-- Position -->
+              <div>
+                <p class="text-sm text-gray-300 mb-2">Position</p>
+                <button class="w-full border border-white/30 rounded py-2 text-sm">
+                  Center
+                </button>
+              </div>
+              <!-- Margin -->
+              <div>
+                <p class="text-sm text-gray-300 mb-2">Margin</p>
+                <button class="w-full border border-white/30 rounded py-2 text-sm">
+                  24px
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= STYLES ================= -->
+        <div id="portfolioStylesContent" class="hidden">
+          <p class="text-sm text-gray-300 mb-6">Style Settings</p>
+          <div class="space-y-6">
+            <div>
+              <p class="text-xs text-gray-300 mb-1">Margin</p>
+              <input
+                value="24px"
+                class="w-full rounded bg-[#081F40] p-2 text-white"
+              />
+            </div>
+            <div>
+              <p class="text-xs text-gray-300 mb-1">Padding</p>
+              <input class="w-full rounded bg-[#081F40] p-2 text-white" />
+            </div>
+            <div>
+              <p class="text-xs text-gray-300 mb-1">Background Color</p>
+              <input type="color" class="w-full h-10" />
+            </div>
+            <div>
+              <p class="text-xs text-gray-300 mb-1">Shadow</p>
+              <label class="flex gap-2">
+                <input type="checkbox" />
+                Enable
+              </label>
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 
