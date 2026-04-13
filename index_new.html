@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -28,7 +28,6 @@
       min-height: 100%;
       min-height: 100dvh;
       overflow-x: hidden;
-      background: #fff;
     }
 
     @supports (-webkit-touch-callout: none) {
@@ -39,19 +38,19 @@
         min-height: -webkit-fill-available;
       }
     }
-
-    body, input, button {
-      font: inherit;
-    }
   </style>
 </head>
 
 <body class="bg-white antialiased">
+
   <script>
+    // Portfolio Page Variables
     let portfolioPageMobileMenuOpen = false;
     let portfolioPageInnerMobileMenuOpen = false;
     let portfolioPageSearchOpen = false;
     let portfolioPageCartCount = 0;
+    let portfolioPageActiveNav = 'Home';
+    let portfolioPageInnerActiveNav = 'home';
 
     function togglePortfolioPageMobileMenu() {
       portfolioPageMobileMenuOpen = !portfolioPageMobileMenuOpen;
@@ -85,10 +84,19 @@
         countEl.classList.toggle('hidden', portfolioPageCartCount === 0);
       }
     }
+
+    function setPortfolioPageActiveNav(nav) {
+      portfolioPageActiveNav = nav;
+    }
+
+    function setPortfolioPageInnerActiveNav(nav) {
+      portfolioPageInnerActiveNav = nav;
+    }
   </script>
 
   <!-- ================= PORTFOLIO PAGE ================= -->
   <div id="portfolioPage" class="min-h-screen bg-[#FFF1F2]">
+    <!-- ✅ NAVBAR -->
     <nav class="w-full bg-[#06224C]">
       <div class="flex w-full flex-wrap items-center gap-2 px-3 py-3 sm:gap-3 sm:px-8 xl:flex-nowrap">
         <div class="flex min-w-0 flex-shrink-0 items-center gap-2">
@@ -99,7 +107,7 @@
             aria-label="Toggle navigation menu"
           >
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
 
@@ -110,50 +118,59 @@
 
         <div class="hidden min-w-0 flex-1 lg:flex lg:items-center">
           <nav class="flex w-full min-w-0 flex-wrap items-center justify-evenly gap-x-2 gap-y-2 text-[13px] text-white sm:text-sm sm:gap-x-3" aria-label="Main">
-            <button type="button" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Home</button>
-            <button type="button" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">About Us</button>
-            <button type="button" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Our Products</button>
-            <button type="button" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Categories</button>
-            <button type="button" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Contact</button>
+            <button type="button" onclick="setPortfolioPageActiveNav('home')" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Home</button>
+            <button type="button" onclick="setPortfolioPageActiveNav('about')" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">About Us</button>
+            <button type="button" onclick="setPortfolioPageActiveNav('products')" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Our Products</button>
+            <button type="button" onclick="setPortfolioPageActiveNav('categories')" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Categories</button>
+            <button type="button" onclick="setPortfolioPageActiveNav('contact')" class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Contact</button>
           </nav>
         </div>
 
         <div class="ml-auto flex min-w-0 flex-nowrap items-center gap-3 sm:gap-4 md:gap-5">
+          <!-- CART -->
           <button onclick="togglePortfolioPageCart()" class="relative flex items-center gap-2 border border-white/30 px-3 py-1 rounded-full text-white text-xs shrink-0" aria-label="Shopping cart">
             <i class="fas fa-shopping-cart"></i>
             <span class="hidden sm:inline">Cart</span>
             <span id="portfolioPageCartBadge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
           </button>
 
+          <!-- SEARCH -->
           <button onclick="togglePortfolioPageSearch()" class="w-8 h-8 flex items-center justify-center bg-white rounded-full shrink-0" aria-label="Search">
             <i class="fas fa-search text-[#06224C]"></i>
           </button>
 
+          <!-- PROFILE -->
           <div class="w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0">
             <img src="https://ui-avatars.com/api/?name=User" alt="User profile" />
           </div>
         </div>
       </div>
 
+      <!-- Mobile Menu -->
       <div id="portfolioPageMobileMenu" class="hidden border-t border-white/20 px-3 pb-3 pt-2 lg:hidden">
         <div class="grid grid-cols-2 gap-2">
-          <button type="button" onclick="togglePortfolioPageMobileMenu()" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Home</button>
-          <button type="button" onclick="togglePortfolioPageMobileMenu()" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">About Us</button>
-          <button type="button" onclick="togglePortfolioPageMobileMenu()" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Products</button>
-          <button type="button" onclick="togglePortfolioPageMobileMenu()" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Categories</button>
-          <button type="button" onclick="togglePortfolioPageMobileMenu()" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Contact</button>
+          <button type="button" onclick="setPortfolioPageActiveNav('home'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Home</button>
+          <button type="button" onclick="setPortfolioPageActiveNav('about'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">About Us</button>
+          <button type="button" onclick="setPortfolioPageActiveNav('products'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Products</button>
+          <button type="button" onclick="setPortfolioPageActiveNav('categories'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Categories</button>
+          <button type="button" onclick="setPortfolioPageActiveNav('contact'); togglePortfolioPageMobileMenu();" class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Contact</button>
         </div>
       </div>
     </nav>
 
+    <!-- Search bar -->
     <div id="portfolioPageSearchBar" class="bg-white p-6 border-b hidden">
       <input type="text" placeholder="Search..." class="w-full border p-3 rounded-lg" />
     </div>
 
+    <!-- Main content -->
     <div class="flex-1 bg-white p-4 md:p-7 flex justify-center">
       <div class="w-full max-w-[1200px] relative">
+        <!-- Canvas box -->
         <div class="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
+          <!-- Inner navbar -->
           <div class="flex w-full flex-wrap items-center gap-4 px-3 py-3 sm:gap-6 sm:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
+            <!-- Mobile: Portfolio heading and logo on left -->
             <div class="flex items-center gap-2 lg:hidden">
               <a href="/" class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
                 <img src="public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
@@ -161,6 +178,7 @@
               <span class="absolute left-1/2 -translate-x-1/2 text-lg font-semibold text-white">Portfolio</span>
             </div>
 
+            <!-- Desktop: Logo, heading, and nav -->
             <div class="hidden lg:flex w-full items-center gap-6">
               <a href="/" class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
                 <img src="public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
@@ -168,6 +186,7 @@
 
               <div class="flex flex-1 items-center justify-evenly gap-x-6">
                 <span class="text-lg font-semibold text-white">Portfolio</span>
+
                 <button type="button" class="shrink-0 border-b-2 border-transparent pb-0.5 transition-colors hover:text-white text-[13px] text-white sm:text-sm">Home</button>
                 <button type="button" class="shrink-0 border-b-2 border-transparent pb-0.5 transition-colors hover:text-white text-[13px] text-white sm:text-sm">About Us</button>
                 <button type="button" class="shrink-0 border-b-2 border-transparent pb-0.5 transition-colors hover:text-white text-[13px] text-white sm:text-sm">Projects</button>
@@ -175,32 +194,39 @@
               </div>
             </div>
 
+            <!-- Mobile: Hamburger menu on right -->
             <div class="lg:hidden ml-auto">
               <button onclick="togglePortfolioPageInnerMobileMenu()" class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/25 text-white" aria-label="Toggle portfolio menu">
                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                  <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </button>
             </div>
           </div>
 
+          <!-- Inner mobile menu -->
           <div id="portfolioPageInnerMobileMenu" class="lg:hidden border-t border-white/20 px-3 pb-3 pt-2 bg-[#06224C] hidden">
             <div class="grid grid-cols-2 gap-2">
-              <button onclick="togglePortfolioPageInnerMobileMenu()" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Home</button>
-              <button onclick="togglePortfolioPageInnerMobileMenu()" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">About Us</button>
-              <button onclick="togglePortfolioPageInnerMobileMenu()" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Projects</button>
-              <button onclick="togglePortfolioPageInnerMobileMenu()" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Contacts</button>
+              <button onclick="setPortfolioPageInnerActiveNav('home'); togglePortfolioPageInnerMobileMenu();" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Home</button>
+              <button onclick="setPortfolioPageInnerActiveNav('about'); togglePortfolioPageInnerMobileMenu();" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">About Us</button>
+              <button onclick="setPortfolioPageInnerActiveNav('projects'); togglePortfolioPageInnerMobileMenu();" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Projects</button>
+              <button onclick="setPortfolioPageInnerActiveNav('contacts'); togglePortfolioPageInnerMobileMenu();" class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Contacts</button>
             </div>
           </div>
 
+          <!-- Hero -->
           <div class="flex-1 flex flex-col px-4 md:px-8 lg:px-12 pt-6 md:pt-10 relative z-10">
             <h1 class="text-4xl font-bold text-gray-800 leading-tight">
               <div class="mb-2">Hello, I'm</div>
               <div class="text-[#477892] mb-2">Srinivas Pentakota</div>
               <div>UI/UX Designer</div>
             </h1>
-            <p class="text-gray-600 mt-4 text-lg max-w-xl">I create modern, responsive websites with great user experience.</p>
 
+            <p class="text-gray-600 mt-4 text-lg max-w-xl">
+              I create modern, responsive websites with great user experience.
+            </p>
+
+            <!-- Mobile: Blobs and image -->
             <div class="md:hidden mt-6 flex justify-center">
               <div class="relative">
                 <div class="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute"></div>
@@ -219,6 +245,7 @@
               <button class="px-3 py-2 border border-[#06224C] text-[#06224C] rounded-lg hover:bg-gray-700 hover:text-white text-sm">View My Works</button>
             </div>
 
+            <!-- Stats -->
             <div class="flex flex-col items-center gap-4 mt-8 mb-6 w-full md:flex-row md:justify-between md:gap-0 lg:flex-row lg:justify-between lg:gap-0">
               <div class="w-64 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700">
                 <h5 class="text-2xl font-bold">5+</h5>
@@ -235,6 +262,7 @@
             </div>
           </div>
 
+          <!-- Blobs desktop -->
           <div class="absolute left-[60%] top-[30%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block"></div>
           <div class="absolute left-[65%] top-[28%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block"></div>
           <div class="absolute left-[65%] top-[43%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full hidden md:block"></div>
@@ -246,5 +274,6 @@
       </div>
     </div>
   </div>
+
 </body>
 </html>
