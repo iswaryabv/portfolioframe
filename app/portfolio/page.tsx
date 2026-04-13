@@ -176,7 +176,7 @@ export default function HomePage() {
                   <span className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold text-white">
     Portfolio
   </span>
-              </div>
+                    </div>
 
               {/* Desktop: Logo, heading, and nav */}
               <div className="hidden lg:flex w-full items-center gap-6">
