@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -89,18 +89,24 @@
 
 
     function goToPage(type) {
+      const footer = document.getElementById("portfolioFooter");
       if (type === "home") {
         document.getElementById("pageNotFound").classList.add("hidden");
         document.getElementById("mainContent").classList.remove("hidden");
+        if (footer) footer.classList.remove("hidden");
       } else {
         document.getElementById("mainContent").classList.add("hidden");
         document.getElementById("pageNotFound").classList.remove("hidden");
+        if (footer) footer.classList.add("hidden");
       }
     }
+    
 
     function goBackHome() {
       document.getElementById("pageNotFound").classList.add("hidden");
       document.getElementById("mainContent").classList.remove("hidden");
+      const footer = document.getElementById("portfolioFooter");
+      if (footer) footer.classList.remove("hidden");
     }
 
   </script>
@@ -381,10 +387,7 @@
     </button>
 
   </div>
-
-
-</body>
-<footer class="bg-[#051b3b] text-white mt-16 py-12">
+<footer id="portfolioFooter" class="bg-[#051b3b] text-white mt-16 py-12">
   <div class="max-w-[1200px] mx-auto px-6">
 
     <div class="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
@@ -425,21 +428,58 @@
       <div class="flex flex-col gap-4">
         <h3 class="font-bold text-white text-[15px]">Product</h3>
         <ul class="flex flex-col gap-3 text-[13px] text-white/70">
-          <li class="hover:text-white cursor-pointer">Features</li>
-          <li class="hover:text-white cursor-pointer">Templates</li>
-          <li class="hover:text-white cursor-pointer">Pricing</li>
-          <li class="hover:text-white cursor-pointer">Changelog</li>
-        </ul>
+
+  <li>
+    <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+      Features
+    </button>
+  </li>
+
+  <li>
+    <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+      Templates
+    </button>
+  </li>
+
+  <li>
+    <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+      Pricing
+    </button>
+  </li>
+
+  <li>
+    <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+      Changelog
+    </button>
+  </li>
+
+</ul>
       </div>
 
       <!-- RESOURCES -->
       <div class="flex flex-col gap-4">
         <h3 class="font-bold text-white text-[15px]">Resources</h3>
         <ul class="flex flex-col gap-3 text-[13px] text-white/70">
-          <li class="hover:text-white cursor-pointer">Documentation</li>
-          <li class="hover:text-white cursor-pointer">API Reference</li>
-          <li class="hover:text-white cursor-pointer">Blog</li>
-          <li class="hover:text-white cursor-pointer">Status</li>
+          <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              Documentation
+            </button>
+          </li>
+          <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              API Reference
+            </button>
+          </li>
+          <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              Blog
+            </button>
+          </li>
+          <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              Status
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -447,10 +487,26 @@
       <div class="flex flex-col gap-4">
         <h3 class="font-bold text-white text-[15px]">Company</h3>
         <ul class="flex flex-col gap-3 text-[13px] text-white/70">
-          <li class="hover:text-white cursor-pointer">About</li>
-          <li class="hover:text-white cursor-pointer">Privacy Policy</li>
-          <li class="hover:text-white cursor-pointer">Terms of Service</li>
-          <li class="hover:text-white cursor-pointer">Contact</li>
+          <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              About
+            </button>
+          </li>
+          <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              Privacy Policy
+            </button>
+          </li>
+          <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              Terms of Service
+            </button>
+          </li>
+          <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              Contact
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -509,8 +565,16 @@
 
       <!-- COPYRIGHT -->
       <div class="flex flex-wrap items-center justify-center gap-6 text-[12px] text-white/70">
-        <a class="hover:text-white transition">Terms of Use</a>
-        <a class="hover:text-white transition">Privacy Policy</a>
+        <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              Terms of use
+            </button>
+          </li>
+        <li>
+            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              Privacy Policy
+            </button>
+          </li>
         <span>© 2018-2026 Stackly.com, Inc</span>
       </div>
 
@@ -518,5 +582,8 @@
 
   </div>
 </footer>
+
+</body>
+
 
 </html>

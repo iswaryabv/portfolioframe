@@ -358,10 +358,18 @@ export default function HomePage() {
             <div className="flex flex-col gap-4">
               <h3 className="font-bold text-white text-[15px]">Product</h3>
               <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <li className="hover:text-white cursor-pointer">Features</li>
-                <li className="hover:text-white cursor-pointer">Templates</li>
-                <li className="hover:text-white cursor-pointer">Pricing</li>
-                <li className="hover:text-white cursor-pointer">Changelog</li>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+  Features
+</Link>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Templates
+                </Link>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Pricing
+                </Link>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Changelog
+                </Link>
               </ul>
             </div>
 
@@ -369,10 +377,18 @@ export default function HomePage() {
             <div className="flex flex-col gap-4">
               <h3 className="font-bold text-white text-[15px]">Resources</h3>
               <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <li className="hover:text-white cursor-pointer">Documentation</li>
-                <li className="hover:text-white cursor-pointer">API Reference</li>
-                <li className="hover:text-white cursor-pointer">Blog</li>
-                <li className="hover:text-white cursor-pointer">Status</li>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Documentation
+                </Link>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  API Reference
+                </Link>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Blog
+                </Link>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Status
+                </Link>
               </ul>
             </div>
 
@@ -380,9 +396,15 @@ export default function HomePage() {
             <div className="flex flex-col gap-4">
               <h3 className="font-bold text-white text-[15px]">Company</h3>
               <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <li className="hover:text-white cursor-pointer">About</li>
-                <li className="hover:text-white cursor-pointer">Privacy Policy</li>
-                <li className="hover:text-white cursor-pointer">Terms of Service</li>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  About
+                </Link>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Privacy Policy
+                </Link>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Terms of Service
+                </Link>
                 <li className="hover:text-white cursor-pointer">Contact</li>
               </ul>
             </div>
@@ -473,8 +495,12 @@ export default function HomePage() {
 
             {/* COPYRIGHT */}
             <div className="flex flex-wrap items-center justify-center gap-6 text-[12px] text-white/70">
-              <a className="hover:text-white transition">Terms of Use</a>
-              <a className="hover:text-white transition">Privacy Policy</a>
+              <Link href="/page-not-found" className="hover:text-white transition">
+                Terms of Use
+              </Link>
+              <Link href="/page-not-found" className="hover:text-white transition">
+                Privacy Policy
+              </Link>
               <span>© 2018-2026 Stackly.com, Inc</span>
             </div>
 
