@@ -10,15 +10,17 @@ import {
   FaTabletAlt,
   FaMobileAlt,
   FaEye,
-  FaPen,
+  FaPen, FaFacebookF, FaInstagram, FaLinkedinIn, FaEnvelope, FaPaperPlane ,
+  FaGlobe, FaYoutube, FaMicrophone
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const NAV_ITEMS = [
-  { id: "home" as const, label: "Home" },
-  { id: "about" as const, label: "About Us" },
-  { id: "products" as const, label: "Our Products" },
-  { id: "categories" as const, label: "Categories" },
-  { id: "contact" as const, label: "Contact" },
+  { id: "home" as const, label: "Home", href: "/" },
+  { id: "about" as const, label: "About Us", href: "/page-not-found" },
+  { id: "products" as const, label: "Our Products", href: "/page-not-found" },
+  { id: "categories" as const, label: "Categories", href: "/page-not-found" },
+  { id: "contact" as const, label: "Contact", href: "/page-not-found" },
 ];
 
 type NavId = (typeof NAV_ITEMS)[number]["id"];
@@ -39,7 +41,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FFF1F2]">
+    <main className="min-h-screen bg-white">
       {/* ✅ NAVBAR */}
       <nav className="w-full bg-[#06224C]">
         <div className="flex w-full flex-wrap items-center gap-2 px-3 py-3 sm:gap-3 sm:px-8 xl:flex-nowrap">
@@ -74,19 +76,17 @@ export default function HomePage() {
               aria-label="Main"
             >
               {NAV_ITEMS.map((item) => (
-                <button
+                <Link
                   key={item.id}
-                  type="button"
+                  href={item.href}
                   onClick={() => setActiveNav(item.id)}
-                  className={`shrink-0 border-b-2 pb-0.5 transition-colors ${
-                    activeNav === item.id
-                      ? "border-[#f0e6d4] font-medium text-white"
-                      : "border-transparent hover:text-white"
-                  }`}
-                  aria-current={activeNav === item.id ? "page" : undefined}
+                  className={`shrink-0 border-b-2 pb-0.5 transition-colors ${activeNav === item.id
+                    ? "border-[#f0e6d4] font-medium text-white"
+                    : "border-transparent hover:text-white"
+                    }`}
                 >
                   {item.label}
-                </button>
+                </Link>
               ))}
             </nav>
           </div>
@@ -131,21 +131,20 @@ export default function HomePage() {
           <div className="border-t border-white/20 px-3 pb-3 pt-2 lg:hidden">
             <div className="grid grid-cols-2 gap-2">
               {NAV_ITEMS.map((item) => (
-                <button
+                <Link
                   key={item.id}
-                  type="button"
+                  href={item.href}
                   onClick={() => {
                     setActiveNav(item.id);
                     setMobileMenuOpen(false);
                   }}
-                  className={`rounded-md border px-3 py-2 text-xs transition ${
-                    activeNav === item.id
-                      ? "border-[#f0e6d4] bg-white/10 text-white"
-                      : "border-white/25 text-white hover:bg-white/10"
-                  }`}
+                  className={`rounded-md border px-3 py-2 text-xs transition ${activeNav === item.id
+                    ? "border-[#f0e6d4] bg-white/10 text-white"
+                    : "border-white/25 text-white hover:bg-white/10"
+                    }`}
                 >
                   {item.label}
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -154,112 +153,68 @@ export default function HomePage() {
 
       {/* MAIN CONTENT */}
       <div className="flex-1 bg-white p-4 md:p-7 flex justify-center">
-        <div className="w-full max-w-[1200px] relative">
+        <div className="w-full max-w-[1200px] mt-10 relative">
 
-          {/* ✅ Canvas Box */}
+          {/* Canvas Box */}
           <div className="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
 
-            {/* ✅ INNER NAVBAR */}
+            {/* INNER NAVBAR */}
             <div className="flex w-full flex-wrap items-center gap-4 px-3 py-3 sm:gap-6 sm:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
-              {/* Mobile: Portfolio heading and logo on left */}
-              <div className="flex items-center gap-2 lg:hidden">
-                <Link
-                  href="/"
-                  className="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]"
-                >
-                  <img
-                    src="/stackly-logo.webp"
-                    alt="Stackly logo"
-                    className="h-[18px] w-auto sm:h-[20px]"
-                  />
-                </Link>
-                  <span className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold text-white">
-    Portfolio
-  </span>
-                    </div>
 
-              {/* Desktop: Logo, heading, and nav */}
+              {/* Mobile */}
+              <div className="flex items-center gap-2 lg:hidden">
+                <Link href="/" className="flex h-8 min-w-[92px] items-center justify-center rounded-[50%] bg-white px-3 hover:scale-105 transition">
+                  <img src="/stackly-logo.webp" className="h-[18px]" />
+                </Link>
+
+                <span className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold text-white">
+                  Portfolio
+                </span>
+              </div>
+
+              {/* Desktop */}
               <div className="hidden lg:flex w-full items-center gap-6">
-                <Link
-                  href="/"
-                  className="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]"
-                >
-                  <img
-                    src="/stackly-logo.webp"
-                    alt="Stackly logo"
-                    className="h-[18px] w-auto sm:h-[20px]"
-                  />
+                <Link href="/" className="flex h-8 min-w-[92px] items-center justify-center rounded-[50%] bg-white px-3 hover:scale-105 transition">
+                  <img src="/stackly-logo.webp" className="h-[18px]" />
                 </Link>
 
                 <div className="flex flex-1 items-center justify-evenly gap-x-6">
                   <span className="text-lg font-semibold text-white">Portfolio</span>
 
-                  <button
-                    type="button"
-                    className="shrink-0 border-b-2 border-transparent pb-0.5 transition-colors hover:text-white text-[13px] text-white sm:text-sm"
-                  >
-                    Home
-                  </button>
-
-                  <button
-                    type="button"
-                    className="shrink-0 border-b-2 border-transparent pb-0.5 transition-colors hover:text-white text-[13px] text-white sm:text-sm"
-                  >
-                    About Us
-                  </button>
-
-                  <button
-                    type="button"
-                    className="shrink-0 border-b-2 border-transparent pb-0.5 transition-colors hover:text-white text-[13px] text-white sm:text-sm"
-                  >
-                    Projects
-                  </button>
-
-                  <button
-                    type="button"
-                    className="shrink-0 border-b-2 border-transparent pb-0.5 transition-colors hover:text-white text-[13px] text-white sm:text-sm"
-                  >
-                    Contacts
-                  </button>
-                </div>
-              </div>
-
-              {/* Mobile: Hamburger menu on right */}
-              <div className="lg:hidden ml-auto">
-                <button
-                  type="button"
-                  onClick={() => setInnerMobileMenuOpen((v) => !v)}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/25 text-white"
-                  aria-label="Toggle portfolio menu"
-                  aria-expanded={innerMobileMenuOpen}
-                >
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                    <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* ✅ INNER MOBILE MENU */}
-            {innerMobileMenuOpen && (
-              <div className="border-t border-white/20 px-3 pb-3 pt-2 lg:hidden bg-[#06224C]">
-                <div className="grid grid-cols-2 gap-2">
                   {["Home", "About Us", "Projects", "Contacts"].map((item, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setInnerMobileMenuOpen(false)}
-                      className="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition"
-                    >
+                    <button key={i} className="relative text-white text-sm group">
                       {item}
+                      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
                     </button>
                   ))}
                 </div>
               </div>
-            )}
+
+              {/* Mobile Menu Btn */}
+              <div className="lg:hidden ml-auto">
+                <button
+                  onClick={() => setInnerMobileMenuOpen((v) => !v)}
+                  className="h-8 w-8 border border-white/25 text-white rounded-md hover:bg-white/10 transition"
+                >
+                  ☰
+                </button>
+              </div>
+            </div>
+
+            {/* MOBILE MENU */}
+            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${innerMobileMenuOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
+              <div className="px-3 pb-3 pt-2 bg-[#06224C] grid grid-cols-2 gap-2">
+                {["Home", "About Us", "Projects", "Contacts"].map((item, i) => (
+                  <button key={i} onClick={() => setInnerMobileMenuOpen(false)} className="border border-white/25 px-3 py-2 text-xs text-white rounded-md hover:bg-white/10 transition hover:scale-105">
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* HERO */}
             <div className="flex-1 flex flex-col px-4 md:px-8 lg:px-12 pt-6 md:pt-10 relative z-10">
+
               <h1 className="text-4xl font-bold text-gray-800 leading-tight">
                 <div className="mb-2">Hello, I'm</div>
                 <div className="text-[#477892] mb-2">Srinivas Pentakota</div>
@@ -270,94 +225,263 @@ export default function HomePage() {
                 I create modern, responsive websites with great user experience.
               </p>
 
-              {/* Mobile: Blobs and image below the sentence */}
+              {/* MOBILE BLOBS + IMAGE */}
               <div className="md:hidden mt-6 flex justify-center">
                 <div className="relative">
-                  <div className="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute"></div>
-                  <div className="w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full absolute left-4 top-4"></div>
-                  <div className="w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full absolute right-4 bottom-4"></div>
-                  <div className="w-[180px] h-[130px] bg-cyan-300 opacity-20 blur-2xl rounded-[60%_40%_55%_45%] absolute -top-6 -left-6"></div>
-                  <div className="w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-                  <div className="w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 relative">
+
+                  <div className="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute animate-[float_6s_ease-in-out_infinite]"></div>
+
+                  <div className="w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full absolute left-4 top-4 animate-[float_7s_ease-in-out_infinite]"></div>
+
+                  <div className="w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full absolute right-4 bottom-4 animate-[float_5s_ease-in-out_infinite]"></div>
+
+                  <div className="w-[180px] h-[130px] bg-cyan-300 opacity-20 blur-2xl rounded-[60%_40%_55%_45%] absolute -top-6 -left-6 animate-[float_8s_ease-in-out_infinite]"></div>
+
+                  <div className="w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]"></div>
+
+                  <div className="w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white relative z-20 animate-[float_6s_ease-in-out_infinite]">
                     <img src="/portfolio.png" className="w-full h-full object-cover" />
                   </div>
+
                 </div>
               </div>
 
-              {/* <div className="flex gap-6 mt-5">
-                <button className="px-3 py-2 ml-12 w-40  bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg hover:bg-gray-700">
-                  Edit
-                </button>
+              {/* BUTTONS */}
+              <div className="flex gap-3 mt-5 justify-center md:justify-start">
 
-                <button className="px-3 py-2 border border-[#06224C] text-[#06224C] rounded-lg hover:bg-gray-700 hover:text-white">
-                  View My Works
-                </button>
-              </div> */}
-             <div className="flex gap-3 mt-5 justify-center md:justify-start">
-  
-  <button className="px-3 py-2 w-28 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg hover:bg-gray-700 text-sm">
-    Edit
-  </button>
+                <Link href="/page-not-found">
+                  <button className="px-3 py-2 w-28 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+                    Edit
+                  </button>
+                </Link>
 
-  <button className="px-3 py-2 w-36 border border-[#06224C] text-[#06224C] rounded-lg hover:bg-gray-700 hover:text-white text-sm whitespace-nowrap">
-    View My Works
-  </button>
+                <Link href="/page-not-found">
+                  <button className="px-3 py-2 w-36 border border-[#06224C] text-[#06224C] rounded-lg text-sm transition transform hover:scale-105 active:scale-95 hover:bg-[#06224C] hover:text-white">
+                    View My Works
+                  </button>
+                </Link>
 
-</div>
+              </div>
 
               {/* STATS */}
-              <div className="flex flex-col items-center gap-4 mt-8 mb-6 w-full md:flex-row md:justify-between md:gap-0 lg:flex-row lg:justify-between lg:gap-0">
+              <div className="flex flex-col items-center gap-4 mt-8 mb-6 w-full md:flex-row md:justify-between">
                 {[
                   { value: "5+", label: "Years of Experience" },
                   { value: "120+", label: "Projects Done" },
                   { value: "98%", label: "Client Satisfaction" },
                 ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="w-50 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700"
-                  >
+                  <div key={i} className="w-50 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 transition transform hover:-translate-y-2 hover:shadow-xl">
                     <h5 className="text-2xl font-bold">{item.value}</h5>
                     <span className="text-sm mt-1">{item.label}</span>
                   </div>
                 ))}
               </div>
             </div>
-      <div className="absolute left-[60%] top-[30%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block"></div>
 
-      <div className="absolute left-[65%] top-[28%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block"></div>
+            {/* DESKTOP BLOBS */}
+            <div className="hidden md:block">
+              <div className="absolute left-[60%] top-[30%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full animate-[float_6s_ease-in-out_infinite]"></div>
 
-      <div className="absolute left-[65%] top-[43%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full hidden md:block"></div>
+              <div className="absolute left-[65%] top-[28%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full animate-[float_7s_ease-in-out_infinite]"></div>
 
-      {/* White shape */}
-      <div className="absolute left-[69%] top-[26%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md hidden md:block"></div>
+              <div className="absolute left-[65%] top-[43%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full animate-[float_5s_ease-in-out_infinite]"></div>
 
-            {/* PROFILE IMAGE */}
-            <div className="absolute left-[68%] top-[26%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 hidden md:block">
-              <img src="/portfolio.png" className="w-full h-full object-cover" />
+              <div className="absolute left-[69%] top-[26%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md animate-[float_6s_ease-in-out_infinite]"></div>
+
+              <div className="absolute left-[68%] top-[26%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 animate-[float_6s_ease-in-out_infinite]">
+                <img src="/portfolio.png" className="w-full h-full object-cover" />
+              </div>
             </div>
+
           </div>
-
-          {/* FOOTER CONTROLS */}
-          {/* <div className="w-full flex items-center justify-between mt-8 px-4">
-            <button className="h-10 px-4 rounded-lg text-blue-800 border border-blue-600 hover:bg-blue-50">
-              Help
-            </button>
-
-            <div className="h-10 flex items-center gap-3 px-3 border border-blue-600 rounded-lg">
-              <FaLaptop />
-              <FaMobileAlt />
-              <FaTabletAlt />
-              <FaSearch />
-            </div>
-
-            <button className="h-10 px-4 rounded-lg text-blue-800 border border-blue-600 hover:bg-blue-50">
-              Zoom
-            </button>
-          </div> */}
-
         </div>
       </div>
-    
+
+      {/* FLOAT ANIMATION */}
+      <style jsx>{`
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+`}</style>
+
+      <footer className="bg-[#051b3b] text-white mt-16 py-12">
+        <div className="max-w-[1200px] mx-auto px-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
+
+            {/* Column 1 */}
+            <div className="flex flex-col gap-8 md:col-span-1">
+
+  {/* TITLE */}
+  {/* <h3 className="text-white font-black text-sm uppercase tracking-wider">
+    Subscribe to our Updates
+  </h3> */}
+
+  {/* FORM */}
+  <form className="max-w-[260px] flex items-center gap-2">
+
+    {/* INPUT */}
+    <div className="flex-grow relative">
+
+      {/* Envelope Icon */}
+      <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+
+      <input
+        type="email"
+        placeholder="Your email"
+        className="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400"
+      />
+    </div>
+
+    {/* SEND BUTTON */}
+    <button
+      type="submit"
+      className="text-white hover:text-blue-300 transition group"
+    >
+      <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+    </button>
+
+  </form>
+
+  {/* ADDRESS */}
+  <div className="text-[13px] text-white/80 leading-relaxed space-y-1">
+    <h4 className="font-bold text-white mb-3 text-[15px]">Headquarters</h4>
+    <p>MMR COMPLEX, SALEM,</p>
+    <p>Tamil Nadu 636008</p>
+  </div>
+
+</div>
+
+            {/* PRODUCT */}
+            <div className="flex flex-col gap-4">
+              <h3 className="font-bold text-white text-[15px]">Product</h3>
+              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
+                <li className="hover:text-white cursor-pointer">Features</li>
+                <li className="hover:text-white cursor-pointer">Templates</li>
+                <li className="hover:text-white cursor-pointer">Pricing</li>
+                <li className="hover:text-white cursor-pointer">Changelog</li>
+              </ul>
+            </div>
+
+            {/* RESOURCES */}
+            <div className="flex flex-col gap-4">
+              <h3 className="font-bold text-white text-[15px]">Resources</h3>
+              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
+                <li className="hover:text-white cursor-pointer">Documentation</li>
+                <li className="hover:text-white cursor-pointer">API Reference</li>
+                <li className="hover:text-white cursor-pointer">Blog</li>
+                <li className="hover:text-white cursor-pointer">Status</li>
+              </ul>
+            </div>
+
+            {/* COMPANY */}
+            <div className="flex flex-col gap-4">
+              <h3 className="font-bold text-white text-[15px]">Company</h3>
+              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
+                <li className="hover:text-white cursor-pointer">About</li>
+                <li className="hover:text-white cursor-pointer">Privacy Policy</li>
+                <li className="hover:text-white cursor-pointer">Terms of Service</li>
+                <li className="hover:text-white cursor-pointer">Contact</li>
+              </ul>
+            </div>
+
+            {/* LOGO + ABOUT */}
+            <div className="flex flex-col gap-6 items-start md:items-end text-left md:text-right">
+              <div className="flex flex-col gap-3">
+                {/* <img src="/stackly-logo.webp" className="h-[20px]" /> */}
+                  <Link
+    href="/"
+    className="flex h-10 w-fit items-center justify-center rounded-[50%] bg-white px-4 transition hover:scale-105"
+  >
+    <img src="/stackly-logo.webp" className="h-[18px] w-auto" />
+  </Link>
+ 
+              </div>
+              
+
+              <p className="text-[12px] text-white/70 max-w-[220px]">
+                The <strong className="text-white">NO-CODE</strong> website builder for everyone. Powered by AWS infrastructure, built by The <strong className="text-white">Stackly</strong> team.
+              </p>
+            </div>
+
+          </div>
+
+          {/* DIVIDER */}
+          <div className="w-full h-px bg-white/10 mb-8"></div>
+
+          {/* BOTTOM */}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+
+            {/* ✅ UPDATED SOCIAL ICONS */}
+            <div className="bg-white rounded-full px-5 py-2.5 flex items-center gap-4 text-[#051b3b]">
+
+              <a
+                href="https://www.facebook.com/thestackly/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-110 hover:text-blue-600 transition"
+              >
+                <FaFacebookF size={14} />
+              </a>
+ <a
+    href="https://www.youtube.com/@TheStackly"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:scale-110 hover:text-red-600 transition"
+  >
+    <FaYoutube size={14} />
+  </a>
+              <a
+                href="https://www.instagram.com/the_stackly/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-110 hover:text-pink-600 transition"
+              >
+                <FaInstagram size={14} />
+              </a>
+
+              <a
+                href="https://x.com/the_stackly"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-110 hover:text-black transition"
+              >
+                <FaXTwitter size={14} />
+              </a>
+
+              <a
+                href="https://www.linkedin.com/company/stackly/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-110 hover:text-blue-700 transition"
+              >
+                <FaLinkedinIn size={14} />
+              </a>
+
+              <a
+                href="https://www.thestackly.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-110 hover:text-green-600 transition"
+              >
+                <FaGlobe size={14} />
+              </a>
+
+            </div>
+
+            {/* COPYRIGHT */}
+            <div className="flex flex-wrap items-center justify-center gap-6 text-[12px] text-white/70">
+              <a className="hover:text-white transition">Terms of Use</a>
+              <a className="hover:text-white transition">Privacy Policy</a>
+              <span>© 2018-2026 Stackly.com, Inc</span>
+            </div>
+
+          </div>
+
+        </div>
+      </footer>
     </main>
   );
 }
