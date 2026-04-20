@@ -43,7 +43,8 @@ export default function HomePage() {
   return (
     <main className="flex flex-col min-h-screen bg-white pt-[56px] sm:pt-[60px]">
       {/* ✅ NAVBAR */}
-      <nav className="w-full bg-[#06224C] fixed top-0 left-0 z-50">
+      {/* <nav className="w-full bg-[#06224C] fixed top-0 left-0 z-50"> */}
+      <nav className="w-full bg-[#06224C] sticky top-0 z-50">
         <div className="flex w-full flex-wrap items-center justify-between px-4 py-3 md:px-8 gap-y-3 xl:flex-nowrap">
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <button
