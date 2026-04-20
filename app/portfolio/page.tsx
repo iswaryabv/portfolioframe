@@ -41,11 +41,11 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="flex flex-col min-h-screen bg-white pt-[56px] sm:pt-[60px]">
       {/* ✅ NAVBAR */}
-      <nav className="w-full bg-[#06224C]">
-        <div className="flex w-full flex-wrap items-center gap-2 px-3 py-3 sm:gap-3 sm:px-8 xl:flex-nowrap">
-          <div className="flex min-w-0 flex-shrink-0 items-center gap-2">
+      <nav className="w-full bg-[#06224C] fixed top-0 left-0 z-50">
+        <div className="flex w-full items-center justify-between px-4 py-3 md:px-8 xl:flex-nowrap">
+          <div className="flex min-w-0 flex-shrink-0 items-center gap-3">
             <button
               type="button"
               onClick={() => setMobileMenuOpen((v) => !v)}
@@ -91,22 +91,17 @@ export default function HomePage() {
             </nav>
           </div>
 
-          <div className="ml-auto flex min-w-0 flex-nowrap items-center gap-3 sm:gap-4 md:gap-5">
+          <div className="flex min-w-0 items-center justify-end gap-3 lg:gap-4">
             {/* CART */}
-            <button
-              onClick={() => setCartCount((prev) => prev + 1)}
-              className="relative flex items-center gap-2 border border-white/30 px-3 py-1 rounded-full text-white text-xs shrink-0"
+            <Link
+              href="/page-not-found"
+              tabIndex={0}
+              className="relative flex items-center justify-center p-0 w-8 h-8 sm:w-auto sm:h-auto sm:px-3 sm:py-1 sm:gap-2 border border-white/30 rounded-full text-white text-xs shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95"
               aria-label="Shopping cart"
             >
               <FaShoppingCart />
               <span className="hidden sm:inline">Cart</span>
-
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-                  {cartCount}
-                </span>
-              )}
-            </button>
+            </Link>
 
             {/* SEARCH */}
             <button
@@ -118,12 +113,18 @@ export default function HomePage() {
             </button>
 
             {/* PROFILE */}
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0">
+            <Link
+              href="/page-not-found"
+              tabIndex={0}
+              className="block w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#06224C] transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+              aria-label="User profile menu"
+            >
               <img
                 src="https://ui-avatars.com/api/?name=User"
                 alt="User profile"
+                className="w-full h-full object-cover"
               />
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -151,53 +152,72 @@ export default function HomePage() {
         )}
       </nav>
 
+      {/* SEARCH BAR */}
+      <div className={`bg-white p-6 border-b transition-all duration-300 ${searchOpen ? "block" : "hidden"}`}>
+        <form onSubmit={(e) => { e.preventDefault(); window.location.href = '/page-not-found'; }} className="w-full relative flex items-center">
+          <input type="text" placeholder="Search..." className="w-full border p-3 pr-12 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#06224C]" />
+          <button type="submit" aria-label="Submit search" className="absolute right-3 text-[#06224C] hover:scale-110 active:scale-95 transition-transform flex items-center justify-center w-8 h-8">
+            <FaSearch />
+          </button>
+        </form>
+      </div>
+
       {/* MAIN CONTENT */}
-      <div className="flex-1 bg-white p-4 md:p-7 flex justify-center">
-        <div className="w-full max-w-[1200px] mt-10 relative">
+      <div className="bg-white px-4 py-6 md:px-8 md:py-8 flex justify-center">
+        <div className="w-full max-w-[1200px] relative">
 
           {/* Canvas Box */}
           <div className="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
 
             {/* INNER NAVBAR */}
-            <div className="flex w-full flex-wrap items-center gap-4 px-3 py-3 sm:gap-6 sm:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
+            <div className="flex w-full flex-wrap items-center justify-between gap-4 px-4 py-3 sm:gap-6 md:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
 
-              {/* Mobile */}
-              <div className="flex items-center gap-2 lg:hidden">
-                <Link href="/" className="flex h-8 min-w-[92px] items-center justify-center rounded-[50%] bg-white px-3 hover:scale-105 transition">
-                  <img src="/stackly-logo.webp" className="h-[18px]" />
-                </Link>
+              {/* Mobile Header */}
+              <div className="flex items-center justify-between w-full lg:hidden gap-2">
+                <div className="flex-1 flex justify-start min-w-0">
+                  <Link href="/" className="flex h-8 w-[92px] max-w-full shrink items-center justify-center rounded-full bg-white px-2 hover:scale-105 transition overflow-hidden">
+                    <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[16px] max-w-full object-contain shrink" />
+                  </Link>
+                </div>
 
-                <span className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold text-white">
-                  Portfolio
-                </span>
+                <div className="flex shrink-0 justify-center px-1 min-w-0 max-w-[40%]">
+                  <span className="text-base sm:text-lg font-semibold text-white text-center truncate w-full">
+                    Portfolio
+                  </span>
+                </div>
+
+                <div className="flex-1 flex justify-end min-w-0">
+                  <button
+                    onClick={() => setInnerMobileMenuOpen((v) => !v)}
+                    className="h-8 w-8 shrink-0 border border-white/25 text-white rounded-md hover:bg-white/10 transition flex items-center justify-center"
+                  >
+                    <FaBars />
+                  </button>
+                </div>
               </div>
 
               {/* Desktop */}
-              <div className="hidden lg:flex w-full items-center gap-6">
-                <Link href="/" className="flex h-8 min-w-[92px] items-center justify-center rounded-[50%] bg-white px-3 hover:scale-105 transition">
-                  <img src="/stackly-logo.webp" className="h-[18px]" />
-                </Link>
+              <div className="hidden lg:flex w-full items-center justify-between">
+                
+                <div className="flex-1 flex justify-start">
+                  <Link href="/" className="flex h-8 min-w-[92px] shrink-0 items-center justify-center rounded-[50%] bg-white px-3 hover:scale-105 transition">
+                    <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[18px]" />
+                  </Link>
+                </div>
 
-                <div className="flex flex-1 items-center justify-evenly gap-x-6">
+                <div className="flex shrink-0 justify-center px-4">
                   <span className="text-lg font-semibold text-white">Portfolio</span>
+                </div>
 
+                <div className="flex-1 flex justify-end gap-x-8">
                   {["Home", "About Us", "Projects", "Contacts"].map((item, i) => (
-                    <button key={i} className="relative text-white text-sm group">
+                    <button key={i} className="relative text-white text-sm group shrink-0">
                       {item}
                       <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
                     </button>
                   ))}
                 </div>
-              </div>
 
-              {/* Mobile Menu Btn */}
-              <div className="lg:hidden ml-auto">
-                <button
-                  onClick={() => setInnerMobileMenuOpen((v) => !v)}
-                  className="h-8 w-8 border border-white/25 text-white rounded-md hover:bg-white/10 transition"
-                >
-                  ☰
-                </button>
               </div>
             </div>
 
@@ -213,66 +233,68 @@ export default function HomePage() {
             </div>
 
             {/* HERO */}
-            <div className="flex-1 flex flex-col px-4 md:px-8 lg:px-12 pt-6 md:pt-10 relative z-10">
+            <div className="flex-1 flex flex-col px-4 md:px-8 lg:px-12 py-6 md:py-8 relative z-10">
 
-              <h1 className="text-4xl font-bold text-gray-800 leading-tight">
-                <div className="mb-2">Hello, I'm</div>
-                <div className="text-[#477892] mb-2">Srinivas Pentakota</div>
-                <div>UI/UX Designer</div>
-              </h1>
+              <div className="w-full md:w-[55%] lg:w-[60%] shrink-0 flex flex-col relative z-30">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 leading-snug md:leading-normal break-words whitespace-normal">
+                  <div className="mb-2">Hello, I'm</div>
+                  <div className="text-[#477892] mb-2 leading-snug">Srinivas Pentakota</div>
+                  <div className="leading-snug">UI/UX Designer</div>
+                </h1>
 
-              <p className="text-gray-600 mt-4 text-lg max-w-xl">
-                I create modern, responsive websites with great user experience.
-              </p>
+                <p className="text-gray-600 mt-4 text-base md:text-lg max-w-xl break-words relative z-20">
+                  I create modern, responsive websites with great user experience.
+                </p>
 
-              {/* MOBILE BLOBS + IMAGE */}
-              <div className="md:hidden mt-6 flex justify-center">
-                <div className="relative">
+                {/* MOBILE BLOBS + IMAGE */}
+                <div className="md:hidden mt-6 flex justify-center">
+                  <div className="relative">
 
-                  <div className="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute animate-[float_6s_ease-in-out_infinite]"></div>
+                    <div className="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]"></div>
 
-                  <div className="w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full absolute left-4 top-4 animate-[float_7s_ease-in-out_infinite]"></div>
+                    <div className="w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full absolute left-4 top-4 animate-[float_7s_ease-in-out_infinite]"></div>
 
-                  <div className="w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full absolute right-4 bottom-4 animate-[float_5s_ease-in-out_infinite]"></div>
+                    <div className="w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full absolute right-4 bottom-4 animate-[float_5s_ease-in-out_infinite]"></div>
 
-                  <div className="w-[180px] h-[130px] bg-cyan-300 opacity-20 blur-2xl rounded-[60%_40%_55%_45%] absolute -top-6 -left-6 animate-[float_8s_ease-in-out_infinite]"></div>
+                    <div className="w-[180px] h-[130px] bg-cyan-300 opacity-20 blur-2xl rounded-[60%_40%_55%_45%] absolute -top-6 -left-6 animate-[float_8s_ease-in-out_infinite]"></div>
 
-                  <div className="w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]"></div>
+                    <div className="w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]"></div>
 
-                  <div className="w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white relative z-20 animate-[float_6s_ease-in-out_infinite]">
-                    <img src="/portfolio.png" className="w-full h-full object-cover" />
+                    <div className="w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white relative z-20 animate-[float_6s_ease-in-out_infinite]">
+                      <img src="/portfolioimagee.png" alt="Srinivas Pentakota - UI/UX Designer Portfolio" className="w-full h-full object-cover" />
+                    </div>
+
                   </div>
+                </div>
+
+                {/* BUTTONS */}
+                <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
+
+                  <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
+                    <button className="px-3 py-2 w-32 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+                      Edit
+                    </button>
+                  </Link>
+
+                <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
+  <button className="px-3 py-2 w-auto min-w-[9rem] bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+    View My Works
+  </button>
+</Link>
 
                 </div>
               </div>
 
-              {/* BUTTONS */}
-              <div className="flex gap-3 mt-5 justify-center md:justify-start">
-
-                <Link href="/page-not-found">
-                  <button className="px-3 py-2 w-28 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
-                    Edit
-                  </button>
-                </Link>
-
-                <Link href="/page-not-found">
-                  <button className="px-3 py-2 w-36 border border-[#06224C] text-[#06224C] rounded-lg text-sm transition transform hover:scale-105 active:scale-95 hover:bg-[#06224C] hover:text-white">
-                    View My Works
-                  </button>
-                </Link>
-
-              </div>
-
               {/* STATS */}
-              <div className="flex flex-col items-center gap-4 mt-8 mb-6 w-full md:flex-row md:justify-between">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8 mt-6 mb-2 w-full flex-wrap">
                 {[
                   { value: "5+", label: "Years of Experience" },
                   { value: "120+", label: "Projects Done" },
                   { value: "98%", label: "Client Satisfaction" },
                 ].map((item, i) => (
-                  <div key={i} className="w-50 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 transition transform hover:-translate-y-2 hover:shadow-xl">
+                  <div key={i} className="w-full max-w-[16rem] md:w-64 bg-white py-4 min-h-[6rem] px-4 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 transition transform hover:-translate-y-2 hover:shadow-xl text-center">
                     <h5 className="text-2xl font-bold">{item.value}</h5>
-                    <span className="text-sm mt-1">{item.label}</span>
+                    <span className="text-sm mt-1 break-words">{item.label}</span>
                   </div>
                 ))}
               </div>
@@ -289,7 +311,7 @@ export default function HomePage() {
               <div className="absolute left-[69%] top-[26%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md animate-[float_6s_ease-in-out_infinite]"></div>
 
               <div className="absolute left-[68%] top-[26%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 animate-[float_6s_ease-in-out_infinite]">
-                <img src="/portfolio.png" className="w-full h-full object-cover" />
+                <img src="/portfolio.png" alt="Srinivas Pentakota - UI/UX Designer Portfolio" className="w-full h-full object-cover" />
               </div>
             </div>
 
@@ -306,7 +328,7 @@ export default function HomePage() {
 }
 `}</style>
 
-      <footer className="bg-[#051b3b] text-white mt-16 py-12">
+      <footer className="grow bg-[#051b3b] text-white mt-16 py-12">
         <div className="max-w-[1200px] mx-auto px-6">
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
@@ -405,7 +427,9 @@ export default function HomePage() {
                 <Link href="/page-not-found" className="hover:text-white cursor-pointer">
                   Terms of Service
                 </Link>
-                <li className="hover:text-white cursor-pointer">Contact</li>
+                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                  Contact
+                </Link>
               </ul>
             </div>
 
@@ -417,8 +441,10 @@ export default function HomePage() {
     href="/"
     className="flex h-10 w-fit items-center justify-center rounded-[50%] bg-white px-4 transition hover:scale-105"
   >
-    <img src="/stackly-logo.webp" className="h-[18px] w-auto" />
+    <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[18px] w-auto" />
   </Link>
+
+  
  
               </div>
               
@@ -474,7 +500,7 @@ export default function HomePage() {
               </a>
 
               <a
-                href="https://www.linkedin.com/company/stackly/"
+                href="https://www.linkedin.com/company/the-stackly"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:scale-110 hover:text-blue-700 transition"
@@ -501,7 +527,7 @@ export default function HomePage() {
               <Link href="/page-not-found" className="hover:text-white transition">
                 Privacy Policy
               </Link>
-              <span>© 2018-2026 Stackly.com, Inc</span>
+              <span>© 2018-2026 thestackly.com, Inc</span>
             </div>
 
           </div>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -46,6 +46,7 @@
     }
   </style>
 </head>
+
 <body class="bg-white antialiased flex flex-col min-h-screen">
   <script>
     let portfolioPageMobileMenuOpen = false;
@@ -99,7 +100,7 @@
         if (footer) footer.classList.add("hidden");
       }
     }
-    
+
 
     function goBackHome() {
       document.getElementById("pageNotFound").classList.add("hidden");
@@ -111,10 +112,10 @@
   </script>
 
   <!-- ================= PORTFOLIO PAGE ================= -->
-<div id="mainContent" class="flex-1 bg-white">
-    <nav class="w-full bg-[#06224C]">
-      <div class="flex w-full flex-wrap items-center gap-2 px-3 py-3 sm:gap-3 sm:px-8 xl:flex-nowrap">
-        <div class="flex min-w-0 flex-shrink-0 items-center gap-2">
+  <div id="mainContent" class="bg-white pt-[56px] sm:pt-[60px]">
+    <nav class="w-full bg-[#06224C] fixed top-0 left-0 z-50">
+      <div class="flex w-full items-center justify-between px-4 py-3 md:px-8 xl:flex-nowrap">
+        <div class="flex min-w-0 flex-shrink-0 items-center gap-3">
           <button type="button" onclick="togglePortfolioPageMobileMenu()"
             class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/25 text-white lg:hidden"
             aria-label="Toggle navigation menu">
@@ -152,14 +153,12 @@
           </nav>
         </div>
 
-        <div class="ml-auto flex min-w-0 flex-nowrap items-center gap-3 sm:gap-4 md:gap-5">
-          <button onclick="togglePortfolioPageCart()"
-            class="relative flex items-center gap-2 border border-white/30 px-3 py-1 rounded-full text-white text-xs shrink-0"
+        <div class="flex min-w-0 items-center justify-end gap-3 lg:gap-4">
+          <button type="button" tabindex="0" onclick="goToPage('notfound')"
+            class="relative flex items-center justify-center p-0 w-8 h-8 sm:w-auto sm:h-auto sm:px-3 sm:py-1 sm:gap-2 border border-white/30 rounded-full text-white text-xs shrink-0 cursor-pointer transition-transform hover:scale-105 active:scale-95"
             aria-label="Shopping cart">
             <i class="fas fa-shopping-cart"></i>
             <span class="hidden sm:inline">Cart</span>
-            <span id="portfolioPageCartBadge"
-              class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
           </button>
 
           <button onclick="togglePortfolioPageSearch()"
@@ -167,9 +166,11 @@
             <i class="fas fa-search text-[#06224C]"></i>
           </button>
 
-          <div class="w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0">
-            <img src="https://ui-avatars.com/api/?name=User" alt="User profile" />
-          </div>
+          <button type="button" tabindex="0" onclick="goToPage('notfound')"
+            class="w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#06224C] transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+            aria-label="User profile menu">
+            <img src="https://ui-avatars.com/api/?name=User" alt="User profile" class="w-full h-full object-cover" />
+          </button>
         </div>
       </div>
 
@@ -197,70 +198,86 @@
     </nav>
 
     <div id="portfolioPageSearchBar" class="bg-white p-6 border-b hidden">
-      <input type="text" placeholder="Search..." class="w-full border p-3 rounded-lg" />
+      <form onsubmit="event.preventDefault(); goToPage('notfound');" class="w-full relative flex items-center">
+        <input type="text" placeholder="Search..."
+          class="w-full border p-3 pr-12 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#06224C]" />
+        <button type="submit" aria-label="Submit search"
+          class="absolute right-3 text-[#06224C] hover:scale-110 active:scale-95 transition-transform flex items-center justify-center w-8 h-8">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
     </div>
 
-    <div class="flex-1 bg-white p-4 md:p-7 flex justify-center">
-     <div class="w-full max-w-[1200px] relative">
+    <div class="bg-white px-4 py-6 md:px-8 md:py-8 flex justify-center">
+      <div class="w-full max-w-[1200px] relative">
         <div
           class="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
           <div
-            class="flex w-full flex-wrap items-center gap-4 px-3 py-3 sm:gap-6 sm:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
-            <div class="flex items-center gap-2 lg:hidden">
-              <a href="/"
-                class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
-                <img src="public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
-              </a>
-              <span class="absolute left-1/2 -translate-x-1/2 text-lg font-semibold text-white">Portfolio</span>
+            class="flex w-full flex-wrap items-center justify-between gap-4 px-4 py-3 sm:gap-6 md:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
+
+            <div class="flex items-center justify-between w-full lg:hidden gap-2">
+              <div class="flex-1 flex justify-start min-w-0">
+                <a href="/"
+                  class="flex h-8 w-[92px] max-w-full shrink items-center justify-center overflow-hidden rounded-full bg-white px-2 sm:h-9">
+                  <img src="public/stackly-logo.webp" alt="Stackly logo"
+                    class="h-[16px] max-w-full object-contain shrink" />
+                </a>
+              </div>
+              <div class="flex shrink-0 justify-center px-1 min-w-0 max-w-[40%]">
+                <span class="text-base sm:text-lg font-semibold text-white text-center truncate w-full">Portfolio</span>
+              </div>
+              <div class="flex-1 flex justify-end min-w-0">
+                <button onclick="togglePortfolioPageInnerMobileMenu()"
+                  class="inline-flex shrink-0 h-8 w-8 items-center justify-center rounded-md border border-white/25 text-white"
+                  aria-label="Toggle portfolio menu">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden>
+                    <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
-            <div class="hidden lg:flex w-full items-center gap-6">
-              <a href="/"
-                class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
-                <img src="public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
-              </a>
+            <div class="hidden lg:flex w-full items-center justify-between">
+              <div class="flex-1 flex justify-start">
+                <a href="/"
+                  class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
+                  <img src="public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
+                </a>
+              </div>
 
-              <div class="flex flex-1 items-center justify-evenly gap-x-6">
-
+              <div class="flex shrink-0 justify-center px-4">
                 <span class="text-lg font-semibold text-white">Portfolio</span>
+              </div>
 
-                <button type="button" class="relative text-white text-[13px] sm:text-sm group">
+              <div class="flex-1 flex justify-end gap-x-8">
+
+                <button type="button" class="relative text-white text-[13px] sm:text-sm group shrink-0">
                   Home
                   <span
                     class="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
                 </button>
 
-                <button type="button" class="relative text-white text-[13px] sm:text-sm group">
+                <button type="button" class="relative text-white text-[13px] sm:text-sm group shrink-0">
                   About Us
                   <span
                     class="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
                 </button>
 
-                <button type="button" class="relative text-white text-[13px] sm:text-sm group">
+                <button type="button" class="relative text-white text-[13px] sm:text-sm group shrink-0">
                   Projects
                   <span
                     class="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
                 </button>
 
-                <button type="button" class="relative text-white text-[13px] sm:text-sm group">
+                <button type="button" class="relative text-white text-[13px] sm:text-sm group shrink-0">
                   Contacts
                   <span
                     class="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
                 </button>
 
               </div>
-            </div>
-
-            <div class="lg:hidden ml-auto">
-              <button onclick="togglePortfolioPageInnerMobileMenu()"
-                class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/25 text-white"
-                aria-label="Toggle portfolio menu">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden>
-                  <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" />
-                </svg>
-              </button>
             </div>
           </div>
 
@@ -279,68 +296,78 @@
             </div>
           </div>
 
-          <div class="flex-1 flex flex-col px-4 md:px-8 lg:px-12 pt-6 md:pt-10 relative z-10">
-            <h1 class="text-4xl font-bold text-gray-800 leading-tight">
-              <div class="mb-2">Hello, I'm</div>
-              <div class="text-[#477892] mb-2">Srinivas Pentakota</div>
-              <div>UI/UX Designer</div>
-            </h1>
-            <p class="text-gray-600 mt-4 text-lg max-w-xl">I create modern, responsive websites with great user
-              experience.</p>
+          <div class="flex-1 flex flex-col px-4 md:px-8 lg:px-12 py-6 md:py-8 relative z-10">
+            <div class="w-full md:w-[55%] lg:w-[60%] shrink-0 flex flex-col relative z-30">
+              <h1
+                class="text-3xl md:text-4xl font-bold text-gray-800 leading-snug md:leading-normal break-words whitespace-normal">
+                <div class="mb-2">Hello, I'm</div>
+                <div class="text-[#477892] mb-2 leading-snug">Srinivas Pentakota</div>
+                <div class="leading-snug">UI/UX Designer</div>
+              </h1>
+              <p class="text-gray-600 mt-4 text-base md:text-lg max-w-xl break-words relative z-20">I create modern,
+                responsive websites
+                with great user
+                experience.</p>
 
-            <div class="md:hidden mt-6 flex justify-center">
-              <div class="relative">
-                <div
-                  class="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute">
-                </div>
-                <div class="w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full absolute left-4 top-4">
-                </div>
-                <div class="w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full absolute right-4 bottom-4"></div>
-                <div
-                  class="w-[180px] h-[130px] bg-cyan-300 opacity-20 blur-2xl rounded-[60%_40%_55%_45%] absolute -top-6 -left-6">
-                </div>
-                <div
-                  class="w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                </div>
-                <div class="w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 relative">
-                  <img src="public/portfolio.png" class="w-full h-full object-cover" />
+              <div class="md:hidden mt-6 flex justify-center">
+                <div class="relative">
+                  <div
+                    class="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  </div>
+                  <div class="w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full absolute left-4 top-4">
+                  </div>
+                  <div class="w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full absolute right-4 bottom-4"></div>
+                  <div
+                    class="w-[180px] h-[130px] bg-cyan-300 opacity-20 blur-2xl rounded-[60%_40%_55%_45%] absolute -top-6 -left-6">
+                  </div>
+                  <div
+                    class="w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  </div>
+                  <div class="w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 relative">
+                    <img src="public/portfolioimagee.png" alt="Srinivas Pentakota - UI/UX Designer Portfolio"
+                      class="w-full h-full object-cover" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="flex gap-3 mt-5 justify-center md:justify-start">
+              <div class="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
 
-              <button onclick="goToPage('notfound')"
-                class="px-3 py-2 w-28 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
-                Edit
-              </button>
+                <div class="w-full sm:w-auto flex justify-center">
+                  <button onclick="goToPage('notfound')"
+                    class="px-3 py-2 w-32 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+                    Edit
+                  </button>
+                </div>
 
-              <button onclick="goToPage('notfound')"
-                class="px-3 py-2 w-36 border border-[#06224C] text-[#06224C] rounded-lg text-sm transition transform hover:scale-105 active:scale-95 hover:bg-[#06224C] hover:text-white">
-                View My Works
-              </button>
+                <div class="w-full sm:w-auto flex justify-center">
+                  <button onclick="goToPage('notfound')"
+                    class="px-3 py-2 w-auto min-w-[9rem] bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+                    View My Works
+                  </button>
+                </div>
 
+              </div>
             </div>
 
             <div
-              class="flex flex-col items-center gap-4 mt-8 mb-6 w-full md:flex-row md:justify-between md:gap-0 lg:flex-row lg:justify-between lg:gap-0">
+              class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8 mt-6 mb-2 w-full flex-wrap">
 
-              <div class="w-64 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 
-              transition transform hover:-translate-y-2 hover:shadow-xl">
+              <div class="w-full max-w-[16rem] md:w-64 bg-white py-4 min-h-[6rem] px-4 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 
+              transition transform hover:-translate-y-2 hover:shadow-xl text-center">
                 <h5 class="text-2xl font-bold">5+</h5>
-                <span class="text-sm mt-1">Years of Experience</span>
+                <span class="text-sm mt-1 break-words">Years of Experience</span>
               </div>
 
-              <div class="w-64 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 
-              transition transform hover:-translate-y-2 hover:shadow-xl">
+              <div class="w-full max-w-[16rem] md:w-64 bg-white py-4 min-h-[6rem] px-4 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 
+              transition transform hover:-translate-y-2 hover:shadow-xl text-center">
                 <h5 class="text-2xl font-bold">120+</h5>
-                <span class="text-sm mt-1">Projects Done</span>
+                <span class="text-sm mt-1 break-words">Projects Done</span>
               </div>
 
-              <div class="w-64 bg-white h-28 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 
-              transition transform hover:-translate-y-2 hover:shadow-xl">
+              <div class="w-full max-w-[16rem] md:w-64 bg-white py-4 min-h-[6rem] px-4 rounded-lg shadow-md flex flex-col items-center justify-center text-gray-700 
+              transition transform hover:-translate-y-2 hover:shadow-xl text-center">
                 <h5 class="text-2xl font-bold">98%</h5>
-                <span class="text-sm mt-1">Client Satisfaction</span>
+                <span class="text-sm mt-1 break-words">Client Satisfaction</span>
               </div>
 
             </div>
@@ -360,7 +387,8 @@
           </div>
           <div
             class="absolute left-[68%] top-[26%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 hidden md:block">
-            <img src="public/portfolio.png" class="w-full h-full object-cover" />
+            <img src="public/portfolio.png" alt="Srinivas Pentakota - UI/UX Designer Portfolio"
+              class="w-full h-full object-cover" />
           </div>
         </div>
       </div>
@@ -386,205 +414,206 @@
     </button>
 
   </div>
-<footer id="portfolioFooter" class="bg-[#051b3b] text-white mt-16 py-12">
-  <div class="max-w-[1200px] mx-auto px-6">
+  <footer id="portfolioFooter" class="grow bg-[#051b3b] text-white mt-16 py-12">
+    <div class="max-w-[1200px] mx-auto px-6">
 
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
 
-      <!-- Column 1: Email + Address -->
-      <div class="flex flex-col gap-8 md:col-span-1">
+        <!-- Column 1: Email + Address -->
+        <div class="flex flex-col gap-8 md:col-span-1">
 
-        <!-- EMAIL FORM -->
-        <form class="max-w-[260px] flex items-center gap-2">
+          <!-- EMAIL FORM -->
+          <form class="max-w-[260px] flex items-center gap-2">
 
-          <div class="flex-grow relative">
-            <!-- Envelope Icon -->
-            <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+            <div class="flex-grow relative">
+              <!-- Envelope Icon -->
+              <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
 
-            <!-- Input -->
-            <input type="email" placeholder="Your email"
-              class="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400" />
+              <!-- Input -->
+              <input type="email" placeholder="Your email"
+                class="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400" />
+            </div>
+
+            <!-- Send Button -->
+            <button type="submit" class="text-white hover:text-blue-300 transition group">
+              <i
+                class="fa-solid fa-paper-plane text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"></i>
+            </button>
+
+          </form>
+
+          <!-- ADDRESS -->
+          <div class="text-[13px] text-white/80 leading-relaxed space-y-1">
+            <h4 class="font-bold text-white mb-3 text-[15px]">Headquarters</h4>
+            <p>MMR COMPLEX, SALEM,</p>
+            <p>Tamil Nadu 636008</p>
           </div>
 
-          <!-- Send Button -->
-          <button type="submit" class="text-white hover:text-blue-300 transition group">
-            <i
-              class="fa-solid fa-paper-plane text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"></i>
-          </button>
+        </div>
 
-        </form>
+        <!-- PRODUCT -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-bold text-white text-[15px]">Product</h3>
+          <ul class="flex flex-col gap-3 text-[13px] text-white/70">
 
-        <!-- ADDRESS -->
-        <div class="text-[13px] text-white/80 leading-relaxed space-y-1">
-          <h4 class="font-bold text-white mb-3 text-[15px]">Headquarters</h4>
-          <p>MMR COMPLEX, SALEM,</p>
-          <p>Tamil Nadu 636008</p>
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Features
+              </button>
+            </li>
+
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Templates
+              </button>
+            </li>
+
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Pricing
+              </button>
+            </li>
+
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Changelog
+              </button>
+            </li>
+
+          </ul>
+        </div>
+
+        <!-- RESOURCES -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-bold text-white text-[15px]">Resources</h3>
+          <ul class="flex flex-col gap-3 text-[13px] text-white/70">
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Documentation
+              </button>
+            </li>
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                API Reference
+              </button>
+            </li>
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Blog
+              </button>
+            </li>
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Status
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- COMPANY -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-bold text-white text-[15px]">Company</h3>
+          <ul class="flex flex-col gap-3 text-[13px] text-white/70">
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                About
+              </button>
+            </li>
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Privacy Policy
+              </button>
+            </li>
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Terms of Service
+              </button>
+            </li>
+            <li>
+              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+                Contact
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- LOGO + ABOUT -->
+        <div class="flex flex-col gap-6 items-start md:items-end text-left md:text-right">
+          <!-- <div class="bg-white rounded-full px-6 py-2 flex items-center justify-center"> -->
+          <!-- <img src="public/stackly-logo.webp" class="h-[20px]" /> -->
+          <a href="/"
+            class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
+
+            <img src="public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
+          </a>
+          <!-- </div> -->
+
+          <p class="text-[12px] text-white/70 max-w-[220px]">
+            The <strong class="text-white">NO-CODE</strong> website builder for everyone.
+            Powered by AWS infrastructure, built by The <strong class="text-white">Stackly</strong> team.
+          </p>
         </div>
 
       </div>
 
-      <!-- PRODUCT -->
-      <div class="flex flex-col gap-4">
-        <h3 class="font-bold text-white text-[15px]">Product</h3>
-        <ul class="flex flex-col gap-3 text-[13px] text-white/70">
+      <!-- DIVIDER -->
+      <div class="w-full h-px bg-white/10 mb-8"></div>
 
-  <li>
-    <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-      Features
-    </button>
-  </li>
+      <!-- BOTTOM -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
 
-  <li>
-    <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-      Templates
-    </button>
-  </li>
+        <!-- SOCIAL ICONS -->
+        <div class="bg-white rounded-full px-5 py-2.5 flex items-center gap-4 text-[#051b3b]">
 
-  <li>
-    <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-      Pricing
-    </button>
-  </li>
+          <a href="https://www.facebook.com/thestackly/" target="_blank"
+            class="hover:scale-110 hover:text-blue-600 transition">
+            <i class="fab fa-facebook-f text-sm"></i>
+          </a>
 
-  <li>
-    <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-      Changelog
-    </button>
-  </li>
+          <a href="https://www.youtube.com/@TheStackly" target="_blank"
+            class="hover:scale-110 hover:text-red-600 transition">
+            <i class="fab fa-youtube text-sm"></i>
+          </a>
 
-</ul>
-      </div>
+          <a href="https://www.instagram.com/the_stackly/" target="_blank"
+            class="hover:scale-110 hover:text-pink-600 transition">
+            <i class="fab fa-instagram text-sm"></i>
+          </a>
 
-      <!-- RESOURCES -->
-      <div class="flex flex-col gap-4">
-        <h3 class="font-bold text-white text-[15px]">Resources</h3>
-        <ul class="flex flex-col gap-3 text-[13px] text-white/70">
+          <a href="https://x.com/the_stackly" target="_blank" class="hover:scale-110 hover:text-black transition">
+            <i class="fab fa-x-twitter text-sm"></i>
+          </a>
+
+          <a href="https://www.linkedin.com/company/stackly/" target="_blank"
+            class="hover:scale-110 hover:text-blue-700 transition">
+            <i class="fab fa-linkedin-in text-sm"></i>
+          </a>
+
+          <a href="https://www.thestackly.com/" target="_blank" class="hover:scale-110 hover:text-green-600 transition">
+            <i class="fas fa-globe text-sm"></i>
+          </a>
+
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="flex flex-wrap items-center justify-center gap-6 text-[12px] text-white/70">
           <li>
-            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              Documentation
-            </button>
-          </li>
-          <li>
-            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              API Reference
-            </button>
-          </li>
-          <li>
-            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              Blog
-            </button>
-          </li>
-          <li>
-            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              Status
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      <!-- COMPANY -->
-      <div class="flex flex-col gap-4">
-        <h3 class="font-bold text-white text-[15px]">Company</h3>
-        <ul class="flex flex-col gap-3 text-[13px] text-white/70">
-          <li>
-            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              About
-            </button>
-          </li>
-          <li>
-            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              Privacy Policy
-            </button>
-          </li>
-          <li>
-            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              Terms of Service
-            </button>
-          </li>
-          <li>
-            <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              Contact
-            </button>
-          </li>
-        </ul>
-      </div>
-
-      <!-- LOGO + ABOUT -->
-      <div class="flex flex-col gap-6 items-start md:items-end text-left md:text-right">
-        <!-- <div class="bg-white rounded-full px-6 py-2 flex items-center justify-center"> -->
-          <!-- <img src="public/stackly-logo.webp" class="h-[20px]" /> -->
-          <a href="/"
-                class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
-                <img src="public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
-              </a>
-        <!-- </div> -->
-
-        <p class="text-[12px] text-white/70 max-w-[220px]">
-          The <strong class="text-white">NO-CODE</strong> website builder for everyone.
-          Powered by AWS infrastructure, built by The <strong class="text-white">Stackly</strong> team.
-        </p>
-      </div>
-
-    </div>
-
-    <!-- DIVIDER -->
-    <div class="w-full h-px bg-white/10 mb-8"></div>
-
-    <!-- BOTTOM -->
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-
-      <!-- SOCIAL ICONS -->
-      <div class="bg-white rounded-full px-5 py-2.5 flex items-center gap-4 text-[#051b3b]">
-
-        <a href="https://www.facebook.com/thestackly/" target="_blank"
-          class="hover:scale-110 hover:text-blue-600 transition">
-          <i class="fab fa-facebook-f text-sm"></i>
-        </a>
-
-        <a href="https://www.youtube.com/@TheStackly" target="_blank"
-          class="hover:scale-110 hover:text-red-600 transition">
-          <i class="fab fa-youtube text-sm"></i>
-        </a>
-
-        <a href="https://www.instagram.com/the_stackly/" target="_blank"
-          class="hover:scale-110 hover:text-pink-600 transition">
-          <i class="fab fa-instagram text-sm"></i>
-        </a>
-
-        <a href="https://x.com/the_stackly" target="_blank" class="hover:scale-110 hover:text-black transition">
-          <i class="fab fa-x-twitter text-sm"></i>
-        </a>
-
-        <a href="https://www.linkedin.com/company/stackly/" target="_blank"
-          class="hover:scale-110 hover:text-blue-700 transition">
-          <i class="fab fa-linkedin-in text-sm"></i>
-        </a>
-
-        <a href="https://www.thestackly.com/" target="_blank" class="hover:scale-110 hover:text-green-600 transition">
-          <i class="fas fa-globe text-sm"></i>
-        </a>
-
-      </div>
-
-      <!-- COPYRIGHT -->
-      <div class="flex flex-wrap items-center justify-center gap-6 text-[12px] text-white/70">
-        <li>
             <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
               Terms of use
             </button>
           </li>
-        <li>
+          <li>
             <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
               Privacy Policy
             </button>
           </li>
-        <span>© 2018-2026 Stackly.com, Inc</span>
+          <span>© 2018-2026 thestackly.com, Inc</span>
+        </div>
+
       </div>
 
     </div>
-
-  </div>
-</footer>
+  </footer>
 
 </body>
 
