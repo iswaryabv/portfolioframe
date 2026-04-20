@@ -235,14 +235,14 @@ export default function HomePage() {
             {/* HERO */}
             <div className="flex-1 flex flex-col px-4 md:px-8 lg:px-12 py-6 md:py-8 relative z-10">
 
-              <div className="w-full md:w-[55%] lg:w-[60%] shrink-0 flex flex-col relative z-30">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 leading-snug md:leading-normal break-words whitespace-normal">
-                  <div className="mb-2">Hello, I'm</div>
-                  <div className="text-[#477892] mb-2 leading-snug">Srinivas Pentakota</div>
-                  <div className="leading-snug">UI/UX Designer</div>
+              <div className="w-full md:w-[55%] lg:w-[60%] flex flex-col justify-center relative z-30 flex-grow">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 leading-normal md:leading-relaxed break-words whitespace-normal space-y-2 md:space-y-3">
+                  <div>Hello, I'm</div>
+                  <div className="text-[#477892]">Srinivas Pentakota</div>
+                  <div>UI/UX Designer</div>
                 </h1>
 
-                <p className="text-gray-600 mt-4 text-base md:text-lg max-w-xl break-words relative z-20">
+                <p className="text-gray-600 mt-6 text-base md:text-lg max-w-xl break-words relative z-20">
                   I create modern, responsive websites with great user experience.
                 </p>
 
@@ -268,7 +268,7 @@ export default function HomePage() {
                 </div>
 
                 {/* BUTTONS */}
-                <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
+                <div className="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
 
                   <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
                     <button className="px-3 py-2 w-32 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
@@ -286,7 +286,7 @@ export default function HomePage() {
               </div>
 
               {/* STATS */}
-              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8 mt-6 mb-2 w-full flex-wrap">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-10 mt-10 mb-4 w-full flex-wrap">
                 {[
                   { value: "5+", label: "Years of Experience" },
                   { value: "120+", label: "Projects Done" },
