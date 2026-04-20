@@ -171,7 +171,7 @@ export default function HomePage() {
 
       {/* MAIN CONTENT */}
       <div className="bg-white px-4 py-6 md:px-8 md:py-8 flex justify-center">
-        <div className="w-full max-w-[1200px] relative">
+        <div className="w-full max-w-[1200px] relative mt-4 sm:mt-6">
 
           {/* Canvas Box */}
           <div className="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
