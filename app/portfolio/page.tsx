@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   FaBars,
   FaShoppingCart,
@@ -32,6 +33,9 @@ export default function HomePage() {
   const [cartCount, setCartCount] = useState(0);
   const [activeNav, setActiveNav] = useState<NavId>("home");
 
+  const [email, setEmail] = useState("");
+const router = useRouter();
+
   function enableEditMode() {
     alert("Edit mode enabled!");
   }
@@ -39,6 +43,21 @@ export default function HomePage() {
   function setView(view: string) {
     alert(`View set to ${view}`);
   }
+
+  function handleEmailSubmit(e: React.FormEvent) {
+  e.preventDefault();
+
+  if (!email.trim()) {
+    alert("Please enter your email");
+    return;
+  }
+
+  // clear input
+  setEmail("");
+
+  // navigate to 404 page
+  router.push("/page-not-found");
+}
 
   return (
     // <main className="flex flex-col min-h-screen bg-white pt-[56px] sm:pt-[60px]">
@@ -286,7 +305,7 @@ export default function HomePage() {
                 </div>
 
                 {/* BUTTONS */}
-                <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
+                {/* <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
 
                   <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
                     <button className="px-3 py-2 w-32 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
@@ -300,7 +319,22 @@ export default function HomePage() {
                     </button>
                   </Link>
 
-                </div>
+                </div> */}
+                <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
+
+  <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
+    <button className="px-3 py-2 w-40 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+      Edit
+    </button>
+  </Link>
+
+  <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
+    <button className="px-3 py-2 w-40 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+      View My Works
+    </button>
+  </Link>
+
+</div>
               </div>
 
               {/* STATS */}
@@ -360,12 +394,10 @@ export default function HomePage() {
   </h3> */}
 
               {/* FORM */}
-              <form className="max-w-[260px] flex items-center gap-2">
-
-                {/* INPUT */}
+              {/* <form className="max-w-[260px] flex items-center gap-2">
                 <div className="flex-grow relative">
 
-                  {/* Envelope Icon */}
+               
                   <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
 
                   <input
@@ -375,7 +407,7 @@ export default function HomePage() {
                   />
                 </div>
 
-                {/* SEND BUTTON */}
+           
                 <button
                   type="submit"
                   className="text-white hover:text-blue-300 transition group"
@@ -383,7 +415,34 @@ export default function HomePage() {
                   <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </button>
 
-              </form>
+              </form> */}
+              <form
+  onSubmit={handleEmailSubmit}
+  className="max-w-[260px] flex items-center gap-2"
+>
+
+  {/* INPUT */}
+  <div className="flex-grow relative">
+    <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+
+    <input
+      type="email"
+      placeholder="Your email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      className="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400"
+    />
+  </div>
+
+  {/* BUTTON */}
+  <button
+    type="submit"
+    className="text-white hover:text-blue-300 transition group"
+  >
+    <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+  </button>
+
+</form>
 
               {/* ADDRESS */}
               <div className="text-[13px] text-white/80 leading-relaxed space-y-1">
