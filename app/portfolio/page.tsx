@@ -10,7 +10,7 @@ import {
   FaTabletAlt,
   FaMobileAlt,
   FaEye,
-  FaPen, FaFacebookF, FaInstagram, FaLinkedinIn, FaEnvelope, FaPaperPlane ,
+  FaPen, FaFacebookF, FaInstagram, FaLinkedinIn, FaEnvelope, FaPaperPlane,
   FaGlobe, FaYoutube, FaMicrophone
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -44,8 +44,8 @@ export default function HomePage() {
     <main className="flex flex-col min-h-screen bg-white pt-[56px] sm:pt-[60px]">
       {/* ✅ NAVBAR */}
       <nav className="w-full bg-[#06224C] fixed top-0 left-0 z-50">
-        <div className="flex w-full items-center justify-between px-4 py-3 md:px-8 xl:flex-nowrap">
-          <div className="flex min-w-0 flex-shrink-0 items-center gap-3">
+        <div className="flex w-full flex-wrap items-center justify-between px-4 py-3 md:px-8 gap-y-3 xl:flex-nowrap">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <button
               type="button"
               onClick={() => setMobileMenuOpen((v) => !v)}
@@ -60,14 +60,18 @@ export default function HomePage() {
 
             <Link
               href="/"
-              className="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]"
+
+              className="flex h-7 w-[80px] sm:h-9 sm:min-w-[104px] shrink-0 items-center justify-center overflow-hidden rounded-[50%] bg-white px-2 sm:px-3 transition-all"
             >
               <img
                 src="/stackly-logo.webp"
                 alt="Stackly logo"
-                className="h-[18px] w-auto sm:h-[20px]"
+                className="h-[14px] sm:h-[20px] w-auto"
               />
             </Link>
+
+
+
           </div>
 
           <div className="hidden min-w-0 flex-1 lg:flex lg:items-center">
@@ -91,7 +95,7 @@ export default function HomePage() {
             </nav>
           </div>
 
-          <div className="flex min-w-0 items-center justify-end gap-3 lg:gap-4">
+          <div className="flex shrink-0 items-center justify-end gap-3 lg:gap-4 ml-auto">
             {/* CART */}
             <Link
               href="/page-not-found"
@@ -174,19 +178,30 @@ export default function HomePage() {
 
               {/* Mobile Header */}
               <div className="flex items-center justify-between w-full lg:hidden gap-2">
-                <div className="flex-1 flex justify-start min-w-0">
-                  <Link href="/" className="flex h-8 w-[92px] max-w-full shrink items-center justify-center rounded-full bg-white px-2 hover:scale-105 transition overflow-hidden">
+                <div className="flex shrink-0 justify-start">
+                  {/* <Link href="/" className="flex h-8 w-[92px] max-w-full shrink items-center justify-center rounded-full bg-white px-2 hover:scale-105 transition overflow-hidden">
                     <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[16px] max-w-full object-contain shrink" />
+                  </Link> */}
+
+                  <Link
+                    href="/"
+                    className="flex h-7 w-[80px] sm:h-8 sm:min-w-[92px] shrink-0 items-center justify-center overflow-hidden rounded-[50%] bg-white px-2 sm:px-3 hover:scale-105 transition"
+                  >
+                    <img
+                      src="/stackly-logo.webp"
+                      alt="Stackly logo"
+                      className="h-[14px] sm:h-[18px] object-contain"
+                    />
                   </Link>
                 </div>
 
-                <div className="flex shrink-0 justify-center px-1 min-w-0 max-w-[40%]">
+                <div className="flex min-w-0 flex-1 justify-center px-1">
                   <span className="text-base sm:text-lg font-semibold text-white text-center truncate w-full">
                     Portfolio
                   </span>
                 </div>
 
-                <div className="flex-1 flex justify-end min-w-0">
+                <div className="flex shrink-0 justify-end">
                   <button
                     onClick={() => setInnerMobileMenuOpen((v) => !v)}
                     className="h-8 w-8 shrink-0 border border-white/25 text-white rounded-md hover:bg-white/10 transition flex items-center justify-center"
@@ -198,7 +213,7 @@ export default function HomePage() {
 
               {/* Desktop */}
               <div className="hidden lg:flex w-full items-center justify-between">
-                
+
                 <div className="flex-1 flex justify-start">
                   <Link href="/" className="flex h-8 min-w-[92px] shrink-0 items-center justify-center rounded-[50%] bg-white px-3 hover:scale-105 transition">
                     <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[18px]" />
@@ -235,14 +250,14 @@ export default function HomePage() {
             {/* HERO */}
             <div className="flex-1 flex flex-col px-4 md:px-8 lg:px-12 py-6 md:py-8 relative z-10">
 
-              <div className="w-full md:w-[55%] lg:w-[60%] flex flex-col justify-center relative z-30 flex-grow">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 leading-normal md:leading-relaxed break-words whitespace-normal space-y-2 md:space-y-3">
-                  <div>Hello, I'm</div>
-                  <div className="text-[#477892]">Srinivas Pentakota</div>
-                  <div>UI/UX Designer</div>
+              <div className="w-full md:w-[55%] lg:w-[60%] shrink-0 flex flex-col relative z-30">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 leading-snug md:leading-normal break-words whitespace-normal">
+                  <div className="mb-2">Hello, I'm</div>
+                  <div className="text-[#477892] mb-2 leading-snug">Srinivas Pentakota</div>
+                  <div className="leading-snug">UI/UX Designer</div>
                 </h1>
 
-                <p className="text-gray-600 mt-6 text-base md:text-lg max-w-xl break-words relative z-20">
+                <p className="text-gray-600 mt-4 text-base md:text-lg max-w-xl break-words relative z-20">
                   I create modern, responsive websites with great user experience.
                 </p>
 
@@ -268,7 +283,7 @@ export default function HomePage() {
                 </div>
 
                 {/* BUTTONS */}
-                <div className="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
+                <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
 
                   <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
                     <button className="px-3 py-2 w-32 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
@@ -276,17 +291,17 @@ export default function HomePage() {
                     </button>
                   </Link>
 
-                <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
-  <button className="px-3 py-2 w-auto min-w-[9rem] bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
-    View My Works
-  </button>
-</Link>
+                  <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
+                    <button className="px-3 py-2 w-auto min-w-[9rem] bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+                      View My Works
+                    </button>
+                  </Link>
 
                 </div>
               </div>
 
               {/* STATS */}
-              <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-10 mt-10 mb-4 w-full flex-wrap">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8 mt-6 mb-2 w-full flex-wrap">
                 {[
                   { value: "5+", label: "Years of Experience" },
                   { value: "120+", label: "Projects Done" },
@@ -336,53 +351,53 @@ export default function HomePage() {
             {/* Column 1 */}
             <div className="flex flex-col gap-8 md:col-span-1">
 
-  {/* TITLE */}
-  {/* <h3 className="text-white font-black text-sm uppercase tracking-wider">
+              {/* TITLE */}
+              {/* <h3 className="text-white font-black text-sm uppercase tracking-wider">
     Subscribe to our Updates
   </h3> */}
 
-  {/* FORM */}
-  <form className="max-w-[260px] flex items-center gap-2">
+              {/* FORM */}
+              <form className="max-w-[260px] flex items-center gap-2">
 
-    {/* INPUT */}
-    <div className="flex-grow relative">
+                {/* INPUT */}
+                <div className="flex-grow relative">
 
-      {/* Envelope Icon */}
-      <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                  {/* Envelope Icon */}
+                  <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
 
-      <input
-        type="email"
-        placeholder="Your email"
-        className="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400"
-      />
-    </div>
+                  <input
+                    type="email"
+                    placeholder="Your email"
+                    className="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </div>
 
-    {/* SEND BUTTON */}
-    <button
-      type="submit"
-      className="text-white hover:text-blue-300 transition group"
-    >
-      <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-    </button>
+                {/* SEND BUTTON */}
+                <button
+                  type="submit"
+                  className="text-white hover:text-blue-300 transition group"
+                >
+                  <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </button>
 
-  </form>
+              </form>
 
-  {/* ADDRESS */}
-  <div className="text-[13px] text-white/80 leading-relaxed space-y-1">
-    <h4 className="font-bold text-white mb-3 text-[15px]">Headquarters</h4>
-    <p>MMR COMPLEX, SALEM,</p>
-    <p>Tamil Nadu 636008</p>
-  </div>
+              {/* ADDRESS */}
+              <div className="text-[13px] text-white/80 leading-relaxed space-y-1">
+                <h4 className="font-bold text-white mb-3 text-[15px]">Headquarters</h4>
+                <p>MMR COMPLEX, SALEM,</p>
+                <p>Tamil Nadu 636008</p>
+              </div>
 
-</div>
+            </div>
 
             {/* PRODUCT */}
             <div className="flex flex-col gap-4">
               <h3 className="font-bold text-white text-[15px]">Product</h3>
               <ul className="flex flex-col gap-3 text-[13px] text-white/70">
                 <Link href="/page-not-found" className="hover:text-white cursor-pointer">
-  Features
-</Link>
+                  Features
+                </Link>
                 <Link href="/page-not-found" className="hover:text-white cursor-pointer">
                   Templates
                 </Link>
@@ -437,17 +452,17 @@ export default function HomePage() {
             <div className="flex flex-col gap-6 items-start md:items-end text-left md:text-right">
               <div className="flex flex-col gap-3">
                 {/* <img src="/stackly-logo.webp" className="h-[20px]" /> */}
-                  <Link
-    href="/"
-    className="flex h-10 w-fit items-center justify-center rounded-[50%] bg-white px-4 transition hover:scale-105"
-  >
-    <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[18px] w-auto" />
-  </Link>
+                <Link
+                  href="/"
+                  className="flex h-10 w-fit items-center justify-center rounded-[50%] bg-white px-4 transition hover:scale-105"
+                >
+                  <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[18px] w-auto" />
+                </Link>
 
-  
- 
+
+
               </div>
-              
+
 
               <p className="text-[12px] text-white/70 max-w-[220px]">
                 The <strong className="text-white">NO-CODE</strong> website builder for everyone. Powered by AWS infrastructure, built by The <strong className="text-white">Stackly</strong> team.
@@ -473,14 +488,14 @@ export default function HomePage() {
               >
                 <FaFacebookF size={14} />
               </a>
- <a
-    href="https://www.youtube.com/@TheStackly"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="hover:scale-110 hover:text-red-600 transition"
-  >
-    <FaYoutube size={14} />
-  </a>
+              <a
+                href="https://www.youtube.com/@TheStackly"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:scale-110 hover:text-red-600 transition"
+              >
+                <FaYoutube size={14} />
+              </a>
               <a
                 href="https://www.instagram.com/the_stackly/"
                 target="_blank"
