@@ -294,26 +294,35 @@ export default function HomePage() {
 
                 {/* MOBILE BLOBS + IMAGE */}
                 {/* <div className="md:hidden mt-6 flex justify-center"> */}
-                <div className="md:hidden mt-6 flex justify-center px-4 sm:px-6">
+                
 
-                  <div className="relative">
+                   <div className="md:hidden mt-6 flex justify-center px-4 sm:px-6">
+  <div className="relative w-full max-w-[220px]">
 
-                    <div className="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]"></div>
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      
+      <div className="w-[90%] h-[90%] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full"></div>
+      
+      <div className="absolute w-[70%] h-[50%] bg-cyan-300 opacity-20 blur-2xl rounded-full"></div>
+      
+      <div className="absolute w-[40%] h-[40%] bg-pink-400 opacity-20 rounded-full bottom-2 right-2"></div>
+      
+      <div className="absolute w-[60%] h-[80%] bg-cyan-300 opacity-20 blur-2xl rounded-[60%_40%_55%_45%] -top-4 -left-4"></div>
+      
+      <div className="absolute w-[65%] h-[95%] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md"></div>
+    </div>
 
-                    <div className="w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full absolute left-4 top-4 animate-[float_7s_ease-in-out_infinite]"></div>
+    {/* Profile Image */}
+    <div className="relative w-full aspect-[3/4] rounded-full overflow-hidden border-4 border-white z-10">
+      <img 
+        src="/portfoliologo.webp" 
+        alt="Srinivas Pentakota - UI/UX Designer Portfolio"
+        className="w-full h-full object-cover"
+      />
+    </div>
 
-                    <div className="w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full absolute right-4 bottom-4 animate-[float_5s_ease-in-out_infinite]"></div>
-
-                    <div className="w-[180px] h-[130px] bg-cyan-300 opacity-20 blur-2xl rounded-[60%_40%_55%_45%] absolute -top-6 -left-6 animate-[float_8s_ease-in-out_infinite]"></div>
-
-                    <div className="w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]"></div>
-
-                    <div className="w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white relative z-20 animate-[float_6s_ease-in-out_infinite]">
-                      <img src="/portfolioimagee.png" alt="Srinivas Pentakota - UI/UX Designer Portfolio" className="w-full h-full object-cover" />
-                    </div>
-
-                  </div>
-                </div>
+  </div>
+</div>
 
                 {/* BUTTONS */}
                 {/* <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
@@ -398,7 +407,7 @@ export default function HomePage() {
               <div className="absolute left-[69%] top-[21%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md animate-[float_6s_ease-in-out_infinite]"></div>
 
               <div className="absolute left-[68%] top-[21%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 animate-[float_6s_ease-in-out_infinite]">
-                <img src="/portfolio.png" alt="Srinivas Pentakota - UI/UX Designer Portfolio" className="w-full h-full object-cover" />
+                <img src="/portfoliologo.webp" alt="Srinivas Pentakota - UI/UX Designer Portfolio" className="w-full h-full object-cover" />
               </div>
             </div>
 
