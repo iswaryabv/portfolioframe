@@ -34,7 +34,8 @@ export default function HomePage() {
   const [activeNav, setActiveNav] = useState<NavId>("home");
 
   const [email, setEmail] = useState("");
-const router = useRouter();
+  const [emailError, setEmailError] = useState("");
+  const router = useRouter();
 
   function enableEditMode() {
     alert("Edit mode enabled!");
@@ -45,29 +46,36 @@ const router = useRouter();
   }
 
   function handleEmailSubmit(e: React.FormEvent) {
-  e.preventDefault();
+    e.preventDefault();
+    setEmailError("");
 
-  if (!email.trim()) {
-    alert("Please enter your email");
-    return;
+    if (!email.trim()) {
+      setEmailError("Please enter your email");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    // clear input
+    setEmail("");
+
+    // navigate to 404 page
+    router.push("/page-not-found");
   }
-
-  // clear input
-  setEmail("");
-
-  // navigate to 404 page
-  router.push("/page-not-found");
-}
 
   return (
     // <main className="flex flex-col min-h-screen bg-white pt-[56px] sm:pt-[60px]">
-<main className="flex flex-col min-h-screen bg-white pt-[70px] sm:pt-[60px]">
+    <main className="flex flex-col min-h-screen bg-white">
       {/* ✅ NAVBAR */}
-      <nav className="w-full bg-[#06224C] fixed top-0 left-0 z-50">
+      <nav className="w-full bg-[#06224C] sticky top-0 left-0 z-50">
         <div className="flex w-full flex-wrap items-center justify-between px-4 py-3 md:px-8 gap-y-3 xl:flex-nowrap">
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
 
-        
+
             <button
               type="button"
               onClick={() => setMobileMenuOpen((v) => !v)}
@@ -96,25 +104,50 @@ const router = useRouter();
 
           </div>
 
-          <div className="hidden min-w-0 flex-1 lg:flex lg:items-center">
-            <nav
-              className="flex w-full min-w-0 flex-wrap items-center justify-evenly gap-x-2 gap-y-2 text-[13px] text-white sm:text-sm sm:gap-x-3"
-              aria-label="Main"
-            >
-              {NAV_ITEMS.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => setActiveNav(item.id)}
-                  className={`shrink-0 border-b-2 pb-0.5 transition-colors ${activeNav === item.id
-                    ? "border-[#f0e6d4] font-medium text-white"
-                    : "border-transparent hover:text-white"
-                    }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+          <div className={`w-full lg:w-auto lg:min-w-0 lg:flex-1 lg:flex lg:items-center transition-all duration-300 ease-in-out overflow-hidden lg:overflow-visible lg:max-h-none lg:opacity-100 order-last lg:order-none ${mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div className="w-full mt-3 border-t border-white/20 pt-3 lg:mt-0 lg:border-t-0 lg:pt-0 lg:flex lg:items-center">
+              <nav
+                className="flex w-full"
+                aria-label="Main"
+              >
+                <div className="grid grid-cols-2 gap-2 w-full lg:flex lg:w-full lg:min-w-0 lg:flex-wrap lg:items-center lg:justify-evenly lg:gap-x-2 lg:gap-y-2 sm:gap-x-3 text-[13px] sm:text-sm">
+                  {NAV_ITEMS.map((item) => (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      onClick={() => { setActiveNav(item.id); setMobileMenuOpen(false); }}
+                      // className={`
+                      //   text-center lg:text-left transition-colors text-white
+                      //   ${activeNav === item.id
+                      //     ? 'bg-white/10 lg:bg-transparent border lg:border-0 border-[#f0e6d4] lg:border-b-2 lg:font-medium'
+                      //     : 'border border-white/25 lg:border-0 lg:border-b-2 lg:border-transparent hover:bg-white/10 lg:hover:bg-transparent lg:hover:text-white'}
+                      //   rounded-md lg:rounded-none px-3 py-2 lg:px-0 lg:py-0 text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
+                      // `}
+                      className={`
+  text-center lg:text-left text-white
+  border border-white/2 lg:border-0 lg:border-b-2
+  ${activeNav === item.id
+    ? 'bg-white/10 lg:bg-transparent border-[#f0e6d4] lg:border-white lg:font-medium'
+    : 'border-transparent'}
+  
+  rounded-md lg:rounded-none
+  px-3 py-2 lg:px-0 lg:py-0
+  text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
+
+  transition-all duration-200
+  hover:bg-white/10
+  lg:hover:bg-transparent
+  lg:hover:border-white
+  hover:scale-105
+  active:scale-95
+`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </nav>
+            </div>
           </div>
 
           <div className="flex shrink-0 items-center justify-end gap-3 lg:gap-4 ml-auto">
@@ -132,10 +165,12 @@ const router = useRouter();
             {/* SEARCH */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="w-8 h-8 flex items-center justify-center bg-white rounded-full shrink-0"
+              // className="w-8 h-8 flex items-center justify-center bg-white rounded-full shrink-0"
+              className="block w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#06224C] transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+
               aria-label="Search"
             >
-              <FaSearch className="text-[#06224C]" />
+              <FaSearch className="white ml-2" />
             </button>
 
             {/* PROFILE */}
@@ -146,7 +181,7 @@ const router = useRouter();
               aria-label="User profile menu"
             >
               <img
-                src="https://ui-avatars.com/api/?name=User"
+                src="/photo.png"
                 alt="User profile"
                 className="w-full h-full object-cover"
               />
@@ -154,28 +189,6 @@ const router = useRouter();
           </div>
         </div>
 
-        {mobileMenuOpen && (
-          <div className="border-t border-white/20 px-3 pb-3 pt-2 lg:hidden">
-            <div className="grid grid-cols-2 gap-2">
-              {NAV_ITEMS.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => {
-                    setActiveNav(item.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`rounded-md border px-3 py-2 text-xs transition ${activeNav === item.id
-                    ? "border-[#f0e6d4] bg-white/10 text-white"
-                    : "border-white/25 text-white hover:bg-white/10"
-                    }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
       </nav>
 
       {/* SEARCH BAR */}
@@ -199,12 +212,8 @@ const router = useRouter();
             <div className="flex w-full flex-wrap items-center justify-between gap-4 px-4 py-3 sm:gap-6 md:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
 
               {/* Mobile Header */}
-              <div className="flex items-center justify-between w-full lg:hidden gap-2">
+              <div className="flex flex-wrap items-center justify-between w-full lg:hidden gap-y-2 gap-x-2">
                 <div className="flex shrink-0 justify-start">
-                  {/* <Link href="/" className="flex h-8 w-[92px] max-w-full shrink items-center justify-center rounded-full bg-white px-2 hover:scale-105 transition overflow-hidden">
-                    <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[16px] max-w-full object-contain shrink" />
-                  </Link> */}
-
                   <Link
                     href="/"
                     className="flex h-7 w-[80px] sm:h-8 sm:min-w-[92px] shrink-0 items-center justify-center overflow-hidden rounded-[50%] bg-white px-2 sm:px-3 hover:scale-105 transition"
@@ -217,13 +226,13 @@ const router = useRouter();
                   </Link>
                 </div>
 
-                <div className="flex min-w-0 flex-1 justify-center px-1">
-                  <span className="text-base sm:text-lg font-semibold text-white text-center truncate w-full">
+                <div className="flex flex-1 min-w-[80px] justify-center px-1">
+                  <span className="text-base sm:text-lg font-semibold text-white text-center break-words leading-tight">
                     Portfolio
                   </span>
                 </div>
 
-                <div className="flex shrink-0 justify-end">
+                <div className="flex shrink-0 justify-end ml-auto">
                   <button
                     onClick={() => setInnerMobileMenuOpen((v) => !v)}
                     className="h-8 w-8 shrink-0 border border-white/25 text-white rounded-md hover:bg-white/10 transition flex items-center justify-center"
@@ -236,18 +245,18 @@ const router = useRouter();
               {/* Desktop */}
               <div className="hidden lg:flex w-full items-center justify-between">
 
-                <div className="flex-1 flex justify-start">
+                <div className="flex shrink-0 justify-start">
                   <Link href="/" className="flex h-8 min-w-[92px] shrink-0 items-center justify-center rounded-[50%] bg-white px-3 hover:scale-105 transition">
                     <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[18px]" />
                   </Link>
                 </div>
 
-                <div className="flex shrink-0 justify-center px-4">
+                <div className="flex flex-1 justify-center px-4">
                   <span className="text-lg font-semibold text-white">Portfolio</span>
                 </div>
 
-                <div className="flex-1 flex justify-end gap-x-8">
-                  {["Home", "About Us", "Projects", "Contacts"].map((item, i) => (
+                <div className="flex shrink-0 justify-end gap-x-8">
+                  {["Home", "About Us", "Projects", "Contact"].map((item, i) => (
                     <button key={i} className="relative text-white text-sm group shrink-0">
                       {item}
                       <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
@@ -261,7 +270,7 @@ const router = useRouter();
             {/* MOBILE MENU */}
             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${innerMobileMenuOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
               <div className="px-3 pb-3 pt-2 bg-[#06224C] grid grid-cols-2 gap-2">
-                {["Home", "About Us", "Projects", "Contacts"].map((item, i) => (
+                {["Home", "About Us", "Projects", "Contact"].map((item, i) => (
                   <button key={i} onClick={() => setInnerMobileMenuOpen(false)} className="border border-white/25 px-3 py-2 text-xs text-white rounded-md hover:bg-white/10 transition hover:scale-105">
                     {item}
                   </button>
@@ -284,7 +293,9 @@ const router = useRouter();
                 </p>
 
                 {/* MOBILE BLOBS + IMAGE */}
-                <div className="md:hidden mt-6 flex justify-center">
+                {/* <div className="md:hidden mt-6 flex justify-center"> */}
+                <div className="md:hidden mt-6 flex justify-center px-4 sm:px-6">
+
                   <div className="relative">
 
                     <div className="w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]"></div>
@@ -322,19 +333,43 @@ const router = useRouter();
                 </div> */}
                 <div className="flex flex-wrap gap-4 mt-5 justify-center md:justify-start">
 
-  <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
-    <button className="px-3 py-2 w-40 md:ml-10 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
-      Edit
-    </button>
-  </Link>
+                  <Link
+                    href="/page-not-found"
+                    className="w-40 md:ml-10 flex justify-center items-center px-3 py-2 
+               bg-gradient-to-r from-[#06224C] to-[#1A5BBC] 
+               text-white rounded-lg text-sm 
+               transition transform hover:scale-105 active:scale-95 
+               shadow-md hover:shadow-lg
 
-  <Link href="/page-not-found" className="w-full sm:w-auto flex justify-center">
-    <button className="px-3 py-2 w-40 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
-      View My Works
-    </button>
-  </Link>
+               outline-none focus:outline-none
 
-</div>
+               focus-visible:ring-4 
+               focus-visible:ring-yellow-300 
+               focus-visible:ring-offset-2 
+               focus-visible:ring-offset-[#06224C]"
+                  >
+                    Edit
+                  </Link>
+
+                  <Link
+                    href="/page-not-found"
+                    className="w-40 flex justify-center items-center px-3 py-2 
+               bg-gradient-to-r from-[#06224C] to-[#1A5BBC] 
+               text-white rounded-lg text-sm 
+               transition transform hover:scale-105 active:scale-95 
+               shadow-md hover:shadow-lg
+
+               outline-none focus:outline-none
+
+               focus-visible:ring-4 
+               focus-visible:ring-yellow-300 
+               focus-visible:ring-offset-2 
+               focus-visible:ring-offset-[#06224C]"
+                  >
+                    View My Works
+                  </Link>
+
+                </div>
               </div>
 
               {/* STATS */}
@@ -354,15 +389,15 @@ const router = useRouter();
 
             {/* DESKTOP BLOBS */}
             <div className="hidden md:block">
-              <div className="absolute left-[60%] top-[30%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full animate-[float_6s_ease-in-out_infinite]"></div>
+              <div className="absolute left-[55%] top-[25%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full animate-[float_6s_ease-in-out_infinite]"></div>
 
-              <div className="absolute left-[65%] top-[28%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full animate-[float_7s_ease-in-out_infinite]"></div>
+              <div className="absolute left-[65%] top-[22%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full animate-[float_7s_ease-in-out_infinite]"></div>
 
-              <div className="absolute left-[65%] top-[43%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full animate-[float_5s_ease-in-out_infinite]"></div>
+              <div className="absolute left-[65%] top-[38%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full animate-[float_5s_ease-in-out_infinite]"></div>
 
-              <div className="absolute left-[69%] top-[26%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md animate-[float_6s_ease-in-out_infinite]"></div>
+              <div className="absolute left-[69%] top-[21%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md animate-[float_6s_ease-in-out_infinite]"></div>
 
-              <div className="absolute left-[68%] top-[26%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 animate-[float_6s_ease-in-out_infinite]">
+              <div className="absolute left-[68%] top-[21%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 animate-[float_6s_ease-in-out_infinite]">
                 <img src="/portfolio.png" alt="Srinivas Pentakota - UI/UX Designer Portfolio" className="w-full h-full object-cover" />
               </div>
             </div>
@@ -388,66 +423,50 @@ const router = useRouter();
             {/* Column 1 */}
             <div className="flex flex-col gap-8 md:col-span-1">
 
-              {/* TITLE */}
-              {/* <h3 className="text-white font-black text-sm uppercase tracking-wider">
-    Subscribe to our Updates
-  </h3> */}
 
-              {/* FORM */}
-              {/* <form className="max-w-[260px] flex items-center gap-2">
-                <div className="flex-grow relative">
-
-               
-                  <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
-
-                  <input
-                    type="email"
-                    placeholder="Your email"
-                    className="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400"
-                  />
-                </div>
-
-           
-                <button
-                  type="submit"
-                  className="text-white hover:text-blue-300 transition group"
-                >
-                  <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </button>
-
-              </form> */}
               <form
-  onSubmit={handleEmailSubmit}
-  className="max-w-[260px] flex items-center gap-2"
->
+                onSubmit={handleEmailSubmit}
+                className="max-w-[260px] flex flex-col items-start gap-1"
+              >
+                <div className="flex items-center gap-2 w-full">
+                  {/* INPUT */}
+                  <div className="flex-grow relative">
+                    <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
 
-  {/* INPUT */}
-  <div className="flex-grow relative">
-    <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                    <input
+                      type="text"
+                      placeholder="Your email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (emailError) setEmailError("");
+                      }}
+                      className={`w-full pl-9 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none 
+      placeholder-gray-700 border border-gray-700 shadow-sm
+      focus:shadow-md focus:ring-2 
+      ${emailError
+                          ? "ring-2 ring-red-500 focus:ring-red-500 border-red-500"
+                          : "focus:ring-blue-400 focus:border-blue-400"}`}
+                    />
+                  </div>
 
-    <input
-      type="email"
-      placeholder="Your email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      className="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400"
-    />
-  </div>
-
-  {/* BUTTON */}
-  <button
-    type="submit"
-    className="text-white hover:text-blue-300 transition group"
-  >
-    <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-  </button>
-
-</form>
+                  {/* BUTTON */}
+                  <button
+                    type="submit"
+                    className="text-white hover:text-blue-300 transition group shrink-0"
+                  >
+                    <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </button>
+                </div>
+                {emailError && (
+                  <span className="text-red-400 text-xs ml-3 font-medium">{emailError}</span>
+                )}
+              </form>
 
               {/* ADDRESS */}
               <div className="text-[13px] text-white/80 leading-relaxed space-y-1">
                 <h4 className="font-bold text-white mb-3 text-[15px]">Headquarters</h4>
-                <p>MMR COMPLEX, SALEM,</p>
+                <p>MMR Complex, Salem,</p>
                 <p>Tamil Nadu 636008</p>
               </div>
 
@@ -455,37 +474,39 @@ const router = useRouter();
 
             {/* PRODUCT */}
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-white text-[15px]">Product</h3>
-              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+              <h3 className="font-bold text-white text-[18px]">Product</h3>
+              <ul className="flex flex-col gap-3 text-[15px] text-white">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Features
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Templates
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Pricing
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Changelog
                 </Link>
               </ul>
+
             </div>
 
             {/* RESOURCES */}
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-white text-[15px]">Resources</h3>
-              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+              <h3 className="font-bold text-white text-[18px]">Resources</h3>
+              <ul className="flex flex-col gap-3 text-[15px] text-white">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Documentation
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   API Reference
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Blog
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Status
                 </Link>
               </ul>
@@ -493,18 +514,18 @@ const router = useRouter();
 
             {/* COMPANY */}
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-white text-[15px]">Company</h3>
-              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+              <h3 className="font-bold text-white text-[18px]">Company</h3>
+              <ul className="flex flex-col gap-3 text-[15px] text-white">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   About
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Privacy Policy
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Terms of Service
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Contact
                 </Link>
               </ul>
@@ -526,8 +547,8 @@ const router = useRouter();
               </div>
 
 
-              <p className="text-[12px] text-white/70 max-w-[220px]">
-                The <strong className="text-white">NO-CODE</strong> website builder for everyone. Powered by AWS infrastructure, built by The <strong className="text-white">Stackly</strong> team.
+              <p className="text-[14px] text-white/70 max-w-[220px]">
+                The <strong className="text-white">NO-CODE</strong> website builder for everyone. Powered by AWS infrastructure, built by  <strong className="text-white">The Stackly team.</strong>
               </p>
             </div>
 
@@ -546,52 +567,60 @@ const router = useRouter();
                 href="https://www.facebook.com/thestackly/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly on Facebook"
                 className="hover:scale-110 hover:text-blue-600 transition"
               >
-                <FaFacebookF size={14} />
+                <FaFacebookF size={14} aria-hidden="true" />
               </a>
+
               <a
                 href="https://www.youtube.com/@TheStackly"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly on YouTube"
                 className="hover:scale-110 hover:text-red-600 transition"
               >
-                <FaYoutube size={14} />
+                <FaYoutube size={14} aria-hidden="true" />
               </a>
+
               <a
                 href="https://www.instagram.com/the_stackly/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly on Instagram"
                 className="hover:scale-110 hover:text-pink-600 transition"
               >
-                <FaInstagram size={14} />
+                <FaInstagram size={14} aria-hidden="true" />
               </a>
 
               <a
                 href="https://x.com/the_stackly"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly on X (Twitter)"
                 className="hover:scale-110 hover:text-black transition"
               >
-                <FaXTwitter size={14} />
+                <FaXTwitter size={14} aria-hidden="true" />
               </a>
 
               <a
                 href="https://www.linkedin.com/company/the-stackly"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly on LinkedIn"
                 className="hover:scale-110 hover:text-blue-700 transition"
               >
-                <FaLinkedinIn size={14} />
+                <FaLinkedinIn size={14} aria-hidden="true" />
               </a>
 
               <a
                 href="https://www.thestackly.com/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly website"
                 className="hover:scale-110 hover:text-green-600 transition"
               >
-                <FaGlobe size={14} />
+                <FaGlobe size={14} aria-hidden="true" />
               </a>
 
             </div>

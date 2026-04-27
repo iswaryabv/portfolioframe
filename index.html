@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -56,9 +56,16 @@
 
     function togglePortfolioPageMobileMenu() {
       portfolioPageMobileMenuOpen = !portfolioPageMobileMenuOpen;
-      const menu = document.getElementById('portfolioPageMobileMenu');
-      if (menu) {
-        menu.classList.toggle('hidden', !portfolioPageMobileMenuOpen);
+      const container = document.getElementById('mainNavContainer');
+      
+      if (container) {
+        if (portfolioPageMobileMenuOpen) {
+          container.classList.remove('max-h-0', 'opacity-0');
+          container.classList.add('max-h-[500px]', 'opacity-100');
+        } else {
+          container.classList.remove('max-h-[500px]', 'opacity-100');
+          container.classList.add('max-h-0', 'opacity-0');
+        }
       }
     }
 
@@ -113,33 +120,38 @@
   e.preventDefault();
 
   const input = document.getElementById("emailInput");
+  const errorSpan = document.getElementById("emailErrorMsg");
   const email = input.value.trim();
+
+  // Reset error
+  if (errorSpan) errorSpan.textContent = "";
+  input.classList.remove("ring-2", "ring-red-500");
 
   // Empty validation
   if (email === "") {
-    alert("Please enter your email");
+    if (errorSpan) errorSpan.textContent = "Please enter your email";
+    input.classList.add("ring-2", "ring-red-500");
     return;
   }
 
   // Email format validation
-  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailPattern.test(email)) {
-    alert("Please enter a valid email");
+    if (errorSpan) errorSpan.textContent = "Please enter a valid email address";
+    input.classList.add("ring-2", "ring-red-500");
     return;
   }
 
   // ✅ Clear input AFTER success
   input.value = "";
-
-  // Go to 404 page
   goToPage('notfound');
 }
 
   </script>
 
   <!-- ================= PORTFOLIO PAGE ================= -->
-  <div id="mainContent" class="bg-white pt-[70px] sm:pt-[60px]">
-    <nav class="w-full bg-[#06224C] fixed top-0 left-0 z-50">
+  <div id="mainContent" class="bg-white flex flex-col min-h-screen">
+    <nav class="w-full bg-[#06224C] sticky top-0 left-0 z-50">
       <div class="flex w-full flex-wrap items-center justify-between px-4 py-3 md:px-8 gap-y-3 xl:flex-nowrap">
         <div class="flex shrink-0 items-center gap-2 sm:gap-3">
           
@@ -157,27 +169,80 @@
           </a>
         </div>
 
-        <div class="hidden min-w-0 flex-1 lg:flex lg:items-center">
-          <nav
-            class="flex w-full min-w-0 flex-wrap items-center justify-evenly gap-x-2 gap-y-2 text-[13px] text-white sm:text-sm sm:gap-x-3">
+        <div id="mainNavContainer" class="w-full lg:w-auto lg:min-w-0 lg:flex-1 lg:flex lg:items-center transition-all duration-300 ease-in-out overflow-hidden lg:overflow-visible lg:max-h-none lg:opacity-100 order-last lg:order-none max-h-0 opacity-0">
+          <div class="w-full mt-3 border-t border-white/20 pt-3 lg:mt-0 lg:border-t-0 lg:pt-0 lg:flex lg:items-center">
+            <nav id="mainNavWrapper" class="flex w-full" aria-label="Main">
+              <div id="mainNavInner" class="grid grid-cols-2 gap-2 w-full lg:flex lg:w-full lg:min-w-0 lg:flex-wrap lg:items-center lg:justify-evenly lg:gap-x-2 lg:gap-y-2 sm:gap-x-3 text-[13px] sm:text-sm">
 
             <button type="button" onclick="goToPage('home')"
-              class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Home</button>
+              class="nav-btn text-center lg:text-left text-white 
+border border-white/25 lg:border-0 lg:border-b-2 lg:border-transparent 
+rounded-md lg:rounded-none 
+px-3 py-2 lg:px-0 lg:py-0 
+text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
+
+transition-all duration-200 
+hover:bg-white/10 
+lg:hover:bg-transparent 
+lg:hover:border-white 
+hover:scale-105 active:scale-95">Home</button>
 
             <button type="button" onclick="goToPage('notfound')"
-              class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">About Us</button>
+          class="nav-btn text-center lg:text-left text-white 
+border border-white/25 lg:border-0 lg:border-b-2 lg:border-transparent 
+rounded-md lg:rounded-none 
+px-3 py-2 lg:px-0 lg:py-0 
+text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
+
+transition-all duration-200 
+hover:bg-white/10 
+lg:hover:bg-transparent 
+lg:hover:border-white 
+hover:scale-105 active:scale-95">About Us</button>
 
             <button type="button" onclick="goToPage('notfound')"
-              class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Our
+              class="nav-btn text-center lg:text-left text-white 
+border border-white/25 lg:border-0 lg:border-b-2 lg:border-transparent 
+rounded-md lg:rounded-none 
+px-3 py-2 lg:px-0 lg:py-0 
+text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
+
+transition-all duration-200 
+hover:bg-white/10 
+lg:hover:bg-transparent 
+lg:hover:border-white 
+hover:scale-105 active:scale-95">Our
               Products</button>
 
             <button type="button" onclick="goToPage('notfound')"
-              class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Categories</button>
+              class="nav-btn text-center lg:text-left text-white 
+border border-white/25 lg:border-0 lg:border-b-2 lg:border-transparent 
+rounded-md lg:rounded-none 
+px-3 py-2 lg:px-0 lg:py-0 
+text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
+
+transition-all duration-200 
+hover:bg-white/10 
+lg:hover:bg-transparent 
+lg:hover:border-white 
+hover:scale-105 active:scale-95">Categories</button>
 
             <button type="button" onclick="goToPage('notfound')"
-              class="shrink-0 border-b-2 pb-0.5 transition-colors border-transparent hover:text-white">Contact</button>
+              class="nav-btn text-center lg:text-left text-white 
+border border-white/25 lg:border-0 lg:border-b-2 lg:border-transparent 
+rounded-md lg:rounded-none 
+px-3 py-2 lg:px-0 lg:py-0 
+text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
 
-          </nav>
+transition-all duration-200 
+hover:bg-white/10 
+lg:hover:bg-transparent 
+lg:hover:border-white 
+hover:scale-105 active:scale-95">Contact</button>
+
+              </div>
+            </nav>
+          </div>
         </div>
 
         <div class="flex shrink-0 items-center justify-end gap-3 lg:gap-4 ml-auto">
@@ -189,45 +254,28 @@
           </button>
 
           <button onclick="togglePortfolioPageSearch()"
-            class="w-8 h-8 flex items-center justify-center bg-white rounded-full shrink-0" aria-label="Search">
-            <i class="fas fa-search text-[#06224C]"></i>
+          
+             class="block w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#06224C] transition-transform hover:scale-110 active:scale-95 cursor-pointer">
+            <i class="fas fa-search text-white"></i>
           </button>
 
           <button type="button" tabindex="0" onclick="goToPage('notfound')"
             class="w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#06224C] transition-transform hover:scale-110 active:scale-95 cursor-pointer"
             aria-label="User profile menu">
-            <img src="https://ui-avatars.com/api/?name=User" alt="User profile" class="w-full h-full object-cover" />
+            <img src="public/photo.png" alt="User profile" class="w-full h-full object-cover" />
           </button>
         </div>
       </div>
 
-      <div id="portfolioPageMobileMenu" class="hidden border-t border-white/20 px-3 pb-3 pt-2 lg:hidden">
-        <div class="grid grid-cols-2 gap-2">
-
-          <button onclick="goToPage('home')"
-            class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Home</button>
-
-          <button onclick="goToPage('notfound')"
-            class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">About
-            Us</button>
-
-          <button onclick="goToPage('notfound')"
-            class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Products</button>
-
-          <button onclick="goToPage('notfound')"
-            class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Categories</button>
-
-          <button onclick="goToPage('notfound')"
-            class="rounded-md border px-3 py-2 text-xs transition border-white/25 text-white hover:bg-white/10">Contact</button>
-
-        </div>
-      </div>
     </nav>
 
     <div id="portfolioPageSearchBar" class="bg-white p-6 border-b hidden">
       <form onsubmit="event.preventDefault(); goToPage('notfound');" class="w-full relative flex items-center">
-        <input type="text" placeholder="Search..."
-          class="w-full border p-3 pr-12 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#06224C]" />
+      <input 
+  type="text" 
+  placeholder="Search..."
+  class="w-full border border-gray-500 p-3 pr-12 rounded-lg text-gray-900 placeholder-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-[#06224C] focus:border-[#06224C] transition"
+/>
         <button type="submit" aria-label="Submit search"
           class="absolute right-3 text-[#06224C] hover:scale-110 active:scale-95 transition-transform flex items-center justify-center w-8 h-8">
           <i class="fas fa-search"></i>
@@ -240,24 +288,24 @@
         <div
           class="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
           <div
-            class="flex w-full flex-wrap items-center justify-between gap-4 px-4 py-3 sm:gap-6 md:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
+            class="flex w-full flex-wrap items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 md:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
 
-            <div class="flex items-center justify-between w-full lg:hidden gap-2">
+            <div class="flex flex-wrap items-center justify-between w-full lg:hidden gap-y-2 gap-x-1 sm:gap-x-2">
               <div class="flex shrink-0 justify-start">
                 <a href="/"
-                  class="flex h-7 w-[80px] sm:h-8 sm:min-w-[92px] shrink-0 items-center justify-center overflow-hidden rounded-[50%] bg-white px-2 sm:px-3 hover:scale-105 transition">
+                  class="flex h-7 w-[64px] sm:h-8 sm:w-[80px] shrink-0 items-center justify-center overflow-hidden rounded-[50%] bg-white px-1 sm:px-2 hover:scale-105 transition">
                   <img src="public/stackly-logo.webp" alt="Stackly logo"
-                    class="h-[14px] sm:h-[18px] object-contain" />
+                    class="h-[12px] sm:h-[14px] object-contain" />
                 </a>
               </div>
-              <div class="flex min-w-0 flex-1 justify-center px-1">
-                <span class="text-base sm:text-lg font-semibold text-white text-center truncate w-full">Portfolio</span>
+              <div class="flex flex-1 min-w-[80px] justify-center px-1">
+                <span class="text-[15px] sm:text-lg font-semibold text-white text-center break-words leading-tight">Portfolio</span>
               </div>
-              <div class="flex shrink-0 justify-end">
+              <div class="flex shrink-0 justify-end ml-auto">
                 <button onclick="togglePortfolioPageInnerMobileMenu()"
-                  class="inline-flex shrink-0 h-8 w-8 items-center justify-center rounded-md border border-white/25 text-white"
+                  class="inline-flex shrink-0 h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-md border border-white/25 text-white"
                   aria-label="Toggle portfolio menu">
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  <svg width="14" height="14" class="sm:w-4 sm:h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
                     aria-hidden>
                     <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.5"
                       stroke-linecap="round" />
@@ -267,18 +315,18 @@
             </div>
 
             <div class="hidden lg:flex w-full items-center justify-between">
-              <div class="flex-1 flex justify-start">
+              <div class="flex shrink-0 justify-start">
                 <a href="/"
                   class="flex h-8 min-w-[92px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-3 sm:h-9 sm:min-w-[104px]">
                   <img src="public/stackly-logo.webp" alt="Stackly logo" class="h-[18px] w-auto sm:h-[20px]" />
                 </a>
               </div>
 
-              <div class="flex shrink-0 justify-center px-4">
+              <div class="flex flex-1 justify-center px-4">
                 <span class="text-lg font-semibold text-white">Portfolio</span>
               </div>
 
-              <div class="flex-1 flex justify-end gap-x-8">
+              <div class="flex shrink-0 justify-end gap-x-8">
 
                 <button type="button" class="relative text-white text-[13px] sm:text-sm group shrink-0">
                   Home
@@ -299,7 +347,8 @@
                 </button>
 
                 <button type="button" class="relative text-white text-[13px] sm:text-sm group shrink-0">
-                  Contacts
+                  Contact
+            
                   <span
                     class="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
                 </button>
@@ -319,7 +368,7 @@
               <button onclick="togglePortfolioPageInnerMobileMenu()"
                 class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Projects</button>
               <button onclick="togglePortfolioPageInnerMobileMenu()"
-                class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Contacts</button>
+                class="rounded-md border border-white/25 px-3 py-2 text-xs text-white hover:bg-white/10 transition">Contact</button>
             </div>
           </div>
 
@@ -378,14 +427,30 @@
 
   <div class="w-full sm:w-auto flex justify-center">
     <button onclick="goToPage('notfound')"
-      class="px-3 py-2 w-40 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+      class="px-3 py-2 w-40 
+             bg-gradient-to-r from-[#06224C] to-[#1A5BBC] 
+             text-white rounded-lg text-sm 
+             transition transform hover:scale-105 active:scale-95 
+             shadow-md hover:shadow-lg
+
+             outline-none focus:outline-none
+             focus:ring-4 focus:ring-yellow-300 
+             focus:ring-offset-2 focus:ring-offset-[#06224C]">
       Edit
     </button>
   </div>
 
   <div class="w-full sm:w-auto flex justify-center">
     <button onclick="goToPage('notfound')"
-      class="px-3 py-2 w-40 bg-gradient-to-r from-[#06224C] to-[#1A5BBC] text-white rounded-lg text-sm transition transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+      class="px-3 py-2 w-40 
+             bg-gradient-to-r from-[#06224C] to-[#1A5BBC] 
+             text-white rounded-lg text-sm 
+             transition transform hover:scale-105 active:scale-95 
+             shadow-md hover:shadow-lg
+
+             outline-none focus:outline-none
+             focus:ring-4 focus:ring-yellow-300 
+             focus:ring-offset-2 focus:ring-offset-[#06224C]">
       View My Works
     </button>
   </div>
@@ -418,19 +483,19 @@
           </div>
 
           <div
-            class="absolute left-[60%] top-[30%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block">
+            class="absolute left-[60%] top-[24%] w-[300px] h-[300px] bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block">
           </div>
           <div
-            class="absolute left-[65%] top-[28%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block">
+            class="absolute left-[65%] top-[21%] w-[200px] h-[150px] bg-cyan-300 opacity-20 blur-2xl rounded-full hidden md:block">
           </div>
           <div
-            class="absolute left-[65%] top-[43%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full hidden md:block">
+            class="absolute left-[65%] top-[37%] w-[100px] h-[100px] bg-pink-400 opacity-20 rounded-full hidden md:block">
           </div>
           <div
-            class="absolute left-[69%] top-[26%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md hidden md:block">
+            class="absolute left-[69%] top-[20%] w-[140px] h-[230px] bg-white/70 rounded-[80px] rotate-[-30deg] shadow-md hidden md:block">
           </div>
           <div
-            class="absolute left-[68%] top-[26%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 hidden md:block">
+            class="absolute left-[68%] top-[20%] w-[165px] h-[245px] rounded-full overflow-hidden border-4 border-white z-20 hidden md:block">
             <img src="public/portfolio.png" alt="Srinivas Pentakota - UI/UX Designer Portfolio"
               class="w-full h-full object-cover" />
           </div>
@@ -484,31 +549,37 @@
             </button>
 
           </form> -->
-            <form onsubmit="handleEmailSubmit(event)" class="max-w-[260px] flex items-center gap-2">
+          <form onsubmit="handleEmailSubmit(event)" class="max-w-[260px] flex flex-col items-start gap-1">
 
-          <div class="flex-grow relative">
-            <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+            <div class="flex items-center gap-2 w-full">
+              <div class="flex-grow relative">
+               <i class="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
 
-            <!-- ✅ Added ID -->
-            <input 
-              id="emailInput"
-              type="email" 
-              placeholder="Your email"
-              class="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400" 
-            />
-          </div>
+<input 
+  id="emailInput"
+  type="text" 
+  placeholder="Your email"
+  oninput="document.getElementById('emailErrorMsg').textContent = ''; this.classList.remove('ring-2', 'ring-red-500');"
+  class="w-full pl-9 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none 
+         placeholder-gray-700 border border-gray-700 shadow-sm
+         focus:shadow-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+/>
+              </div>
 
-          <!-- ✅ NO onclick here -->
-          <button type="submit" class="text-white hover:text-blue-300 transition group">
-            <i class="fa-solid fa-paper-plane text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"></i>
-          </button>
+              <!-- ✅ NO onclick here -->
+              <button type="submit" class="text-white hover:text-blue-300 transition group shrink-0">
+                <i class="fa-solid fa-paper-plane text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"></i>
+              </button>
+            </div>
+            
+            <span id="emailErrorMsg" class="text-red-400 text-xs ml-3 font-medium"></span>
 
-        </form>
+          </form>
 
           <!-- ADDRESS -->
           <div class="text-[13px] text-white/80 leading-relaxed space-y-1">
             <h4 class="font-bold text-white mb-3 text-[15px]">Headquarters</h4>
-            <p>MMR COMPLEX, SALEM,</p>
+            <p>MMR Complex, Salem,</p>
             <p>Tamil Nadu 636008</p>
           </div>
 
@@ -516,29 +587,30 @@
 
         <!-- PRODUCT -->
         <div class="flex flex-col gap-4">
-          <h3 class="font-bold text-white text-[15px]">Product</h3>
-          <ul class="flex flex-col gap-3 text-[13px] text-white/70">
+          <h3 class="font-bold text-white text-[18px]">Product</h3>
+          <ul class="flex flex-col gap-3 text-[15px] text-white">
 
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Features
               </button>
+              
             </li>
 
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Templates
               </button>
             </li>
 
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Pricing
               </button>
             </li>
 
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Changelog
               </button>
             </li>
@@ -546,27 +618,30 @@
           </ul>
         </div>
 
+        
+
+
         <!-- RESOURCES -->
         <div class="flex flex-col gap-4">
-          <h3 class="font-bold text-white text-[15px]">Resources</h3>
-          <ul class="flex flex-col gap-3 text-[13px] text-white/70">
+          <h3 class="font-bold text-white text-[18px]">Resources</h3>
+          <ul class="flex flex-col gap-3 text-[15px] text-white">
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Documentation
               </button>
             </li>
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 API Reference
               </button>
             </li>
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Blog
               </button>
             </li>
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Status
               </button>
             </li>
@@ -575,25 +650,25 @@
 
         <!-- COMPANY -->
         <div class="flex flex-col gap-4">
-          <h3 class="font-bold text-white text-[15px]">Company</h3>
-          <ul class="flex flex-col gap-3 text-[13px] text-white/70">
+          <h3 class="font-bold text-white text-[18px]">Company</h3>
+          <ul class="flex flex-col gap-3 text-[15px] text-white">
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 About
               </button>
             </li>
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Privacy Policy
               </button>
             </li>
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Terms of Service
               </button>
             </li>
             <li>
-              <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
+              <button onclick="goToPage('notfound')" class="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                 Contact
               </button>
             </li>
@@ -611,9 +686,9 @@
           </a>
           <!-- </div> -->
 
-          <p class="text-[12px] text-white/70 max-w-[220px]">
+          <p class="text-[14px] text-white/70 max-w-[220px]">
             The <strong class="text-white">NO-CODE</strong> website builder for everyone.
-            Powered by AWS infrastructure, built by The <strong class="text-white">Stackly</strong> team.
+            Powered by AWS infrastructure, built by  <strong class="text-white">The Stackly team.</strong>
           </p>
         </div>
 
@@ -626,43 +701,57 @@
       <div class="flex flex-col md:flex-row justify-between items-center gap-6">
 
         <!-- SOCIAL ICONS -->
-        <div class="bg-white rounded-full px-5 py-2.5 flex items-center gap-4 text-[#051b3b]">
+      <div class="bg-white rounded-full px-5 py-2.5 flex items-center gap-4 text-[#051b3b]">
 
-          <a href="https://www.facebook.com/thestackly/" target="_blank"
-            class="hover:scale-110 hover:text-blue-600 transition">
-            <i class="fab fa-facebook-f text-sm"></i>
-          </a>
+  <a href="https://www.facebook.com/thestackly/" target="_blank"
+     aria-label="Visit our Facebook page"
+     rel="noopener noreferrer"
+     class="hover:scale-110 hover:text-blue-600 transition">
+    <i class="fab fa-facebook-f text-sm"></i>
+  </a>
 
-          <a href="https://www.youtube.com/@TheStackly" target="_blank"
-            class="hover:scale-110 hover:text-red-600 transition">
-            <i class="fab fa-youtube text-sm"></i>
-          </a>
+  <a href="https://www.youtube.com/@TheStackly" target="_blank"
+     aria-label="Visit our YouTube channel"
+     rel="noopener noreferrer"
+     class="hover:scale-110 hover:text-red-600 transition">
+    <i class="fab fa-youtube text-sm"></i>
+  </a>
 
-          <a href="https://www.instagram.com/the_stackly/" target="_blank"
-            class="hover:scale-110 hover:text-pink-600 transition">
-            <i class="fab fa-instagram text-sm"></i>
-          </a>
+  <a href="https://www.instagram.com/the_stackly/" target="_blank"
+     aria-label="Visit our Instagram profile"
+     rel="noopener noreferrer"
+     class="hover:scale-110 hover:text-pink-600 transition">
+    <i class="fab fa-instagram text-sm"></i>
+  </a>
 
-          <a href="https://x.com/the_stackly" target="_blank" class="hover:scale-110 hover:text-black transition">
-            <i class="fab fa-x-twitter text-sm"></i>
-          </a>
+  <a href="https://x.com/the_stackly" target="_blank"
+     aria-label="Visit our X (Twitter) profile"
+     rel="noopener noreferrer"
+     class="hover:scale-110 hover:text-black transition">
+    <i class="fab fa-x-twitter text-sm"></i>
+  </a>
 
-          <a href="https://www.linkedin.com/company/stackly/" target="_blank"
-            class="hover:scale-110 hover:text-blue-700 transition">
-            <i class="fab fa-linkedin-in text-sm"></i>
-          </a>
+  <a href="https://www.linkedin.com/company/the-stackly/" target="_blank"
+     aria-label="Visit our LinkedIn page"
+     rel="noopener noreferrer"
+     class="hover:scale-110 hover:text-blue-700 transition">
+    <i class="fab fa-linkedin-in text-sm"></i>
+  </a>
 
-          <a href="https://www.thestackly.com/" target="_blank" class="hover:scale-110 hover:text-green-600 transition">
-            <i class="fas fa-globe text-sm"></i>
-          </a>
+  <a href="https://www.thestackly.com/" target="_blank"
+     aria-label="Visit our website"
+     rel="noopener noreferrer"
+     class="hover:scale-110 hover:text-green-600 transition">
+    <i class="fas fa-globe text-sm"></i>
+  </a>
 
-        </div>
+</div>
 
         <!-- COPYRIGHT -->
         <div class="flex flex-wrap items-center justify-center gap-6 text-[12px] text-white/70">
           <li>
             <button onclick="goToPage('notfound')" class="hover:text-white cursor-pointer">
-              Terms of use
+              Terms of Use
             </button>
           </li>
           <li>
