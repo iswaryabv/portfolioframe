@@ -206,7 +206,7 @@ export default function HomePage() {
         <div className="w-full max-w-[1200px] relative mt-4 sm:mt-6">
 
           {/* Canvas Box */}
-          <div className="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
+          <div className="w-full min-h-[530px] bg-[#F2F2F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
 
             {/* INNER NAVBAR */}
             <div className="flex w-full flex-wrap items-center justify-between gap-4 px-4 py-3 sm:gap-6 md:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">

@@ -88,119 +88,7 @@ export default function HomePage() {
   }
 
   return (
-    //     <main className="min-h-screen bg-[#FFF1F2]">
 
-    //       {/* ✅ NAVBAR */}
-    //       <nav className="sticky top-0 z-50 bg-[#06224C] px-4 md:px-8 py-3 flex items-center justify-between shadow-sm">
-
-    //         {/* LEFT */}
-    //         <div className="flex items-center gap-4">
-
-    //           <button
-    //             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-    //             className="lg:hidden text-white"
-    //           >
-    //             <FaBars />
-    //           </button>
-
-    //           <Link
-    //             href="/"
-    //             className="bg-white px-5 py-3 rounded-[60%] shadow-md">
-
-    //             <img
-    //               src="/stackly-logo.webp"
-    //               alt="logo"
-    //               className="h-5"
-    //             />
-    //           </Link>
-
-    //           <div className="hidden lg:flex gap-8 text-white text-sm font-bold">
-    //             <Link href="/">Home</Link>
-    //             <Link href="/about">About Us</Link>
-    //             <Link href="/products"> Our Products</Link>
-    //              <Link href="/products"> Categories</Link>
-    //             <Link href="/contact">Contact</Link>
-    //           </div>
-    //         </div>
-
-    //         {/* RIGHT */}
-    //         <div className="flex items-center gap-4">
-
-    //           {/* CART */}
-    //           <button
-    //             onClick={toggleCart}
-    //             className="relative flex items-center gap-2 border border-white/30 px-3 py-1 rounded-full text-white text-xs"
-    //           >
-    //             <FaShoppingCart />
-    //             <span className="hidden sm:inline">Cart</span>
-
-    //             {cartCount > 0 && (
-    //               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-    //                 {cartCount}
-    //               </span>
-    //             )}
-    //           </button>
-
-    //           {/* SEARCH */}
-    //           <button
-    //             onClick={() => setSearchOpen(!searchOpen)}
-    //             className="w-8 h-8 flex items-center justify-center bg-white rounded-full"
-    //           >
-    //             <FaSearch className="text-[#06224C]" />
-    //           </button>
-
-    //           {/* PROFILE */}
-    //           <div className="w-8 h-8 rounded-full overflow-hidden border">
-    //             <img
-    //               src="https://ui-avatars.com/api/?name=User"
-    //               alt="user"
-    //             />
-    //           </div>
-    //         </div>
-    //       </nav>
-
-    //       {/* ✅ MOBILE MENU */}
-    //       {/* ✅ MOBILE MENU */}
-    // {mobileMenuOpen && (
-    //   <div className="lg:hidden border-t border-white/20 px-4 pb-3 pt-2 bg-[#06224C]">
-    //     <div className="grid grid-cols-2 gap-2">
-    //       {[  
-    //         { name: "Home", path: "/" },
-    //         { name: "About", path: "/about" },
-    //         { name: "Products", path: "/products" },
-    //         { name: "Categories", path: "/categories" },
-    //         { name: "Contact", path: "/contact" },
-    //       ].map((item, i) => (
-    //         <Link
-    //           key={i}
-    //           href={item.path}
-    //           onClick={() => {
-    //             setActiveNav(item.name);
-    //             setMobileMenuOpen(false);
-    //           }}
-    //           className={`rounded-md border px-3 py-2 text-xs transition ${
-    //             activeNav === item.name
-    //               ? "border-[#f0e6d4] bg-white/10 text-white"
-    //               : "border-white/25 text-white hover:bg-white/10"
-    //           }`}
-    //         >
-    //           {item.name}
-    //         </Link>
-    //       ))}
-    //     </div>
-    //   </div>
-    // )}
-
-    //       {/* ✅ SEARCH BAR */}
-    //       {searchOpen && (
-    //         <div className="bg-white p-6 border-b">
-    //           <input
-    //             type="text"
-    //             placeholder="Search..."
-    //             className="w-full border p-3 rounded-lg"
-    //           />
-    //         </div>
-    //       )}
     <main className="flex flex-col min-h-screen bg-white">
       {/* ✅ NAVBAR */}
       <nav className="w-full bg-[#06224C] sticky top-0 left-0 z-50">
@@ -247,13 +135,31 @@ export default function HomePage() {
                     key={item.id}
                     href={item.href}
                     onClick={() => { setActiveNav(item.id); setMobileMenuOpen(false); }}
+                    // className={`
+                    //   text-center lg:text-left transition-colors text-white
+                    //   ${activeNav === item.id
+                    //     ? 'bg-white/10 lg:bg-transparent border lg:border-0 border-[#f0e6d4] lg:border-b-2 lg:font-medium'
+                    //     : 'border border-white/25 lg:border-0 lg:border-b-2 lg:border-transparent hover:bg-white/10 lg:hover:bg-transparent lg:hover:text-white'}
+                    //   rounded-md lg:rounded-none px-3 py-2 lg:px-0 lg:py-0 text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
+                    // `}
                     className={`
-                      text-center lg:text-left transition-colors text-white
-                      ${activeNav === item.id
-                        ? 'bg-white/10 lg:bg-transparent border lg:border-0 border-[#f0e6d4] lg:border-b-2 lg:font-medium'
-                        : 'border border-white/25 lg:border-0 lg:border-b-2 lg:border-transparent hover:bg-white/10 lg:hover:bg-transparent lg:hover:text-white'}
-                      rounded-md lg:rounded-none px-3 py-2 lg:px-0 lg:py-0 text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
-                    `}
+  text-center lg:text-left text-white
+  border border-white/2 lg:border-0 lg:border-b-2
+  ${activeNav === item.id
+                        ? 'bg-white/10 lg:bg-transparent border-[#f0e6d4] lg:border-white lg:font-medium'
+                        : 'border-transparent'}
+  
+  rounded-md lg:rounded-none
+  px-3 py-2 lg:px-0 lg:py-0
+  text-xs sm:text-sm lg:shrink-0 lg:pb-0.5
+
+  transition-all duration-200
+  hover:bg-white/10
+  lg:hover:bg-transparent
+  lg:hover:border-white
+  hover:scale-105
+  active:scale-95
+`}
                   >
                     {item.label}
                   </Link>
@@ -277,10 +183,11 @@ export default function HomePage() {
             {/* SEARCH */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="w-8 h-8 flex items-center justify-center bg-white rounded-full shrink-0"
+              // className="w-8 h-8 flex items-center justify-center bg-white rounded-full shrink-0"
+              className="block w-8 h-8 rounded-full overflow-hidden border border-white/30 shrink-0 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#06224C] transition-transform hover:scale-110 active:scale-95 cursor-pointer"
               aria-label="Search"
             >
-              <FaSearch className="text-[#06224C]" />
+              <FaSearch className="white ml-2" />
             </button>
 
             {/* PROFILE */}
@@ -291,7 +198,7 @@ export default function HomePage() {
               aria-label="User profile menu"
             >
               <img
-                src="https://ui-avatars.com/api/?name=User"
+                src="/photo.png"
                 alt="User profile"
                 className="w-full h-full object-cover"
               />
@@ -515,16 +422,14 @@ export default function HomePage() {
             {/* Canvas Box */}
             {/* <div className="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden"> */}
             <div className="flex-1 overflow-y-auto min-w-0">
-              <div className="w-full min-h-[530px] bg-[#FFF1F2] rounded-xl border-2 border-gray-300 flex flex-col relative">
-
+              <div className="w-full min-h-[530px] bg-[#F2F2F2] rounded-xl border-2 border-gray-300 flex flex-col relative">
+{/* 
                 <div className="flex w-full flex-wrap items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 md:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
 
-                  {/* Mobile Header */}
+                
                   <div className="flex items-center justify-between w-full lg:hidden gap-1 sm:gap-2">
                     <div className="flex shrink-0 justify-start">
-                      {/* <Link href="/" className="flex h-8 w-[92px] max-w-full shrink items-center justify-center rounded-full bg-white px-2 hover:scale-105 transition overflow-hidden">
-                    <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[16px] max-w-full object-contain shrink" />
-                     </Link> */}
+
 
                       <Link
                         href="/"
@@ -554,7 +459,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Desktop */}
+                
                   <div className="hidden lg:flex w-full items-center justify-between">
 
                     <div className="flex shrink-0 justify-start">
@@ -595,7 +500,85 @@ export default function HomePage() {
                     </div>
 
                   </div>
-                </div>
+                </div> */}
+
+                <div className="flex w-full flex-wrap items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 md:px-8 xl:flex-nowrap border-b border-gray-300 bg-[#06224C] rounded-t-xl">
+
+  {/* ✅ MOBILE LAYOUT */}
+  <div className="flex flex-col w-full lg:hidden gap-2">
+
+    {/* ROW 1 → Logo + Menu */}
+    <div className="flex items-center justify-between w-full">
+      <Link
+        href="/"
+        className="flex h-7 w-[64px] sm:h-8 sm:w-[80px] items-center justify-center overflow-hidden rounded-[50%] bg-white px-1 sm:px-2"
+      >
+        <img
+          src="/stackly-logo.webp"
+          alt="Stackly logo"
+          className="h-[12px] sm:h-[14px] object-contain"
+        />
+      </Link>
+
+      <button
+        onClick={() => setInnerMobileMenuOpen((v) => !v)}
+        className="h-8 w-8 border border-white/25 text-white rounded-md flex items-center justify-center"
+      >
+        <FaBars />
+      </button>
+    </div>
+
+    {/* ROW 2 → Title (wrap instead of truncate) */}
+    <div className="w-full text-center px-2">
+      <span className="text-base sm:text-lg font-semibold text-white break-words">
+        Portfolio
+      </span>
+    </div>
+
+    {/* ROW 3 → Actions (NOW VISIBLE ON MOBILE ✅) */}
+    <div className="flex justify-center">
+      <div className="flex border border-gray-300 rounded-lg overflow-hidden text-xs text-white">
+
+        <button className="px-3 py-1 hover:bg-white hover:text-black transition">
+          Save Draft
+        </button>
+
+        <div className="w-px bg-gray-300"></div>
+
+        <button className="px-3 py-1 hover:bg-white hover:text-black flex items-center gap-1 transition">
+          Preview <FaEye />
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  {/* ✅ DESKTOP (unchanged) */}
+  <div className="hidden lg:flex w-full items-center justify-between">
+
+    <div className="flex shrink-0 justify-start">
+      <Link href="/" className="flex h-8 min-w-[92px] items-center justify-center rounded-[50%] bg-white px-3">
+        <img src="/stackly-logo.webp" alt="Stackly logo" className="h-[18px]" />
+      </Link>
+    </div>
+
+    <div className="flex flex-1 justify-center px-4">
+      <span className="text-lg font-semibold text-white">Portfolio</span>
+    </div>
+
+    <div className="flex shrink-0 justify-end gap-x-8">
+      {["Home", "About Us", "Projects", "Contacts"].map((item, i) => (
+        <button key={i} className="relative text-white text-sm group">
+          {item}
+          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
+        </button>
+      ))}
+    </div>
+
+  </div>
+
+</div>
 
                 {/* HERO SECTION WRAPPER */}
                 <div className="relative w-full overflow-hidden flex flex-col min-h-[500px]">
@@ -647,7 +630,7 @@ export default function HomePage() {
                    </div> */}
 
                     {/* STATS */}
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8 mt-10 mb-2 w-full flex-wrap">
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8 mt-20 mb-2 w-full flex-wrap">
                       {[
                         { value: "5+", label: "Years of Experience" },
                         { value: "120+", label: "Projects Done" },
@@ -694,13 +677,13 @@ export default function HomePage() {
                 </div>
 
                 {/* ABOUT SECTION */}
-                <div className="w-full bg-white px-6 md:px-12 lg:px-20 py-16 md:py-24">
+                <div className="w-full bg-[#F2F2F2] px-6 md:px-12 lg:px-20 py-16 md:py-24">
                   <div className="flex items-center gap-2 mb-4">
                     <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">About</h2>
                     <span className="bg-[#c4ff0b] text-gray-900 font-extrabold px-3 py-1 rounded-full text-2xl md:text-3xl tracking-tight leading-none">Me</span>
                   </div>
 
-                  <h3 className="text-3xl md:text-5xl font-extrabold text-gray-800 mb-16 max-w-4xl leading-tight">
+                  <h3 className="text-lg md:text-2xl font-extrabold text-gray-800 mb-16 max-w-4xl leading-tight">
                     Described Briefly My Professional<br className="hidden md:block" /> Background Skills and Accomplishments
                   </h3>
 
@@ -752,7 +735,7 @@ export default function HomePage() {
                 </div>
 
                 {/* EDUCATION & EXPERIENCE SECTION */}
-                <div className="w-full bg-white px-6 md:px-12 lg:px-20 pb-16 lg:pb-24">
+                <div className="w-full bg-[#F2F2F2] px-6 md:px-12 lg:px-20 pb-16 lg:pb-24">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24">
                     {/* Education Column */}
                     <div>
@@ -828,7 +811,7 @@ export default function HomePage() {
                 {/* </div> */}
 
                 {/* MY SERVICES SECTION */}
-                <div className="w-full bg-white px-6 md:px-12 lg:px-20 pb-16 lg:pb-24">
+                <div className="w-full bg-[#F2F2F2] px-6 md:px-12 lg:px-20 pb-16 lg:pb-24">
                   <div className="text-center mb-16">
                     <h2 className="text-base font-bold flex items-center justify-center gap-1 mb-4 text-gray-800 tracking-wide">
                       My <span className="bg-[#c4ff0b] text-gray-900 px-2 py-0.5 rounded text-sm font-extrabold ml-1">Services</span>
@@ -880,7 +863,7 @@ export default function HomePage() {
 
                 {/* MY PROJECTS SECTION */}
 
-                <div className="w-full bg-white px-0 md:px-6 lg:px-12 pb-16 lg:pb-24 relative overflow-hidden">
+                <div className="w-full bg-[#F2F2F2] px-0 md:px-6 lg:px-12 pb-16 lg:pb-24 relative overflow-hidden">
 
                   <div className="px-6 md:px-6 lg:px-8 mb-12">
                     <h2 className="text-base font-bold flex items-center gap-1 mb-4 text-gray-800 tracking-wide w-max">
@@ -981,7 +964,7 @@ export default function HomePage() {
                 </div>
 
                 {/* CONTACT SECTION */}
-                <div className="w-full bg-[#f8fafc] px-6 md:px-12 lg:px-20 py-16 lg:py-24 relative border-t border-gray-100">
+                <div className="w-full bg-[#F2F2F2] px-6 md:px-12 lg:px-20 py-16 lg:py-24 relative border-t border-gray-100">
                   <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
                     <div>
@@ -1345,34 +1328,9 @@ export default function HomePage() {
             {/* Column 1 */}
             <div className="flex flex-col gap-8 md:col-span-1">
 
-              {/* TITLE */}
-              {/* <h3 className="text-white font-black text-sm uppercase tracking-wider">
-    Subscribe to our Updates
-  </h3> */}
 
-              {/* FORM */}
-              {/* <form className="max-w-[260px] flex items-center gap-2">
-                <div className="flex-grow relative">
 
-               
-                  <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
 
-                  <input
-                    type="email"
-                    placeholder="Your email"
-                    className="w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 focus:ring-blue-400"
-                  />
-                </div>
-
-           
-                <button
-                  type="submit"
-                  className="text-white hover:text-blue-300 transition group"
-                >
-                  <FaPaperPlane className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </button>
-
-              </form> */}
               <form
                 onSubmit={handleEmailSubmit}
                 className="max-w-[260px] flex flex-col items-start gap-1"
@@ -1380,7 +1338,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-2 w-full">
                   {/* INPUT */}
                   <div className="flex-grow relative">
-                    <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                    <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
 
                     <input
                       type="text"
@@ -1390,7 +1348,12 @@ export default function HomePage() {
                         setEmail(e.target.value);
                         if (emailError) setEmailError("");
                       }}
-                      className={`w-full pl-11 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none focus:ring-2 ${emailError ? "ring-2 ring-red-500 focus:ring-red-500" : "focus:ring-blue-400"}`}
+                      className={`w-full pl-9 pr-4 py-2.5 rounded-full bg-white text-black text-sm outline-none 
+      placeholder-gray-700 border border-gray-700 shadow-sm
+      focus:shadow-md focus:ring-2 
+      ${emailError
+                          ? "ring-2 ring-red-500 focus:ring-red-500 border-red-500"
+                          : "focus:ring-blue-400 focus:border-blue-400"}`}
                     />
                   </div>
 
@@ -1403,14 +1366,14 @@ export default function HomePage() {
                   </button>
                 </div>
                 {emailError && (
-                  <span className="text-red-400 text-xs ml-4 font-medium">{emailError}</span>
+                  <span className="text-red-400 text-xs ml-3 font-medium">{emailError}</span>
                 )}
               </form>
 
               {/* ADDRESS */}
               <div className="text-[13px] text-white/80 leading-relaxed space-y-1">
                 <h4 className="font-bold text-white mb-3 text-[15px]">Headquarters</h4>
-                <p>MMR COMPLEX, SALEM,</p>
+                <p>MMR Complex, Salem,</p>
                 <p>Tamil Nadu 636008</p>
               </div>
 
@@ -1418,37 +1381,39 @@ export default function HomePage() {
 
             {/* PRODUCT */}
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-white text-[15px]">Product</h3>
-              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+              <h3 className="font-bold text-white text-[18px]">Product</h3>
+              <ul className="flex flex-col gap-3 text-[15px] text-white">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Features
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Templates
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Pricing
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Changelog
                 </Link>
               </ul>
+
             </div>
 
             {/* RESOURCES */}
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-white text-[15px]">Resources</h3>
-              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+              <h3 className="font-bold text-white text-[18px]">Resources</h3>
+              <ul className="flex flex-col gap-3 text-[15px] text-white">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Documentation
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   API Reference
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Blog
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Status
                 </Link>
               </ul>
@@ -1456,18 +1421,18 @@ export default function HomePage() {
 
             {/* COMPANY */}
             <div className="flex flex-col gap-4">
-              <h3 className="font-bold text-white text-[15px]">Company</h3>
-              <ul className="flex flex-col gap-3 text-[13px] text-white/70">
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+              <h3 className="font-bold text-white text-[18px]">Company</h3>
+              <ul className="flex flex-col gap-3 text-[15px] text-white">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   About
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Privacy Policy
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Terms of Service
                 </Link>
-                <Link href="/page-not-found" className="hover:text-white cursor-pointer">
+                <Link href="/page-not-found" className="transition-all duration-300 hover:text-gray-300 hover:translate-x-1 cursor-pointer">
                   Contact
                 </Link>
               </ul>
@@ -1490,7 +1455,7 @@ export default function HomePage() {
 
 
               <p className="text-[12px] text-white/70 max-w-[220px]">
-                The <strong className="text-white">NO-CODE</strong> website builder for everyone. Powered by AWS infrastructure, built by The <strong className="text-white">Stackly</strong> team.
+                The <strong className="text-white">NO-CODE</strong> website builder for everyone. Powered by AWS infrastructure, built by<strong className="text-white"> The Stackly team.</strong>
               </p>
             </div>
 
@@ -1509,6 +1474,7 @@ export default function HomePage() {
                 href="https://www.facebook.com/thestackly/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly website"
                 className="hover:scale-110 hover:text-blue-600 transition"
               >
                 <FaFacebookF size={14} />
@@ -1517,6 +1483,7 @@ export default function HomePage() {
                 href="https://www.youtube.com/@TheStackly"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly website"
                 className="hover:scale-110 hover:text-red-600 transition"
               >
                 <FaYoutube size={14} />
@@ -1525,6 +1492,7 @@ export default function HomePage() {
                 href="https://www.instagram.com/the_stackly/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly website"
                 className="hover:scale-110 hover:text-pink-600 transition"
               >
                 <FaInstagram size={14} />
@@ -1534,6 +1502,7 @@ export default function HomePage() {
                 href="https://x.com/the_stackly"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly website"
                 className="hover:scale-110 hover:text-black transition"
               >
                 <FaXTwitter size={14} />
@@ -1543,6 +1512,7 @@ export default function HomePage() {
                 href="https://www.linkedin.com/company/the-stackly"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly website"
                 className="hover:scale-110 hover:text-blue-700 transition"
               >
                 <FaLinkedinIn size={14} />
@@ -1552,6 +1522,7 @@ export default function HomePage() {
                 href="https://www.thestackly.com/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Stackly website"
                 className="hover:scale-110 hover:text-green-600 transition"
               >
                 <FaGlobe size={14} />
