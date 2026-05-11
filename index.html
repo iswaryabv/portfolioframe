@@ -108,6 +108,20 @@
       }
     }
 
+function toggleProfileMenu(e) {
+  e.stopPropagation();
+  const menu = document.getElementById("profileMenu");
+  menu.classList.toggle("hidden");
+}
+
+// close when clicking outside
+document.addEventListener("click", function () {
+  const menu = document.getElementById("profileMenu");
+  if (!menu.classList.contains("hidden")) {
+    menu.classList.add("hidden");
+  }
+});
+
 
     function goBackHome() {
       document.getElementById("pageNotFound").classList.add("hidden");
@@ -151,7 +165,7 @@
 
   <!-- ================= PORTFOLIO PAGE ================= -->
   <div id="mainContent" class="bg-white flex flex-col min-h-screen">
-    <nav class="w-full bg-[#06224C] sticky top-0 left-0 z-50">
+    <!-- <nav class="w-full bg-[#06224C] sticky top-0 left-0 z-50">
       <div class="flex w-full flex-wrap items-center justify-between px-4 py-3 md:px-8 gap-y-3 xl:flex-nowrap">
         <div class="flex shrink-0 items-center gap-2 sm:gap-3">
           
@@ -267,7 +281,102 @@ hover:scale-105 active:scale-95">Contact</button>
         </div>
       </div>
 
-    </nav>
+    </nav> -->
+   <!-- <nav class="sticky top-0 z-50 bg-[#06224C] border-b border-white/10 px-3 md:px-12 py-3 shadow-sm"> -->
+    <nav class="fixed top-0 left-0 w-full z-[9999] bg-[#06224C] border-b border-white/10 px-3 md:px-12 py-3 shadow-sm">
+
+  <div class="flex items-center justify-between">
+
+    <!-- LEFT -->
+    <div class="flex items-center gap-4">
+
+      <!-- MOBILE MENU -->
+      <button class="lg:hidden text-white p-1">
+        <i class="fa-solid fa-bars text-xl"></i>
+      </button>
+
+      <!-- LOGO -->
+      <a href="#home"
+        class="flex h-7 w-[80px] sm:h-9 sm:min-w-[104px] items-center justify-center rounded-[50%] bg-white px-2 sm:px-3">
+        <img src="public/stackly-logo.webp" class="h-3 md:h-5 object-contain" />
+      </a>
+
+      <!-- NAV LINKS -->
+      <div class="hidden lg:flex items-center gap-6 text-white text-sm font-bold uppercase">
+
+        <a href="#home" class="hover:text-blue-300">Home</a>
+        <a href="#404" class="hover:text-blue-300">About</a>
+
+        <!-- PRODUCTS -->
+        <div class="relative group">
+          <button class="flex items-center gap-1 hover:text-blue-300">
+            Our Products <i class="fa-solid fa-chevron-down text-[10px]"></i>
+          </button>
+
+          <div class="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 text-black hidden group-hover:block z-50">
+            <a class="block px-4 py-2 hover:bg-blue-50">Premium Templates</a>
+            <a class="block px-4 py-2 hover:bg-blue-50">UI Kits</a>
+            <a class="block px-4 py-2 hover:bg-blue-50">WordPress Themes</a>
+            <a class="block px-4 py-2 hover:bg-blue-50">Free Assets</a>
+          </div>
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="relative group">
+          <button class="flex items-center gap-1 hover:text-blue-300">
+            Categories <i class="fa-solid fa-chevron-down text-[10px]"></i>
+          </button>
+
+          <div class="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-xl p-4 w-[220px] hidden group-hover:block z-50 text-black">
+            <p class="font-bold text-sm mb-2">Landing Page</p>
+            <a class="block py-1 text-sm hover:text-blue-500">Sales Page</a>
+            <a class="block py-1 text-sm hover:text-blue-500">Product Page</a>
+          </div>
+        </div>
+
+        <a href="#contact" class="hover:text-blue-300">Contact</a>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="flex items-center gap-3">
+
+     <button class="w-9 h-9 flex items-center justify-center rounded-full bg-white text-[#06224C] shadow-sm transition-all duration-300 hover:bg-[#63e5ff] hover:text-black hover:scale-110 active:scale-95">
+  <i class="fa-solid fa-cart-shopping text-sm"></i>
+</button>
+
+      <button class="w-9 h-9 flex items-center justify-center rounded-full bg-white text-[#06224C] shadow-sm transition-all duration-300 hover:bg-[#63e5ff] hover:scale-110">
+        <i class="fa-solid fa-heart text-sm"></i>
+      </button>
+
+ 
+          <button onclick="togglePortfolioPageSearch()"
+          
+            class="w-9 h-9 flex items-center justify-center rounded-full bg-white text-[#06224C] shadow-sm transition-all duration-300 hover:bg-[#63e5ff] hover:text-black hover:scale-110 active:scale-95">
+            <i class="fas fa-search text-black"></i>
+          </button>
+
+      <!-- PROFILE -->
+      <div class="relative group">
+      <img 
+  src="public/photo.png"
+  onclick="toggleProfileMenu(event)"
+  class="w-9 h-9 rounded-full border-2 border-white transition-all duration-300 hover:scale-110 hover:border-[#63e5ff] cursor-pointer"
+/>
+
+        <!-- <div class="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-xl hidden group-hover:block text-sm z-50"> -->
+          <div id="profileMenu" class="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-xl hidden text-sm z-50">
+          <a class="block px-4 py-2 hover:bg-blue-50">Account</a>
+          <a class="block px-4 py-2 hover:bg-blue-50">Settings</a>
+          <a class="block px-4 py-2 text-red-500 hover:bg-red-50">Logout</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</nav>
+ 
 
     <div id="portfolioPageSearchBar" class="bg-white p-6 border-b hidden">
       <form onsubmit="event.preventDefault(); goToPage('notfound');" class="w-full relative flex items-center">
@@ -283,8 +392,8 @@ hover:scale-105 active:scale-95">Contact</button>
       </form>
     </div>
 
-    <div class="bg-white px-4 py-6 md:px-8 md:py-8 flex justify-center">
-      <div class="w-full max-w-[1200px] relative mt-4 sm:mt-6">
+    <div class="bg-white px-4 py-6 md:px-8 md:py-8 flex justify-center ">
+      <div class="w-full max-w-[1200px] relative mt-4 sm:mt-6 pt-[55px]">
         <div
           class="w-full min-h-[530px] bg-[#F2F2F2] rounded-xl border-2 border-gray-300 flex flex-col relative overflow-hidden">
           <div
