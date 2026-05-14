@@ -31,8 +31,15 @@ import {
   FaLinkedinIn,
   FaGlobe,
   FaYoutube,
-
   FaThLarge,
+  FaUserCircle,
+  FaShareAlt,
+  FaReply,
+  FaCog,
+  FaBell,
+  FaEyeSlash,
+  FaSave,
+  FaQuestionCircle,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import Image from "next/image";
@@ -77,7 +84,8 @@ export default function Portfolioedit() {
     { id: "advanced_blocks", title: "Advanced Blocks" },
     { id: "properties", title: "Properties" },
     { id: "styles", title: "Styles" },
-    { id: "pages", title: "Pages" }
+    { id: "pages", title: "Pages" },
+    { id: "icons", title: "Icons" }
   ];
   const [mobilePanelIndex, setMobilePanelIndex] = useState(0);
 
@@ -108,9 +116,10 @@ export default function Portfolioedit() {
     shadow: false,
   });
 
-  const [editingLayoutElement, setEditingLayoutElement] = useState<'main' | 'header' | 'footer'>('main');
+  const [editingLayoutElement, setEditingLayoutElement] = useState<'main' | 'header' | 'footer' | 'text'>('main');
 
   const [isTextEditable, setIsTextEditable] = useState(false);
+  const [isIconActive, setIsIconActive] = useState(false);
   const [textStyles, setTextStyles] = useState({
     color: '',
     fontSize: '',
@@ -236,7 +245,7 @@ export default function Portfolioedit() {
     const textTags = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'LI', 'LABEL'];
 
     const handleTextClick = (e: Event) => {
-      if (!isTextEditable) return;
+      if (!isTextEditable || isPreviewMode) return;
       e.stopPropagation();
       const target = e.target as HTMLElement;
       activeTextNodeRef.current = target;
@@ -260,7 +269,7 @@ export default function Portfolioedit() {
       if (node.closest('.sticky.top-0')) return;
 
       if (textTags.includes(node.tagName)) {
-        if (isTextEditable) {
+        if (isTextEditable && !isPreviewMode) {
           node.setAttribute('contenteditable', 'true');
           (node as HTMLElement).addEventListener('click', handleTextClick);
         } else {
@@ -283,7 +292,7 @@ export default function Portfolioedit() {
       };
       Array.from(canvas.children).forEach(child => removeListeners(child));
     };
-  }, [isTextEditable, heroSectionProps]);
+  }, [isTextEditable, heroSectionProps, isPreviewMode]);
 
   const toggleMobileMenu = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -949,7 +958,19 @@ export default function Portfolioedit() {
                   {showBlocks && (
                     <div className="grid grid-cols-3 grid-rows-2 h-28 justify-items-center content-between">
 
-                      <button onClick={() => { setIsTextEditable(!isTextEditable); setActiveTab('styles'); setShowRightSidebar(true); }} className={`w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs transition cursor-pointer ${isTextEditable ? 'bg-[#63e5ff] ring-2 ring-white scale-105 shadow-lg' : 'bg-white hover:bg-[#63e5ff]'}`}>
+                      <button onClick={() => {
+                        const newState = !isTextEditable;
+                        setIsTextEditable(newState);
+                        if (newState) {
+                          setEditingLayoutElement('text');
+                          setActiveTab('styles');
+                          setShowRightSidebar(true);
+                        } else {
+                          if (editingLayoutElement === 'text') {
+                            setEditingLayoutElement('main');
+                          }
+                        }
+                      }} className={`w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs transition cursor-pointer ${isTextEditable ? 'bg-[#63e5ff] ring-2 ring-white scale-105 shadow-lg' : 'bg-white hover:bg-[#63e5ff]'}`}>
                         <span className="font-bold text-gray-800 text-sm">T</span>
                         <span className="text-[8px] text-gray-800">Text</span>
                       </button>
@@ -969,13 +990,25 @@ export default function Portfolioedit() {
                         <span className="text-[8px] text-gray-800">Video</span>
                       </Link>
 
-                      <Link
-                        href="/page-not-found"
-                        className="bg-white w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs hover:bg-[#63e5ff] transition cursor-pointer"
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const newIsIconActive = !isIconActive;
+                          setIsIconActive(newIsIconActive);
+                          if (newIsIconActive) {
+                            setActiveTab('icons');
+                            setShowRightSidebar(true);
+                          } else {
+                            if (activeTab === 'icons') {
+                              setShowRightSidebar(false);
+                            }
+                          }
+                        }}
+                        className={`w-10 h-10 rounded-md flex flex-col items-center justify-center text-xs transition cursor-pointer ${isIconActive ? 'bg-[#63e5ff] ring-2 ring-white scale-105 shadow-lg' : 'bg-white hover:bg-[#63e5ff]'}`}
                       >
                         <FaThLarge className="text-gray-800 text-sm" />
                         <span className="text-[8px] text-gray-800">Icon</span>
-                      </Link>
+                      </button>
                       <Link href="/page-not-found" className="bg-white w-10 h-10 rounded-md hover:bg-[#63e5ff] transition cursor-pointer"></Link>
                     </div>
                   )}
@@ -1124,6 +1157,19 @@ export default function Portfolioedit() {
                     <FaVideo className="text-gray-800 text-lg mb-1" />
                     <span className="text-[10px] text-gray-800 font-semibold">Video</span>
                   </Link>
+                  <button onClick={(e) => {
+                    e.preventDefault();
+                    const newIsIconActive = !isIconActive;
+                    setIsIconActive(newIsIconActive);
+                    if (newIsIconActive) {
+                      setMobilePanelIndex(mobilePanels.findIndex(p => p.id === 'icons'));
+                    } else {
+                      setMobilePanelIndex(0); // Go back to basic_blocks
+                    }
+                  }} className={`w-16 h-16 rounded-xl flex flex-col items-center justify-center text-xs transition-all cursor-pointer shadow-lg ${isIconActive ? 'bg-[#63e5ff] ring-2 ring-white scale-105' : 'bg-white hover:bg-[#63e5ff] hover:scale-105'}`}>
+                    <FaThLarge className="text-gray-800 text-lg mb-1" />
+                    <span className="text-[10px] text-gray-800 font-semibold">Icon</span>
+                  </button>
                 </div>
               )}
 
@@ -1500,6 +1546,60 @@ export default function Portfolioedit() {
                   )}
                 </div>
               )}
+
+              {mobilePanels[mobilePanelIndex].id === "icons" && (
+                <div className="flex flex-col mt-2 px-1 pb-4">
+                  {/* Search */}
+                  <div className="relative mb-5">
+                    <input type="text" placeholder="Search Icons..." className="w-full bg-[#041733] border border-white/20 rounded-lg py-2.5 px-3 text-xs text-white placeholder-gray-400 focus:outline-none focus:border-[#63e5ff]" />
+                  </div>
+
+                  {/* Options Row */}
+                  <div className="flex flex-col gap-2 mb-6 w-full">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="flex items-center gap-1.5 bg-[#041733] border border-white/20 rounded-md px-2 py-2 cursor-pointer flex-1">
+                        <div className="w-3 h-3 rounded-full bg-[#FFD700] border border-white/20 shrink-0"></div>
+                        <span className="text-[11px] font-semibold text-gray-300 truncate">Color</span>
+                        <FaChevronDown className="text-[8px] ml-auto text-gray-400 shrink-0" />
+                      </div>
+                      <div className="flex items-center gap-1.5 bg-[#041733] border border-white/20 rounded-md px-2 py-2 cursor-pointer flex-1">
+                        <span className="text-[12px] font-bold text-gray-300 shrink-0">T↕</span>
+                        <span className="text-[11px] font-semibold text-gray-300 truncate">Size</span>
+                        <FaChevronDown className="text-[8px] ml-auto text-gray-400 shrink-0" />
+                      </div>
+                    </div>
+                    <button className="w-full bg-[#789BCA] text-white hover:bg-[#63e5ff] hover:text-[#06224C] transition font-semibold text-[11px] px-2 py-2.5 rounded-md shadow-sm">
+                      Browser or Import
+                    </button>
+                  </div>
+
+                  {/* Recently Used */}
+                  <h4 className="text-xs font-bold mb-4 text-white">Recently Used</h4>
+                  <div className="grid grid-cols-4 gap-y-6 gap-x-2 mb-8 justify-items-center">
+                    <FaUserCircle size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaShareAlt size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaShoppingCart size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaReply size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaEnvelope size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaCog size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaBell size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaEyeSlash size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaSave size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaEye size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaFacebookF size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                    <FaQuestionCircle size={26} className="cursor-pointer text-white hover:text-[#63e5ff] transition" />
+                  </div>
+
+                  {/* Thickness */}
+                  <h4 className="text-xs font-bold mb-3 text-white">Thickness</h4>
+                  <div className="flex items-center gap-4">
+                    <input type="range" min="10" max="100" defaultValue="58" className="flex-1 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-[#63e5ff]" />
+                    <div className="bg-[#041733] border border-white/20 rounded px-2.5 py-1.5 text-[11px] font-semibold text-white">
+                      58 px
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </aside>
         )}
@@ -1637,7 +1737,7 @@ export default function Portfolioedit() {
 
                         <button
                           onClick={() => setIsPreviewMode(!isPreviewMode)}
-                          className={`px-2 py-1 flex items-center gap-1 transition ${isPreviewMode ? 'bg-white text-black font-semibold rounded-md' : 'hover:bg-white hover:text-black'}`}>
+                          className={`px-2 py-1 flex items-center gap-1 transition ${isPreviewMode ? 'bg-white text-black font-semibold ' : 'hover:bg-white hover:text-black'}`}>
                           {isPreviewMode ? 'Exit Preview' : 'Preview'} <FaEye className="text-[10px]" />
                         </button>
 
@@ -2407,7 +2507,7 @@ export default function Portfolioedit() {
             className="hidden lg:flex lg:static top-0 right-0 lg:h-auto lg:self-stretch z-50 overflow-y-auto shrink-0 w-52 bg-white text-[#06224C] flex-col p-4 space-y-4 border-l border-[#06224C]/20"
           >
             {/* TABS */}
-            <div className="flex justify-center gap-6 text-sm font-semibold mt-6">
+            <div className="flex justify-center gap-2 text-sm font-semibold mt-6">
               <button
                 onClick={() => setActiveTab("properties")}
                 className={`pb-1 border-b-2 transition-all duration-300
@@ -2431,6 +2531,23 @@ export default function Portfolioedit() {
               >
                 Styles
               </button>
+
+              {isIconActive && (
+                <>
+                  <span className="select-none text-[#06224C]/40">|</span>
+
+                  <button
+                    onClick={() => setActiveTab("icons")}
+                    className={`pb-1 border-b-2 transition-all duration-300
+          ${activeTab === "icons"
+                        ? "border-[#06224C]"
+                        : "border-transparent hover:border-[#06224C]/40"
+                      }`}
+                  >
+                    Icons
+                  </button>
+                </>
+              )}
             </div>
 
             {/* ================= PROPERTIES ================= */}
@@ -2632,50 +2749,49 @@ export default function Portfolioedit() {
                         </label>
                       </div>
 
-                      <div className="pt-4 border-t border-[#06224C]/10 mt-4">
-                        <p className="text-sm font-semibold text-[#06224C] mb-4">Text Editing</p>
+                    </>
+                  )}
 
-                        <div className="space-y-4">
-                          <div>
-                            <p className="text-xs text-[#06224C]/70 mb-1">Color</p>
-                            <div className="flex gap-2 items-center">
-                              <input
-                                type="color"
-                                value={textStyles.color || '#000000'}
-                                onChange={(e) => handleTextStyleChange('color', e.target.value)}
-                                className="w-10 h-10 cursor-pointer bg-transparent border-0 p-0"
-                              />
-                              <span className="text-xs text-[#06224C]/70 font-mono">{textStyles.color || 'Default'}</span>
-                            </div>
-                          </div>
-
-                          <div>
-                            <p className="text-xs text-[#06224C]/70 mb-1">Font Size (px)</p>
-                            <input
-                              type="number"
-                              value={textStyles.fontSize}
-                              onChange={(e) => handleTextStyleChange('fontSize', e.target.value)}
-                              placeholder="e.g. 16"
-                              className="w-full rounded bg-[#F4F6FA] p-2 text-[#06224C] border border-[#06224C]/20 transition-all focus:border-[#06224C]"
-                            />
-                          </div>
-
-                          <div>
-                            <p className="text-xs text-[#06224C]/70 mb-1">Font Family</p>
-                            <select
-                              value={textStyles.fontFamily}
-                              onChange={(e) => handleTextStyleChange('fontFamily', e.target.value)}
-                              className="w-full rounded bg-[#F4F6FA] p-2 text-sm text-[#06224C] border border-[#06224C]/20 transition-all focus:border-[#06224C]"
-                            >
-                              <option value="">Default</option>
-                              <option value="Arial, sans-serif">Arial</option>
-                              <option value="'Times New Roman', serif">Times New Roman</option>
-                              <option value="'Courier New', monospace">Courier New</option>
-                              <option value="Georgia, serif">Georgia</option>
-                              <option value="Verdana, sans-serif">Verdana</option>
-                            </select>
-                          </div>
+                  {editingLayoutElement === 'text' && (
+                    <>
+                      <div>
+                        <p className="text-xs text-[#06224C]/70 mb-1">Color</p>
+                        <div className="flex gap-2 items-center">
+                          <input
+                            type="color"
+                            value={textStyles.color || '#000000'}
+                            onChange={(e) => handleTextStyleChange('color', e.target.value)}
+                            className="w-10 h-10 cursor-pointer bg-transparent border-0 p-0"
+                          />
+                          <span className="text-xs text-[#06224C]/70 font-mono">{textStyles.color || 'Default'}</span>
                         </div>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-[#06224C]/70 mb-1">Font Size (px)</p>
+                        <input
+                          type="number"
+                          value={textStyles.fontSize}
+                          onChange={(e) => handleTextStyleChange('fontSize', e.target.value)}
+                          placeholder="e.g. 16"
+                          className="w-full rounded bg-[#F4F6FA] p-2 text-[#06224C] border border-[#06224C]/20 transition-all focus:border-[#06224C]"
+                        />
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-[#06224C]/70 mb-1">Font Family</p>
+                        <select
+                          value={textStyles.fontFamily}
+                          onChange={(e) => handleTextStyleChange('fontFamily', e.target.value)}
+                          className="w-full rounded bg-[#F4F6FA] p-2 text-sm text-[#06224C] border border-[#06224C]/20 transition-all focus:border-[#06224C]"
+                        >
+                          <option value="">Default</option>
+                          <option value="Arial, sans-serif">Arial</option>
+                          <option value="'Times New Roman', serif">Times New Roman</option>
+                          <option value="'Courier New', monospace">Courier New</option>
+                          <option value="Georgia, serif">Georgia</option>
+                          <option value="Verdana, sans-serif">Verdana</option>
+                        </select>
                       </div>
                     </>
                   )}
@@ -2737,6 +2853,61 @@ export default function Portfolioedit() {
                       </div>
                     </>
                   )}
+                </div>
+              </div>
+            )}
+
+            {/* ================= ICONS ================= */}
+            {activeTab === "icons" && (
+              <div className="mt-4">
+                {/* Search */}
+                <div className="relative mb-5">
+                  <input type="text" placeholder="Search Icons..." className="w-full bg-[#F4F6FA] border border-[#06224C]/20 rounded-md py-2 px-3 text-xs text-[#06224C] placeholder-[#06224C]/50 focus:outline-none focus:border-[#06224C]" />
+                </div>
+
+                {/* Options Row */}
+                <div className="flex flex-col gap-2 mb-5 w-full">
+                  <div className="flex items-center gap-2 w-full">
+                    <div className="flex items-center gap-1.5 bg-[#F4F6FA] border border-[#06224C]/20 rounded-md px-2 py-1.5 cursor-pointer flex-1">
+                      <div className="w-3 h-3 rounded-full bg-[#FFD700] border border-[#06224C]/20 shrink-0"></div>
+                      <span className="text-[10px] font-semibold truncate">Color</span>
+                      <FaChevronDown className="text-[8px] ml-auto text-[#06224C]/50 shrink-0" />
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-[#F4F6FA] border border-[#06224C]/20 rounded-md px-2 py-1.5 cursor-pointer flex-1">
+                      <span className="text-[11px] font-bold shrink-0">T↕</span>
+                      <span className="text-[10px] font-semibold truncate">Size</span>
+                      <FaChevronDown className="text-[8px] ml-auto text-[#06224C]/50 shrink-0" />
+                    </div>
+                  </div>
+                  <button className="w-full bg-[#63e5ff] text-[#06224C] hover:bg-[#4ac5df] transition font-semibold text-[10px] px-2 py-2 rounded-md">
+                    Browser or Import
+                  </button>
+                </div>
+
+                {/* Recently Used */}
+                <h4 className="text-xs font-bold mb-4">Recently Used</h4>
+                <div className="grid grid-cols-4 gap-y-5 gap-x-2 mb-8 justify-items-center">
+                  <FaUserCircle size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaShareAlt size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaShoppingCart size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaReply size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaEnvelope size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaCog size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaBell size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaEyeSlash size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaSave size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaEye size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaFacebookF size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                  <FaQuestionCircle size={22} className="cursor-pointer hover:text-[#63e5ff] transition" />
+                </div>
+
+                {/* Thickness */}
+                <h4 className="text-xs font-bold mb-3">Thickness</h4>
+                <div className="flex items-center gap-3">
+                  <input type="range" min="10" max="100" defaultValue="58" className="flex-1 h-1 bg-[#06224C]/20 rounded-lg appearance-none cursor-pointer accent-[#06224C]" />
+                  <div className="bg-[#F4F6FA] border border-[#06224C]/20 rounded px-2 py-1 text-[10px] font-semibold">
+                    58 px
+                  </div>
                 </div>
               </div>
             )}
